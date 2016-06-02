@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Watch Reminder</string>
+    <string name="two">Two</string>
+    <string name="one">one</string>
+    <string name="three">Three</string>
+    <string name="showPoster">Show Poster</string>
+    <string name="showName">Show name</string>
+    <string name="releaseYear">rYear</string>
+    <string name="spacer">-</string>
+    <string name="removeIcon">remove icon</string>
+    <string name="endYear">eYear</string>
+    <string name="enterShowName">Enter show name</string>
+    <string name="loadResults">Load</string>
+</resources>
