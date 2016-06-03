@@ -11,4 +11,11 @@
     <string name="endYear">eYear</string>
     <string name="enterShowName">Enter show name</string>
     <string name="loadResults">Load</string>
+    <string name="Title">Title:</string>
+    <string name="FirstAired">First Aired:</string>
+    <string name="FirstAiredDate">First Aired</string>
+    <string name="Status">Status:</string>
+    <string name="StatusText">Status</string>
+    <string name="RemoveAll">REMOVE ALL</string>
+    <string name="AddSelected">ADD SELECTED</string>
 </resources>
