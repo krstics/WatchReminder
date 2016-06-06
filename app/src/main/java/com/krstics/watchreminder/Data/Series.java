@@ -39,6 +39,61 @@ public class Series {
     @Element(name = "banner", required = false)
     private String banner;
 
+    //Id at tv.com
+    @Element(name = "SeriesID", required = false)
+    private String SeriesID;
+
+    @Element(name = "added", required = false)
+    private String added;
+
+    @Element(name = "tms_wanted_old", required = false)
+    private String tms_wanted_old;
+
+    @Element(name = "Runtime", required = false)
+    private String Runtime;
+
+    @Element(name = "ContentRating", required = false)
+    private String ContentRating;
+
+    @Element(name = "lastupdated", required = false)
+    private String lastupdated;
+
+    @Element(name = "RatingCount", required = false)
+    private String RatingCount;
+
+    @Element(name = "fanart", required = false)
+    private String fanart;
+
+    @Element(name = "Status", required = false)
+    private String Status;
+
+    @Element(name = "Actors", required = false)
+    private String Actors;
+
+    @Element(name = "NetworkID", required = false)
+    private String NetworkID;
+
+    @Element(name = "Rating", required = false)
+    private String Rating;
+
+    @Element(name = "Airs_DayOfWeek", required = false)
+    private String Airs_DayOfWeek;
+
+    @Element(name = "Genre", required = false)
+    private String Genre;
+
+    @Element(name = "Airs_Time", required = false)
+    private String Airs_Time;
+
+    @Element(name = "poster", required = false)
+    private String poster;
+
+    @Element(name = "Language", required = false)
+    private String Language;
+
+    @Element(name = "addedBy", required = false)
+    private String addedBy;
+
     public String getFirstAired ()
     {
         return FirstAired;
@@ -117,12 +172,12 @@ public class Series {
         this.IMDB_ID = IMDB_ID;
     }
 
-    public String getLanguage ()
+    public String getlanguage ()
     {
         return language;
     }
 
-    public void setLanguage (String language)
+    public void setlanguage (String language)
     {
         this.language = language;
     }
@@ -146,4 +201,151 @@ public class Series {
     {
         this.banner = banner;
     }
+
+    public String getSeriesID() {
+        return SeriesID;
+    }
+
+    public void setSeriesID(String seriesID) {
+        SeriesID = seriesID;
+    }
+
+    public String getAdded() {
+        return added;
+    }
+
+    public void setAdded(String added) {
+        this.added = added;
+    }
+
+    public String getTms_wanted_old() {
+        return tms_wanted_old;
+    }
+
+    public void setTms_wanted_old(String tms_wanted_old) {
+        this.tms_wanted_old = tms_wanted_old;
+    }
+
+    public String getRuntime() {
+        return Runtime;
+    }
+
+    public void setRuntime(String runtime) {
+        Runtime = runtime;
+    }
+
+    public String getContentRating() {
+        return ContentRating;
+    }
+
+    public void setContentRating(String contentRating) {
+        ContentRating = contentRating;
+    }
+
+    public String getLastupdated() {
+        return lastupdated;
+    }
+
+    public void setLastupdated(String lastupdated) {
+        this.lastupdated = lastupdated;
+    }
+
+    public String getRatingCount() {
+        return RatingCount;
+    }
+
+    public void setRatingCount(String ratingCount) {
+        RatingCount = ratingCount;
+    }
+
+    public String getFanart() {
+        return fanart;
+    }
+
+    public void setFanart(String fanart) {
+        this.fanart = fanart;
+    }
+
+    public String getStatus() {
+        return Status;
+    }
+
+    public void setStatus(String status) {
+        Status = status;
+    }
+
+    public String getActors() {
+        return Actors;
+    }
+
+    public void setActors(String actors) {
+        Actors = actors;
+    }
+
+    public String getNetworkID() {
+        return NetworkID;
+    }
+
+    public void setNetworkID(String networkID) {
+        NetworkID = networkID;
+    }
+
+    public String getRating() {
+        return Rating;
+    }
+
+    public void setRating(String rating) {
+        Rating = rating;
+    }
+
+    public String getAirs_DayOfWeek() {
+        return Airs_DayOfWeek;
+    }
+
+    public void setAirs_DayOfWeek(String airs_DayOfWeek) {
+        Airs_DayOfWeek = airs_DayOfWeek;
+    }
+
+    public String getGenre() {
+        return Genre;
+    }
+
+    public void setGenre(String genre) {
+        Genre = genre;
+    }
+
+    public String getAirs_Time() {
+        return Airs_Time;
+    }
+
+    public void setAirs_Time(String airs_Time) {
+        Airs_Time = airs_Time;
+    }
+
+    public String getPoster() {
+        return poster;
+    }
+
+    public void setPoster(String poster) {
+        this.poster = poster;
+    }
+
+    public String getAddedBy() {
+        return addedBy;
+    }
+
+    public void setAddedBy(String addedBy) {
+        this.addedBy = addedBy;
+    }
+
+    public String getLanguage ()
+    {
+        return Language;
+    }
+
+    public void setLanguage (String language)
+    {
+        this.Language = language;
+    }
+
 }

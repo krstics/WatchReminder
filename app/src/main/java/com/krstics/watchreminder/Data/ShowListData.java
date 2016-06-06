@@ -13,6 +13,7 @@ public class ShowListData {
     private String Overview;
     private String banner;
     private Bitmap bitmap;
+    private String Status;
 
     public Bitmap getBitmap() {
         return bitmap;
@@ -62,12 +63,21 @@ public class ShowListData {
         this.banner = banner;
     }
 
+    public String getStatus() {
+        return Status;
+    }
+
+    public void setStatus(String status) {
+        Status = status;
+    }
+
     public void addDataFromSeries(Series data){
         this.setSeriesName(data.getSeriesName());
         this.setFirstAired(data.getFirstAired());
         this.setOverview(data.getOverview());
         this.setSeriesid(data.getSeriesid());
         this.setBitmap(Utils.getBitmapImage(data.getBanner()));
+        this.setStatus(data.getStatus());
 
     }
 }

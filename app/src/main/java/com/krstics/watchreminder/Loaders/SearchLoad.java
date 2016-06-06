@@ -26,13 +26,11 @@ public class SearchLoad {
     private RestManager restManager;
     private ArrayAdapter<String> arrayAdapterACTV;
     private Context context;
-    private FragmentOne fragmentOne;
 
     public SearchLoad(Context context, ShowListAdapter adapter, FragmentOne fragmentOne){
         showListAdapter = adapter;
         this.context = context;
         restManager = new RestManager();
-        this.fragmentOne = fragmentOne;
     }
 
     public void callSearch(final String name){
@@ -50,9 +48,33 @@ public class SearchLoad {
                         if(seriesListSize > 0){
                             showListAdapter.deleteAllShows();
                             for (int i = 0; i < seriesListSize; i++) {
-                                ShowListData show = new ShowListData();
-                                show.addDataFromSeries(seriesList.get(i));
-                                showListAdapter.addShow(show);
+                                final Call<Data> baseSeriesRecordCall = restManager.getBaseSeriesRecord().getSeriesBaseRecords(seriesList.get(i).getId());
+                                baseSeriesRecordCall.enqueue(new Callback<Data>() {
+                                    @Override
+                                    public void onResponse(Call<Data> call, Response<Data> response) {
+                                        if(response.isSuccessful()){
+                                            Data searchResult = response.body();
+
+                                            if(!searchResult.getSeries().isEmpty()) {
+                                                int seriesListSize = searchResult.getSeries().size();
+                                                if (seriesListSize > 0) {
+                                                    for(int i = 0; i < seriesListSize; i++) {
+                                                        ShowListData show = new ShowListData();
+                                                        show.addDataFromSeries(searchResult.getSeries().get(i));
+                                                        showListAdapter.addShow(show);
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        else
+                                            Toast.makeText(context, "Nothing found in base series record, try again.", Toast.LENGTH_SHORT).show();
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<Data> call, Throwable t) {
+
+                                    }
+                                });
                             }
                         }
                     }

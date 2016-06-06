@@ -47,6 +47,7 @@ public class ShowListAdapter extends RecyclerView.Adapter<ShowListAdapter.Holder
             holder.mShowImage.setImageBitmap(show.getBitmap());
 
         holder.selectCheckBox.setChecked(false);
+        holder.statusTextView.setText(show.getStatus());
 
     }
 
@@ -84,6 +85,7 @@ public class ShowListAdapter extends RecyclerView.Adapter<ShowListAdapter.Holder
         private TextView mAiredDate;
         private TextView mPosterNotAvailable;
         private CheckBox selectCheckBox;
+        private TextView statusTextView;
 
         public Holder(View itemView) {
             super(itemView);
@@ -94,6 +96,7 @@ public class ShowListAdapter extends RecyclerView.Adapter<ShowListAdapter.Holder
             mPosterNotAvailable = (TextView)itemView.findViewById(R.id.posterNotAvailable);
             mPosterNotAvailable.setVisibility(View.INVISIBLE);
             selectCheckBox = (CheckBox)itemView.findViewById(R.id.selectCheckbox);
+            statusTextView = (TextView)itemView.findViewById(R.id.status);
         }
     }
 }
