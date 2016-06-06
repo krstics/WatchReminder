@@ -68,5 +68,6 @@ public class ShowListData {
         this.setOverview(data.getOverview());
         this.setSeriesid(data.getSeriesid());
         this.setBitmap(Utils.getBitmapImage(data.getBanner()));
+
     }
 }

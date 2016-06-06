@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -38,7 +39,14 @@ public class ShowListAdapter extends RecyclerView.Adapter<ShowListAdapter.Holder
 
         holder.mShowName.setText(show.getSeriesName());
         holder.mAiredDate.setText(show.getFirstAired());
-        holder.mShowImage.setImageBitmap(show.getBitmap());
+        if(show.getBitmap() == null) {
+            holder.mPosterNotAvailable.setVisibility(View.VISIBLE);
+            holder.mShowImage.setVisibility(View.INVISIBLE);
+        }
+        else
+            holder.mShowImage.setImageBitmap(show.getBitmap());
+
+        holder.selectCheckBox.setChecked(false);
 
     }
 
@@ -54,11 +62,18 @@ public class ShowListAdapter extends RecyclerView.Adapter<ShowListAdapter.Holder
 
     public void addShow(ShowListData show){
         showListData.add(show);
+        if(showListData.size() > 0 && fragmentOne.getDeleteAllButton().getVisibility() != View.VISIBLE
+                && fragmentOne.getAddSelectedButton().getVisibility() != View.VISIBLE) {
+            fragmentOne.setDeleteAllButtonVisibility(View.VISIBLE);
+            fragmentOne.setAddSelectedButtonVisibility(View.VISIBLE);
+        }
         notifyDataSetChanged();
     }
 
     public void deleteAllShows() {
         showListData.clear();
+        fragmentOne.setDeleteAllButtonVisibility(View.INVISIBLE);
+        fragmentOne.setAddSelectedButtonVisibility(View.INVISIBLE);
         notifyDataSetChanged();
     }
 
@@ -67,6 +82,8 @@ public class ShowListAdapter extends RecyclerView.Adapter<ShowListAdapter.Holder
         private ImageView mShowImage;
         private TextView mShowName;
         private TextView mAiredDate;
+        private TextView mPosterNotAvailable;
+        private CheckBox selectCheckBox;
 
         public Holder(View itemView) {
             super(itemView);
@@ -74,6 +91,9 @@ public class ShowListAdapter extends RecyclerView.Adapter<ShowListAdapter.Holder
             mShowImage = (ImageView)itemView.findViewById(R.id.showImage);
             mShowName = (TextView)itemView.findViewById(R.id.showName);
             mAiredDate = (TextView)itemView.findViewById(R.id.firstAired);
+            mPosterNotAvailable = (TextView)itemView.findViewById(R.id.posterNotAvailable);
+            mPosterNotAvailable.setVisibility(View.INVISIBLE);
+            selectCheckBox = (CheckBox)itemView.findViewById(R.id.selectCheckbox);
         }
     }
 }

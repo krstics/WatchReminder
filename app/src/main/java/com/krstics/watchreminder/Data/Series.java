@@ -6,31 +6,34 @@ import org.simpleframework.xml.Root;
 @Root(name = "Series")
 public class Series {
 
-    @Element(name = "FirstAired")
+    @Element(name = "FirstAired", required = false)
     private String FirstAired;
 
-    @Element(name = "id")
+    @Element(name = "id", required = false)
     private String id;
 
-    @Element(name = "zap2it_id")
+    @Element(name = "zap2it_id", required = false)
     private String zap2it_id;
 
-    @Element(name = "Network")
+    @Element(name = "Network", required = false)
     private String Network;
 
-    @Element(name = "SeriesName")
+    @Element(name = "SeriesName", required = false)
     private String SeriesName;
 
-    @Element(name = "seriesid")
+    @Element(name = "AliasNames", required = false)
+    private String AliasNames;
+
+    @Element(name = "seriesid", required = false)
     private String seriesid;
 
     @Element(name = "IMDB_ID", required = false)
     private String IMDB_ID;
 
-    @Element(name = "language")
+    @Element(name = "language", required = false)
     private String language;
 
-    @Element(name = "Overview")
+    @Element(name = "Overview", required = false)
     private String Overview;
 
     @Element(name = "banner", required = false)
@@ -84,6 +87,14 @@ public class Series {
     public void setSeriesName (String SeriesName)
     {
         this.SeriesName = SeriesName;
+    }
+
+    public String getAliasNames() {
+        return AliasNames;
+    }
+
+    public void setAliasNames(String aliasNames) {
+        AliasNames = aliasNames;
     }
 
     public String getSeriesid ()

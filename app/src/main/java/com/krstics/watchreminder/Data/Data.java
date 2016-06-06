@@ -8,7 +8,7 @@ import java.util.List;
 @Root(name = "data")
 public class Data {
 
-    @ElementList(inline = true)
+    @ElementList(inline = true, required = false)
     private List<Series> Series;
 
     public List<Series> getSeries ()

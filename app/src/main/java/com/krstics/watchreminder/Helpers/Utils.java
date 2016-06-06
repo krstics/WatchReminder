@@ -16,12 +16,13 @@ public class Utils {
     public static Bitmap getBitmapImage(String link) {
         Bitmap bitmap = null;
 
-        try {
-            bitmap = new DownloadBitmapTask().execute(link).get();
-        } catch (Exception e) {
-            Log.e(TAG, e.getMessage());
+        if(link != null) {
+            try {
+                bitmap = new DownloadBitmapTask().execute(link).get();
+            } catch (Exception e) {
+                Log.e(TAG, e.getMessage());
+            }
         }
-
         return bitmap;
     }
 
@@ -33,12 +34,15 @@ public class Utils {
             InputStream stream = null;
 
             try {
-                stream = new URL(link).openStream();
-            } catch (IOException e) {
+                stream = new URL(Constants.TvDB.BANNERS_URL + link).openStream();
+            } catch (Exception e) {
                 Log.e(TAG, e.getMessage());
             }
 
-            return BitmapFactory.decodeStream(stream);
+            if(stream == null)
+                return null;
+            else
+                return BitmapFactory.decodeStream(stream);
         }
 
     }

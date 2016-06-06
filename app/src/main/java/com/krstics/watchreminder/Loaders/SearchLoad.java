@@ -11,6 +11,7 @@ import com.krstics.watchreminder.Adapters.ShowListAdapter;
 import com.krstics.watchreminder.Data.Data;
 import com.krstics.watchreminder.Data.Series;
 import com.krstics.watchreminder.Data.ShowListData;
+import com.krstics.watchreminder.Fragments.FragmentOne;
 import com.krstics.watchreminder.RestManager.RestManager;
 
 import java.util.List;
@@ -25,11 +26,13 @@ public class SearchLoad {
     private RestManager restManager;
     private ArrayAdapter<String> arrayAdapterACTV;
     private Context context;
+    private FragmentOne fragmentOne;
 
-    public SearchLoad(Context context, ShowListAdapter adapter){
+    public SearchLoad(Context context, ShowListAdapter adapter, FragmentOne fragmentOne){
         showListAdapter = adapter;
         this.context = context;
         restManager = new RestManager();
+        this.fragmentOne = fragmentOne;
     }
 
     public void callSearch(final String name){
@@ -42,13 +45,15 @@ public class SearchLoad {
                     Data searchResult = response.body();
                     List<Series> seriesList = searchResult.getSeries();
 
-                    int seriesListSize = seriesList.size();
-                    if(seriesListSize > 0){
-
-                        for (int i = 0; i < seriesListSize; i++) {
-                            ShowListData show = new ShowListData();
-                            show.addDataFromSeries(seriesList.get(i));
-                            showListAdapter.addShow(show);
+                    if(!seriesList.isEmpty()){
+                        int seriesListSize = seriesList.size();
+                        if(seriesListSize > 0){
+                            showListAdapter.deleteAllShows();
+                            for (int i = 0; i < seriesListSize; i++) {
+                                ShowListData show = new ShowListData();
+                                show.addDataFromSeries(seriesList.get(i));
+                                showListAdapter.addShow(show);
+                            }
                         }
                     }
                     else

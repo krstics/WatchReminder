@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorPrimary">
+    android:background="@color/fragmentOneItemBackgroundColor">
 
 
     <ImageView
@@ -12,6 +12,13 @@
         android:background="@mipmap/ic_launcher"
         android:scaleType="centerCrop"
         android:contentDescription="@string/showPoster"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/posterNotAvailable"
+        android:text="@string/poster_not_available"
+        android:gravity="center"/>
 
     <RelativeLayout
         android:id="@+id/infoLayout"
@@ -29,7 +36,6 @@
             android:id="@+id/title"
             android:text="@string/Title"
             android:textColor="@color/colorAccent"
-            android:layout_marginTop="3dp"
             android:layout_marginEnd="5dp"
             android:layout_marginStart="35dp"/>
 
@@ -38,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/showName"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAppearance="?android:attr/textAppearanceSmall"
             android:maxLines="1"
             android:maxLength="50"
             android:textColor="@color/navigationBarColor"
@@ -62,7 +68,8 @@
             android:layout_toEndOf="@+id/aired"
             android:layout_below="@+id/showName"
             android:text="@string/FirstAiredDate"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_marginTop="5dp"/>
 
         <CheckBox
             android:layout_width="wrap_content"

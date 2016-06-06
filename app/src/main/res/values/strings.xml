@@ -18,4 +18,5 @@
     <string name="StatusText">Status</string>
     <string name="RemoveAll">REMOVE ALL</string>
     <string name="AddSelected">ADD SELECTED</string>
+    <string name="poster_not_available">Poster not available.</string>
 </resources>

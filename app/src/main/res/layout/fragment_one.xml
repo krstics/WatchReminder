@@ -1,60 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent" android:layout_height="match_parent"
     tools:context="com.krstics.watchreminder.Fragments.FragmentOne">
-
-    <LinearLayout
-        android:id="@+id/inputsLayout"
+    
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="match_parent">
 
-        <EditText
-            android:id="@+id/searchShowName"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:hint="@string/enterShowName"
-            android:gravity="center"
-            android:textColor="@color/navigationBarColor"
-            android:paddingTop="15dp"/>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="end">
+            <LinearLayout
+                android:id="@+id/inputsLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/searchShowName"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/enterShowName"
+                    android:gravity="center"
+                    android:textColor="@color/navigationBarColor"
+                    android:paddingTop="15dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="end">
+
+                    <Button
+                        android:id="@+id/loadShowButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:text="@string/loadResults"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_below="@+id/inputsLayout"
+                android:scrollbars="vertical" />
 
             <Button
-                android:id="@+id/loadShowButton"
-                android:layout_width="wrap_content"
+                android:id="@+id/addSelectedButton"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:text="@string/loadResults"/>
+                android:layout_below="@id/recyclerView"
+                android:text="@string/AddSelected"/>
 
-        </LinearLayout>
+            <Button
+                android:id="@+id/deleteAllButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/addSelectedButton"
+                android:text="@string/RemoveAll"/>
 
-    </LinearLayout>
+                </RelativeLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:layout_below="@+id/inputsLayout"
-        android:scrollbars="none" />
-
-    <Button
-        android:id="@+id/addSelectedButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/recyclerView"
-        android:text="@string/AddSelected"/>
-
-    <Button
-        android:id="@+id/deleteAllButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/addSelectedButton"
-        android:text="@string/RemoveAll"/>
-
+    </ScrollView>
+    
 </RelativeLayout>
