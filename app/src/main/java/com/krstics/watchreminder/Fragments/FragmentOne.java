@@ -63,9 +63,7 @@ public class FragmentOne extends Fragment implements ShowFetchListener{
         mShowAdapter = new ShowListAdapter(getActivity(), this);
         searchLoad = new SearchLoad(getActivity(), mShowAdapter, this);
 
-        getActivity().getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
-        );
+        hideSoftInput();
 
         mRecyclerView = (RecyclerView)mView.findViewById(R.id.recyclerView);
         mRecyclerView.addItemDecoration(new FragmentOneItemDecorator(getResources().getDimensionPixelSize(R.dimen.item_spacing)));
@@ -80,7 +78,7 @@ public class FragmentOne extends Fragment implements ShowFetchListener{
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(searchTextEdit.getText().toString().trim() != "") {
+                if(!searchTextEdit.getText().toString().trim().equals("")) {
                     searchLoad.callSearch(searchTextEdit.getText().toString().trim());
                     searchTextEdit.setText("");
                 }
@@ -119,7 +117,7 @@ public class FragmentOne extends Fragment implements ShowFetchListener{
         View view = getActivity().getCurrentFocus();
         if (view != null) {
             InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            imm.hideSoftInputFromWindow(searchTextEdit.getWindowToken(), 0);
         }
     }
 
@@ -131,12 +129,8 @@ public class FragmentOne extends Fragment implements ShowFetchListener{
         addSelectedButton.setVisibility(value);
     }
 
-    public void searchTextEditClearText(){
-        searchTextEdit.setText("");
-    }
-
     @Override
-    public void OnDeliverAllShows(List<ShowListData> shows) {
+    public void onDeliverAllShows(List<ShowListData> shows) {
 
     }
 

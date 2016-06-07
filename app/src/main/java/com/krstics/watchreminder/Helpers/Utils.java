@@ -48,6 +48,9 @@ public class Utils {
     }
 
     public static byte[] convertBitmapToByteArray(Bitmap bitmap){
+        if(bitmap == null)
+            return null;
+
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
         return byteArrayOutputStream.toByteArray();

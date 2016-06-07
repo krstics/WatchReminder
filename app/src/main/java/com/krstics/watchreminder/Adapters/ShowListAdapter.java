@@ -41,7 +41,6 @@ public class ShowListAdapter extends RecyclerView.Adapter<ShowListAdapter.Holder
         holder.mAiredDate.setText(show.getFirstAired());
         if(show.getBitmap() == null) {
             holder.mPosterNotAvailable.setVisibility(View.VISIBLE);
-            holder.mShowImage.setVisibility(View.INVISIBLE);
         }
         else
             holder.mShowImage.setImageBitmap(show.getBitmap());

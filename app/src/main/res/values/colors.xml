@@ -6,5 +6,5 @@
     <color name="textColorPrimary">#FFFFFF</color>
     <color name="windowBackground">#FFFFFF</color>
     <color name="navigationBarColor">#000000</color>
-    <color name="fragmentOneItemBackgroundColor">#b3b3b3</color>
+    <color name="fragmentOneItemBackgroundColor">#e6ffff</color>
 </resources>
