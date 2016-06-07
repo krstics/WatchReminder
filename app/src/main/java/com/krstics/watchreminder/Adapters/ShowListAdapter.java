@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.krstics.watchreminder.Data.ShowListData;
 import com.krstics.watchreminder.Fragments.FragmentOne;
@@ -71,10 +72,23 @@ public class ShowListAdapter extends RecyclerView.Adapter<ShowListAdapter.Holder
     }
 
     public void deleteAllShows() {
-        showListData.clear();
+        showListData = new ArrayList<>();
         fragmentOne.setDeleteAllButtonVisibility(View.INVISIBLE);
         fragmentOne.setAddSelectedButtonVisibility(View.INVISIBLE);
         notifyDataSetChanged();
+    }
+
+    public void addSelected(){
+        int num = this.getItemCount();
+        for(int i = 0; i < num; i++) {
+            if (fragmentOne.getmRecyclerView().findViewHolderForLayoutPosition(i) instanceof Holder) {
+                Holder childHolder = (Holder) fragmentOne.getmRecyclerView().findViewHolderForLayoutPosition(i);
+                if (childHolder.selectCheckBox.isChecked()) {
+                    fragmentOne.getShowsDB().insertShows(showListData.get(i));
+                }
+            }
+        }
+        this.deleteAllShows();
     }
 
     public class Holder extends RecyclerView.ViewHolder{

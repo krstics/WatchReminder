@@ -11,13 +11,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.krstics.watchreminder.Adapters.ShowListAdapter;
+import com.krstics.watchreminder.DB.ShowsDB;
 import com.krstics.watchreminder.Data.ShowListData;
 import com.krstics.watchreminder.Decorators.FragmentOneItemDecorator;
 import com.krstics.watchreminder.Listeners.ShowFetchListener;
@@ -36,6 +36,7 @@ public class FragmentOne extends Fragment implements ShowFetchListener{
     private View mView;
     private ShowListAdapter mShowAdapter;
     private SearchLoad searchLoad;
+    private ShowsDB showsDB;
 
     public FragmentOne(){
 
@@ -60,6 +61,7 @@ public class FragmentOne extends Fragment implements ShowFetchListener{
         addSelectedButton = (Button)mView.findViewById(R.id.addSelectedButton);
         addSelectedButton.setVisibility(View.INVISIBLE);
         searchTextEdit = (EditText)mView.findViewById(R.id.searchShowName);
+        showsDB = new ShowsDB(getActivity());
         mShowAdapter = new ShowListAdapter(getActivity(), this);
         searchLoad = new SearchLoad(getActivity(), mShowAdapter, this);
 
@@ -111,6 +113,17 @@ public class FragmentOne extends Fragment implements ShowFetchListener{
 
             }
         });
+
+        addSelectedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mShowAdapter.addSelected();
+            }
+        });
+    }
+
+    public RecyclerView getmRecyclerView() {
+        return mRecyclerView;
     }
 
     private void hideSoftInput() {
@@ -145,5 +158,9 @@ public class FragmentOne extends Fragment implements ShowFetchListener{
 
     public Button getDeleteAllButton() {
         return deleteAllButton;
+    }
+
+    public ShowsDB getShowsDB() {
+        return showsDB;
     }
 }

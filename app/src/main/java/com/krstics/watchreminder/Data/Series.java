@@ -9,7 +9,7 @@ public class Series {
     @Element(name = "FirstAired", required = false)
     private String FirstAired;
 
-    @Element(name = "id", required = false)
+    @Element(name = "id", required = true)
     private String id;
 
     @Element(name = "zap2it_id", required = false)
