@@ -42,10 +42,12 @@ public class ShowListAdapter extends RecyclerView.Adapter<ShowListAdapter.Holder
         holder.mAiredDate.setText(show.getFirstAired());
         if(show.getBitmap() == null) {
             holder.mPosterNotAvailable.setVisibility(View.VISIBLE);
+            holder.mShowImage.setImageBitmap(null);
         }
-        else
+        else {
             holder.mShowImage.setImageBitmap(show.getBitmap());
-
+            holder.mPosterNotAvailable.setVisibility(View.INVISIBLE);
+        }
         holder.selectCheckBox.setChecked(false);
         holder.statusTextView.setText(show.getStatus());
 
