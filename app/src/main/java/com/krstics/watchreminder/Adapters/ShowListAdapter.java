@@ -86,7 +86,9 @@ public class ShowListAdapter extends RecyclerView.Adapter<ShowListAdapter.Holder
             if (fragmentOne.getmRecyclerView().findViewHolderForLayoutPosition(i) instanceof Holder) {
                 Holder childHolder = (Holder) fragmentOne.getmRecyclerView().findViewHolderForLayoutPosition(i);
                 if (childHolder.selectCheckBox.isChecked()) {
-                    fragmentOne.getShowsDB().insertShows(showListData.get(i));
+                    if(fragmentOne.getShowsDB().insertShows(showListData.get(i)) == 1)
+                        Toast.makeText(context, "Show " + showListData.get(i).getSeriesName() + " already added!", Toast.LENGTH_SHORT).show();
+
                 }
             }
         }

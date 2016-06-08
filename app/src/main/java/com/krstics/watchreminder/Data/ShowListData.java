@@ -102,7 +102,7 @@ public class ShowListData {
         this.setSeriesName(data.getSeriesName());
         this.setFirstAired(data.getFirstAired());
         this.setOverview(data.getOverview());
-        this.setSeriesid(data.getSeriesid());
+        this.setSeriesid(data.getId());
         this.setBitmap(Utils.getBitmapImage(data.getBanner()));
         this.setStatus(data.getStatus());
         this.setNetwork(data.getNetwork());

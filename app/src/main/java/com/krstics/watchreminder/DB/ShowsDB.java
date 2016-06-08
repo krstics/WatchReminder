@@ -47,7 +47,13 @@ public class ShowsDB extends SQLiteOpenHelper{
         }
     }
 
-    public void insertShows(ShowListData show){
+    public int insertShows(ShowListData show){
+
+        int exists = checkIfExists(show.getSeriesid());
+
+        if(exists == 1)
+            return exists;
+
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -70,6 +76,27 @@ public class ShowsDB extends SQLiteOpenHelper{
         }
 
         db.close();
+
+        return 0;
+    }
+
+    private int checkIfExists(String seriesid) {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + Constants.AddedShowsDB.ADDED_SHOWS_TB_NAME +
+                " WHERE " + Constants.AddedShowsDB.id + " = " + "'" + seriesid + "'", null);
+
+        if(cursor.getCount() > 0) {
+            db.close();
+            cursor.close();
+            Log.e(TAG, "record exists");
+            return 1;
+            //record exist
+        }
+        else {
+            db.close();
+            Log.e(TAG, "record not exists");
+            return 0;
+        }
     }
 
     public void removeShow(final String seriesId){

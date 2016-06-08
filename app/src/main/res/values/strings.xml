@@ -16,7 +16,7 @@
     <string name="FirstAiredDate">First Aired</string>
     <string name="Status">Status:</string>
     <string name="StatusText">Status</string>
-    <string name="RemoveAll">REMOVE ALL</string>
+    <string name="RemoveAll">REMOVE SEARCH RESULTS</string>
     <string name="AddSelected">ADD SELECTED</string>
     <string name="poster_not_available">Poster not available.</string>
 </resources>
