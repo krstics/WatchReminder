@@ -18,15 +18,11 @@ import android.widget.Toast;
 
 import com.krstics.watchreminder.Adapters.ShowListAdapter;
 import com.krstics.watchreminder.DB.ShowsDB;
-import com.krstics.watchreminder.Data.ShowListData;
-import com.krstics.watchreminder.Decorators.FragmentOneItemDecorator;
-import com.krstics.watchreminder.Listeners.ShowFetchListener;
+import com.krstics.watchreminder.Decorators.FragmentsItemDecorator;
 import com.krstics.watchreminder.Loaders.SearchLoad;
 import com.krstics.watchreminder.R;
 
-import java.util.List;
-
-public class FragmentOne extends Fragment implements ShowFetchListener{
+public class FragmentOne extends Fragment{
 
     private Button searchButton;
     private Button deleteAllButton;
@@ -68,7 +64,7 @@ public class FragmentOne extends Fragment implements ShowFetchListener{
         hideSoftInput();
 
         mRecyclerView = (RecyclerView)mView.findViewById(R.id.recyclerView);
-        mRecyclerView.addItemDecoration(new FragmentOneItemDecorator(getResources().getDimensionPixelSize(R.dimen.item_spacing)));
+        mRecyclerView.addItemDecoration(new FragmentsItemDecorator(getResources().getDimensionPixelSize(R.dimen.item_spacing)));
         mRecyclerView.setRecycledViewPool(new RecyclerView.RecycledViewPool());
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setAdapter(mShowAdapter);
@@ -140,16 +136,6 @@ public class FragmentOne extends Fragment implements ShowFetchListener{
 
     public void setAddSelectedButtonVisibility(int value){
         addSelectedButton.setVisibility(value);
-    }
-
-    @Override
-    public void onDeliverAllShows(List<ShowListData> shows) {
-
-    }
-
-    @Override
-    public void onDeliverShow(ShowListData show) {
-
     }
 
     public Button getAddSelectedButton() {

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    card_view:cardCornerRadius="5dp"
+    card_view:cardUseCompatPadding="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/fragmentOneItemBackgroundColor">
+
+
+        <ImageView
+            android:id="@+id/showImageTWO"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/navigationBarColor"
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/showPoster"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/posterNotAvailableTWO"
+            android:text="@string/poster_not_available"
+            android:gravity="center"
+            android:textColor="@color/textColorPrimary"/>
+
+        <RelativeLayout
+            android:id="@+id/infoLayoutTWO"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/showImageTWO"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/titleTWO"
+                android:text="@string/Title"
+                android:textColor="@color/colorAccent"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="35dp"/>
+
+            <TextView
+                android:id="@+id/showNameTWO"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/showName"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:maxLines="1"
+                android:maxLength="50"
+                android:textColor="@color/navigationBarColor"
+                android:layout_toEndOf="@+id/titleTWO"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/airedTWO"
+                android:text="@string/FirstAired"
+                android:textColor="@color/colorAccent"
+                android:layout_below="@+id/titleTWO"
+                android:layout_marginEnd="5dp"
+                android:layout_marginTop="5dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/firstAiredTWO"
+                android:textColor="@color/navigationBarColor"
+                android:layout_toEndOf="@+id/airedTWO"
+                android:layout_below="@+id/showNameTWO"
+                android:text="@string/FirstAiredDate"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_marginTop="5dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/statusTextTWO"
+                android:text="@string/Status"
+                android:textColor="@color/colorAccent"
+                android:layout_below="@+id/showNameTWO"
+                android:layout_toEndOf="@+id/firstAiredTWO"
+                android:layout_marginEnd="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="90dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/statusTWO"
+                android:textColor="@color/navigationBarColor"
+                android:layout_toEndOf="@+id/statusTextTWO"
+                android:layout_below="@+id/showNameTWO"
+                android:text="@string/StatusText"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_marginTop="5dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/airsTimeTWO"
+                android:text="@string/AirsTime"
+                android:textColor="@color/colorAccent"
+                android:layout_below="@+id/airedTWO"
+                android:layout_marginEnd="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="8dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/airsTimeTextTWO"
+                android:textColor="@color/navigationBarColor"
+                android:layout_toEndOf="@+id/airsTimeTWO"
+                android:layout_below="@+id/firstAiredTWO"
+                android:text="@string/AirsTimeText"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_marginTop="5dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/airsDayOfWeekTWO"
+                android:text="@string/AirsDayOfWeek"
+                android:textColor="@color/colorAccent"
+                android:layout_below="@+id/airedTWO"
+                android:layout_toEndOf="@+id/airsTimeTextTWO"
+                android:layout_marginEnd="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="36dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/airsDayOfWeekTextTWO"
+                android:textColor="@color/navigationBarColor"
+                android:layout_toEndOf="@+id/airsDayOfWeekTWO"
+                android:layout_below="@+id/statusTextTWO"
+                android:text="@string/AirsDayOfWeekText"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_marginTop="5dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/overviewTWO"
+                android:text="@string/Overview"
+                android:textColor="@color/colorAccent"
+                android:layout_below="@+id/airsTimeTWO"
+                android:layout_marginEnd="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="8dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/overviewTextTWO"
+                android:textColor="@color/navigationBarColor"
+                android:layout_toEndOf="@+id/overviewTWO"
+                android:layout_below="@+id/airsTimeTextTWO"
+                android:text="@string/OverviewText"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_marginTop="5dp"
+                android:gravity="start"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

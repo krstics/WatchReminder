@@ -19,7 +19,7 @@ import java.util.List;
 
 public class ShowListAdapter extends RecyclerView.Adapter<ShowListAdapter.Holder> implements View.OnClickListener{
 
-    private static final String TAG = ShowListAdapter.class.getSimpleName();
+    private final String TAG = ShowListAdapter.class.getSimpleName();
     private List<ShowListData> showListData;
     private Context context;
     private FragmentOne fragmentOne;
@@ -88,7 +88,8 @@ public class ShowListAdapter extends RecyclerView.Adapter<ShowListAdapter.Holder
                 if (childHolder.selectCheckBox.isChecked()) {
                     if(fragmentOne.getShowsDB().insertShows(showListData.get(i)) == 1)
                         Toast.makeText(context, "Show " + showListData.get(i).getSeriesName() + " already added!", Toast.LENGTH_SHORT).show();
-
+                    else
+                        Toast.makeText(context, "Show " + showListData.get(i).getSeriesName() + " added successfully!", Toast.LENGTH_SHORT).show();
                 }
             }
         }

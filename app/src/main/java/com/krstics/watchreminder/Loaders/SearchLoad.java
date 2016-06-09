@@ -43,7 +43,7 @@ public class SearchLoad {
                     Data searchResult = response.body();
                     List<Series> seriesList = searchResult.getSeries();
 
-                    if(!seriesList.isEmpty()){
+                    if(seriesList != null){
                         int seriesListSize = seriesList.size();
                         if(seriesListSize > 0){
                             showListAdapter.deleteAllShows();

@@ -19,4 +19,10 @@
     <string name="RemoveAll">REMOVE SEARCH RESULTS</string>
     <string name="AddSelected">ADD SELECTED</string>
     <string name="poster_not_available">Poster not available.</string>
+    <string name="AirsDayOfWeek">Airs day of week:</string>
+    <string name="AirsTime">Airs time:</string>
+    <string name="AirsTimeText">Airs time</string>
+    <string name="AirsDayOfWeekText">Day</string>
+    <string name="Overview">Overview:</string>
+    <string name="OverviewText">Overview</string>
 </resources>
