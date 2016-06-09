@@ -64,6 +64,11 @@ public class AddedShowsAdapter extends RecyclerView.Adapter<AddedShowsAdapter.Ho
         notifyDataSetChanged();
     }
 
+    public void deleteAllShows() {
+        showListData.clear();
+        notifyDataSetChanged();
+    }
+
     public class Holder extends RecyclerView.ViewHolder{
 
         private ImageView showImage;

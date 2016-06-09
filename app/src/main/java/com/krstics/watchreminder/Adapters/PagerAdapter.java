@@ -3,6 +3,7 @@ package com.krstics.watchreminder.Adapters;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.util.SparseArray;
 import android.view.ViewGroup;
 
 import com.krstics.watchreminder.Fragments.FragmentOne;
@@ -14,31 +15,32 @@ import java.util.HashMap;
 
 public class PagerAdapter extends FragmentStatePagerAdapter {
     int mNumOfTabs;
-    private HashMap<Integer, String> fragmentTags;
+    private SparseArray<Fragment> registeredFragments;
     private FragmentManager fragmentManager;
 
     public PagerAdapter(FragmentManager fm, int NumOfTabs) {
         super(fm);
         fragmentManager = fm;
         this.mNumOfTabs = NumOfTabs;
-        fragmentTags = new HashMap<>();
+        registeredFragments = new SparseArray<>();
     }
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        Object obj = super.instantiateItem(container, position);
-        if(obj instanceof Fragment)
-            fragmentTags.put(position, ((Fragment) obj).getTag());
+        Fragment fragment = (Fragment)super.instantiateItem(container, position);
+        registeredFragments.put(position, fragment);
 
-        return obj;
+        return fragment;
+    }
+
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        registeredFragments.remove(position);
+        super.destroyItem(container, position, object);
     }
 
     public Fragment getFragment(int position){
-        String tag = fragmentTags.get(position);
-        if(tag == null)
-            return null;
-
-        return fragmentManager.findFragmentByTag(tag);
+        return registeredFragments.get(position);
     }
 
     @Override

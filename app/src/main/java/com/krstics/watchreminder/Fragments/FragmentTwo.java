@@ -27,6 +27,7 @@ public class FragmentTwo extends Fragment implements ShowFetchListener{
     @Override
     public void onResume() {
         super.onResume();
+        addedShowsAdapter.deleteAllShows();
         showsDB.fetchShows(this);
     }
 

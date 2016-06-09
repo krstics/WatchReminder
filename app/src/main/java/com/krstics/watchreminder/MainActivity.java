@@ -1,17 +1,14 @@
 package com.krstics.watchreminder;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 
 import com.krstics.watchreminder.Adapters.PagerAdapter;
+import com.krstics.watchreminder.Fragments.FragmentOne;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,9 +26,10 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setText("Today premier"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        final ViewPager viewPager = (ViewPager)findViewById(R.id.pager);
         final PagerAdapter adapter = new PagerAdapter
                 (getSupportFragmentManager(), tabLayout.getTabCount());
+
         assert viewPager != null;
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
@@ -40,8 +38,11 @@ public class MainActivity extends AppCompatActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 int position = tab.getPosition();
                 viewPager.setCurrentItem(position);
-                ((PagerAdapter)viewPager.getAdapter()).getFragment(position).onResume();
-                //http://semycolon.blogspot.rs/2014/12/refresh-pageviewer-fragment-everytime.html
+                Fragment fragment = adapter.getFragment(viewPager.getCurrentItem());
+
+                if (fragment != null) {
+                    fragment.onResume();
+                }
             }
 
             @Override
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
+
             }
         });
     }

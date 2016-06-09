@@ -74,7 +74,7 @@ public class ShowListAdapter extends RecyclerView.Adapter<ShowListAdapter.Holder
     }
 
     public void deleteAllShows() {
-        showListData = new ArrayList<>();
+        showListData.clear();
         fragmentOne.setDeleteAllButtonVisibility(View.INVISIBLE);
         fragmentOne.setAddSelectedButtonVisibility(View.INVISIBLE);
         notifyDataSetChanged();
