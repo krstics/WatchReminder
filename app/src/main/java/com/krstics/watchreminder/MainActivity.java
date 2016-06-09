@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
                 int position = tab.getPosition();
                 viewPager.setCurrentItem(position);
                 ((PagerAdapter)viewPager.getAdapter()).getFragment(position).onResume();
+                //http://semycolon.blogspot.rs/2014/12/refresh-pageviewer-fragment-everytime.html
             }
 
             @Override

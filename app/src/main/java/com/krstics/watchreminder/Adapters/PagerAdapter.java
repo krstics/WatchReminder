@@ -21,6 +21,7 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
         super(fm);
         fragmentManager = fm;
         this.mNumOfTabs = NumOfTabs;
+        fragmentTags = new HashMap<>();
     }
 
     @Override
