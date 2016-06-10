@@ -31,8 +31,8 @@
 
         <RelativeLayout
             android:id="@+id/infoLayoutTWO"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_below="@+id/showImageTWO"
             android:layout_marginTop="10dp"
             android:layout_marginStart="10dp"
@@ -46,7 +46,7 @@
                 android:text="@string/Title"
                 android:textColor="@color/colorAccent"
                 android:layout_marginEnd="5dp"
-                android:layout_marginStart="35dp"/>
+                android:layout_marginStart="36dp"/>
 
             <TextView
                 android:id="@+id/showNameTWO"
@@ -87,17 +87,16 @@
                 android:text="@string/Status"
                 android:textColor="@color/colorAccent"
                 android:layout_below="@+id/showNameTWO"
-                android:layout_toEndOf="@+id/firstAiredTWO"
+                android:layout_toStartOf="@+id/statusTWO"
                 android:layout_marginEnd="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginStart="90dp"/>
+                android:layout_marginTop="5dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/statusTWO"
                 android:textColor="@color/navigationBarColor"
-                android:layout_toEndOf="@+id/statusTextTWO"
+                android:layout_alignParentEnd="true"
                 android:layout_below="@+id/showNameTWO"
                 android:text="@string/StatusText"
                 android:textAppearance="?android:attr/textAppearanceSmall"
@@ -112,7 +111,7 @@
                 android:layout_below="@+id/airedTWO"
                 android:layout_marginEnd="5dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginStart="8dp"/>
+                android:layout_marginStart="7dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -132,17 +131,16 @@
                 android:text="@string/AirsDayOfWeek"
                 android:textColor="@color/colorAccent"
                 android:layout_below="@+id/airedTWO"
-                android:layout_toEndOf="@+id/airsTimeTextTWO"
+                android:layout_toStartOf="@+id/airsDayOfWeekTextTWO"
                 android:layout_marginEnd="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginStart="36dp"/>
+                android:layout_marginTop="5dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/airsDayOfWeekTextTWO"
                 android:textColor="@color/navigationBarColor"
-                android:layout_toEndOf="@+id/airsDayOfWeekTWO"
+                android:layout_alignParentEnd="true"
                 android:layout_below="@+id/statusTextTWO"
                 android:text="@string/AirsDayOfWeekText"
                 android:textAppearance="?android:attr/textAppearanceSmall"
@@ -157,19 +155,26 @@
                 android:layout_below="@+id/airsTimeTWO"
                 android:layout_marginEnd="5dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginStart="8dp"/>
+                android:layout_marginStart="6dp"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <WebView
                 android:id="@+id/overviewTextTWO"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/overviewTWO"
+                android:layout_below="@+id/airsTimeTextTWO"
+                android:layout_marginTop="6dp"
+                android:background="@color/fragmentOneItemBackgroundColor"/>
+
+          <!--  <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:textColor="@color/navigationBarColor"
                 android:layout_toEndOf="@+id/overviewTWO"
                 android:layout_below="@+id/airsTimeTextTWO"
-                android:text="@string/OverviewText"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:layout_marginTop="5dp"
-                android:gravity="start"/>
+                android:gravity="start|end|center"/>-->
 
         </RelativeLayout>
 

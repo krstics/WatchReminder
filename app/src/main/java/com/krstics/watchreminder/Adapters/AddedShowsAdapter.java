@@ -1,10 +1,12 @@
 package com.krstics.watchreminder.Adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -46,7 +48,22 @@ public class AddedShowsAdapter extends RecyclerView.Adapter<AddedShowsAdapter.Ho
         holder.statusTextView.setText(show.getStatus());
         holder.airstTime.setText(show.getAirsTime());
         holder.airsDay.setText(show.getAirsDayOfWeek());
-        holder.overview.setText(show.getOverview());
+        //holder.overview.setText(show.getOverview());
+        holder.overview.setBackgroundColor(Color.TRANSPARENT);
+        int limit = getLimit(show.getOverview().length());
+        holder.overview.loadData("<html><body>"
+                            + "<p align=\"justify\">"
+                            + show.getOverview().substring(0, limit) + "..."
+                            + "</p> "
+                            + "</body></html>", "text/html", "utf-8");
+    }
+
+    private int getLimit(int length) {
+        if(length < 400)
+            return length;
+
+        int limit = length - 400;
+        return length - limit;
     }
 
     @Override
@@ -78,7 +95,8 @@ public class AddedShowsAdapter extends RecyclerView.Adapter<AddedShowsAdapter.Ho
         private TextView statusTextView;
         private TextView airstTime;
         private TextView airsDay;
-        private TextView overview;
+        private TextView overview1;
+        private WebView overview;
 
         public Holder(View itemView) {
             super(itemView);
@@ -91,7 +109,7 @@ public class AddedShowsAdapter extends RecyclerView.Adapter<AddedShowsAdapter.Ho
             statusTextView = (TextView)itemView.findViewById(R.id.statusTWO);
             airstTime = (TextView)itemView.findViewById(R.id.airsTimeTextTWO);
             airsDay = (TextView)itemView.findViewById(R.id.airsDayOfWeekTextTWO);
-            overview = (TextView)itemView.findViewById(R.id.overviewTextTWO);
+            overview = (WebView) itemView.findViewById(R.id.overviewTextTWO);
         }
     }
 }
