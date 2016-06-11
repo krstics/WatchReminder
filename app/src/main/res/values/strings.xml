@@ -25,4 +25,5 @@
     <string name="AirsDayOfWeekText">Day</string>
     <string name="Overview">Overview:</string>
     <string name="OverviewText">Overview</string>
+    <string name="RemoveAllFragmentTwo">REMOVE ALL SHOWS</string>
 </resources>

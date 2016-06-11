@@ -1,11 +1,14 @@
 package com.krstics.watchreminder;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import com.krstics.watchreminder.Adapters.PagerAdapter;
 import com.krstics.watchreminder.Fragments.FragmentOne;
@@ -43,6 +46,10 @@ public class MainActivity extends AppCompatActivity {
                 if (fragment != null) {
                     fragment.onResume();
                 }
+
+                View focus = getCurrentFocus();
+                if(focus != null)
+                    hideSoftInput(focus);
             }
 
             @Override
@@ -55,5 +62,10 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void hideSoftInput(View v) {
+        InputMethodManager keyboard = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        keyboard.hideSoftInputFromWindow(v.getWindowToken(), 0);
     }
 }

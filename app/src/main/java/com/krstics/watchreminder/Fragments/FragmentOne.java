@@ -47,6 +47,8 @@ public class FragmentOne extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_one, container, false);
         configViews();
+        setUpListeners();
+        hideSoftInput();
         return mView;
     }
 
@@ -61,15 +63,11 @@ public class FragmentOne extends Fragment{
         mShowAdapter = new ShowListAdapter(getActivity(), this);
         searchLoad = new SearchLoad(getActivity(), mShowAdapter, this);
 
-        hideSoftInput();
-
         mRecyclerView = (RecyclerView)mView.findViewById(R.id.recyclerView);
         mRecyclerView.addItemDecoration(new FragmentsItemDecorator(getResources().getDimensionPixelSize(R.dimen.item_spacing)));
         mRecyclerView.setRecycledViewPool(new RecyclerView.RecycledViewPool());
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setAdapter(mShowAdapter);
-
-        setUpListeners();
     }
 
     private void setUpListeners() {

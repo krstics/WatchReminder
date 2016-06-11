@@ -1,16 +1,21 @@
 package com.krstics.watchreminder.Adapters;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.krstics.watchreminder.DB.ShowsDB;
 import com.krstics.watchreminder.Data.ShowListData;
+import com.krstics.watchreminder.Fragments.FragmentTwo;
 import com.krstics.watchreminder.R;
 
 import java.util.ArrayList;
@@ -20,10 +25,14 @@ public class AddedShowsAdapter extends RecyclerView.Adapter<AddedShowsAdapter.Ho
     private String TAG = AddedShowsAdapter.class.getSimpleName();
     private List<ShowListData> showListData;
     private Context context;
+    private ShowsDB mDB;
+    private FragmentTwo fragmentTwo;
 
-    public AddedShowsAdapter(Context context) {
+    public AddedShowsAdapter(Context context, ShowsDB db, FragmentTwo fragmentTwo) {
         this.context = context;
         showListData = new ArrayList<>();
+        mDB = db;
+        this.fragmentTwo = fragmentTwo;
     }
 
     @Override
@@ -50,21 +59,16 @@ public class AddedShowsAdapter extends RecyclerView.Adapter<AddedShowsAdapter.Ho
         holder.airsDay.setText(show.getAirsDayOfWeek());
         //holder.overview.setText(show.getOverview());
         holder.overview.setBackgroundColor(Color.TRANSPARENT);
-        int limit = getLimit(show.getOverview().length());
         holder.overview.loadData("<html><body>"
                             + "<p align=\"justify\">"
-                            + show.getOverview().substring(0, limit) + "..."
+                            + show.getOverview()
                             + "</p> "
                             + "</body></html>", "text/html", "utf-8");
+
+        holder.removeImageButton.setOnClickListener(AddedShowsAdapter.this);
+        holder.removeImageButton.setTag(holder);
     }
 
-    private int getLimit(int length) {
-        if(length < 400)
-            return length;
-
-        int limit = length - 400;
-        return length - limit;
-    }
 
     @Override
     public int getItemCount() {
@@ -73,16 +77,45 @@ public class AddedShowsAdapter extends RecyclerView.Adapter<AddedShowsAdapter.Ho
 
     @Override
     public void onClick(View v) {
+        final Holder holder = (Holder)v.getTag();
 
+        if(v.getId() == holder.removeImageButton.getId()){
+            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which){
+                        case DialogInterface.BUTTON_POSITIVE:
+                            mDB.removeShow(showListData.get(holder.getLayoutPosition()).getSeriesid());
+                            deleteShow(holder.getLayoutPosition());
+                            break;
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            break;
+                    }
+                }
+            };
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener).setNegativeButton("No", dialogClickListener).show();
+        }
+    }
+
+    private void deleteShow(int position) {
+        showListData.remove(position);
+        if(showListData.size() == 0)
+            fragmentTwo.setVisibilityDeleteAllButton(View.INVISIBLE);
+        notifyDataSetChanged();
     }
 
     public void addShow(ShowListData show){
         showListData.add(show);
+        if(showListData.size() > 0)
+            fragmentTwo.setVisibilityDeleteAllButton(View.VISIBLE);
         notifyDataSetChanged();
     }
 
     public void deleteAllShows() {
         showListData.clear();
+        fragmentTwo.setVisibilityDeleteAllButton(View.INVISIBLE);
         notifyDataSetChanged();
     }
 
@@ -97,6 +130,7 @@ public class AddedShowsAdapter extends RecyclerView.Adapter<AddedShowsAdapter.Ho
         private TextView airsDay;
         private TextView overview1;
         private WebView overview;
+        private ImageButton removeImageButton;
 
         public Holder(View itemView) {
             super(itemView);
@@ -110,6 +144,7 @@ public class AddedShowsAdapter extends RecyclerView.Adapter<AddedShowsAdapter.Ho
             airstTime = (TextView)itemView.findViewById(R.id.airsTimeTextTWO);
             airsDay = (TextView)itemView.findViewById(R.id.airsDayOfWeekTextTWO);
             overview = (WebView) itemView.findViewById(R.id.overviewTextTWO);
+            removeImageButton = (ImageButton)itemView.findViewById(R.id.removeImageButton);
         }
     }
 }
