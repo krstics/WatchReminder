@@ -11,6 +11,9 @@ public class Data {
     @ElementList(inline = true, required = false)
     private List<Series> Series;
 
+    @ElementList(inline = true, required = false)
+    private List<Episode> Episode;
+
     public List<Series> getSeries ()
     {
         return Series;
@@ -19,5 +22,13 @@ public class Data {
     public void setSeries (List<Series> Series)
     {
         this.Series = Series;
+    }
+
+    public List<com.krstics.watchreminder.Data.Episode> getEpisode() {
+        return Episode;
+    }
+
+    public void setEpisode(List<com.krstics.watchreminder.Data.Episode> episode) {
+        Episode = episode;
     }
 }

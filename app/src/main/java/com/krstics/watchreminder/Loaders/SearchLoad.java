@@ -24,10 +24,9 @@ public class SearchLoad {
     private static final String TAG = SearchLoad.class.getSimpleName();
     private ShowListAdapter showListAdapter;
     private RestManager restManager;
-    private ArrayAdapter<String> arrayAdapterACTV;
     private Context context;
 
-    public SearchLoad(Context context, ShowListAdapter adapter, FragmentOne fragmentOne){
+    public SearchLoad(Context context, ShowListAdapter adapter){
         showListAdapter = adapter;
         this.context = context;
         restManager = new RestManager();
@@ -55,7 +54,7 @@ public class SearchLoad {
                                         if(response.isSuccessful()){
                                             Data searchResult = response.body();
 
-                                            if(!searchResult.getSeries().isEmpty()) {
+                                            if(searchResult.getSeries() != null) {
                                                 int seriesListSize = searchResult.getSeries().size();
                                                 if (seriesListSize > 0) {
                                                     for(int i = 0; i < seriesListSize; i++) {
