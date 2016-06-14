@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import com.krstics.watchreminder.Data.ShowListData;
 import com.krstics.watchreminder.Fragments.FragmentOne;
+import com.krstics.watchreminder.Helpers.Utils;
+import com.krstics.watchreminder.Loaders.EpisodeLoad;
 import com.krstics.watchreminder.R;
 
 import java.util.ArrayList;
@@ -88,8 +90,10 @@ public class ShowListAdapter extends RecyclerView.Adapter<ShowListAdapter.Holder
                 if (childHolder.selectCheckBox.isChecked()) {
                     if(fragmentOne.getShowsDB().insertShows(showListData.get(i)) == 1)
                         Toast.makeText(context, "Show " + showListData.get(i).getSeriesName() + " already added!", Toast.LENGTH_SHORT).show();
-                    else
+                    else {
+                        new Utils.DownloadEpisodes(fragmentOne.getShowsDB()).execute(showListData.get(i).getSeriesid());
                         Toast.makeText(context, "Show " + showListData.get(i).getSeriesName() + " added successfully!", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         }

@@ -41,4 +41,34 @@ public class Constants {
                       airsTime + " TEXT)";
     }
 
+    public static final class AddedEpisodesTABLE{
+        public static final String episodeId = "EpisodeId";
+        public static final String episodeName = "EpisodeName";
+        public static final String episodeNumber = "EpisodeNumber";
+        public static final String seasonNumber = "SeasonNumber";
+        public static final String airsDate = "AirsDate";
+        public static final String episodeImdbId = "EpisodeIMDBID";
+        public static final String overview = "Overview";
+        public static final String episodeBanner = "episodeBanner";
+        public static final String seriesId = "SeriesId";
+
+        public static final String EPISODES_TB_NAME = "Episodes";
+
+        //Queries
+        public static final String DROP_EPISODES_TB_QUERY = "DROP TABLE IF EXISTS " + EPISODES_TB_NAME;
+        public static final String GET_ALL_EPISODES_FOR_SHOW_QUERY = "SELECT * FROM " + EPISODES_TB_NAME + " WHERE " + seriesId + " = ";
+        public static final String REMOVE_ALL_FROM_TB_QUERY = "DELETE * FROM " + EPISODES_TB_NAME;
+        public static final String CREATE_EPISODES_TB_QUERY = "CREATE TABLE " + EPISODES_TB_NAME + "" +
+                "(" + episodeId + " TEXT primary key not null," +
+                episodeName + " TEXT," +
+                episodeNumber + " TEXT," +
+                overview + " TEXT," +
+                episodeBanner + " BLOB," +
+                seasonNumber + " TEXT," +
+                airsDate + " TEXT," +
+                episodeImdbId + " TEXT," +
+                seriesId + " TEXT not null," +
+                "FOREIGN KEY (" + seriesId + ") REFERENCES " + AddedShowsDB.ADDED_SHOWS_TB_NAME + "(" + AddedShowsDB.id + "))";
+    }
+
 }

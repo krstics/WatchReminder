@@ -5,8 +5,10 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.krstics.watchreminder.DB.ShowsDB;
+import com.krstics.watchreminder.Loaders.EpisodeLoad;
+
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
@@ -60,5 +62,22 @@ public class Utils {
         if(array == null)
             return null;
         return BitmapFactory.decodeByteArray(array, 0, array.length);
+    }
+
+    public static class DownloadEpisodes extends AsyncTask<String, Void, Void> {
+        private ShowsDB mDb;
+
+        public DownloadEpisodes(ShowsDB db) {
+            mDb = db;
+        }
+
+        @Override
+        protected Void doInBackground(String... params) {
+            String seriesId = params[0];
+            EpisodeLoad episodeLoad = new EpisodeLoad(mDb);
+            episodeLoad.loadAllSeriesRecords(seriesId);
+
+            return null;
+        }
     }
 }

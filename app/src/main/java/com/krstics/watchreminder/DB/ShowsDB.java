@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+import com.krstics.watchreminder.Data.Episode;
 import com.krstics.watchreminder.Data.ShowListData;
 import com.krstics.watchreminder.Helpers.Constants;
 import com.krstics.watchreminder.Helpers.Utils;
@@ -30,6 +31,7 @@ public class ShowsDB extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase db) {
         try{
             db.execSQL(Constants.AddedShowsDB.CREATE_TB_QUERY);
+            db.execSQL(Constants.AddedEpisodesTABLE.CREATE_EPISODES_TB_QUERY);
         }
         catch (SQLException ex){
             Log.e(TAG, ex.getMessage());
@@ -39,7 +41,9 @@ public class ShowsDB extends SQLiteOpenHelper{
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         try {
+            db.execSQL(Constants.AddedEpisodesTABLE.DROP_EPISODES_TB_QUERY);
             db.execSQL(Constants.AddedShowsDB.DROP_ADDED_SHOWS_QUERY);
+
             this.onCreate(db);
         }
         catch (SQLException ex){
@@ -97,6 +101,37 @@ public class ShowsDB extends SQLiteOpenHelper{
             Log.e(TAG, "record not exists");
             return 0;
         }
+    }
+
+    public void insertEpisodes(List<Episode> episodeList){
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        int size = episodeList.size();
+
+        for(int i = 0; i < size; i++){
+            values.clear();
+
+            values.put(Constants.AddedEpisodesTABLE.episodeId, episodeList.get(i).getId());
+            values.put(Constants.AddedEpisodesTABLE.seriesId, episodeList.get(i).getSeriesid());
+            values.put(Constants.AddedEpisodesTABLE.episodeName, episodeList.get(i).getEpisodeName());
+            values.put(Constants.AddedEpisodesTABLE.episodeNumber, episodeList.get(i).getEpisodeNumber());
+            values.put(Constants.AddedEpisodesTABLE.seasonNumber, episodeList.get(i).getSeasonNumber());
+            values.put(Constants.AddedEpisodesTABLE.airsDate, episodeList.get(i).getFirstAired());
+            values.put(Constants.AddedEpisodesTABLE.episodeImdbId, episodeList.get(i).getIMDB_ID());
+            values.put(Constants.AddedEpisodesTABLE.overview, episodeList.get(i).getOverview());
+            values.put(Constants.AddedEpisodesTABLE.episodeBanner, Utils.convertBitmapToByteArray(Utils.getBitmapImage(episodeList.get(i).getFilename())));
+
+            try{
+                db.insert(Constants.AddedEpisodesTABLE.EPISODES_TB_NAME, null, values);
+            }
+            catch (SQLException ex){
+                Log.e(TAG, ex.getMessage());
+            }
+        }
+
+        db.close();
     }
 
     public void removeShow(final String seriesId){

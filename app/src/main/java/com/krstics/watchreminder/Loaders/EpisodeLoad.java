@@ -18,11 +18,9 @@ import retrofit2.Response;
 public class EpisodeLoad {
     private static final String TAG = EpisodeLoad.class.getSimpleName();
     private RestManager restManager;
-    private Context context;
     private ShowsDB mDB;
 
-    public EpisodeLoad(Context context, ShowsDB db){
-        this.context = context;
+    public EpisodeLoad(ShowsDB db){
         restManager = new RestManager();
         mDB = db;
     }
@@ -40,7 +38,7 @@ public class EpisodeLoad {
                         List<Episode> episodeList = result.getEpisode();
 
                         if(episodeList != null){
-                            mDB.addEpisodes(result);
+                            mDB.insertEpisodes(episodeList);
                         }
                         else {
                             Log.e(TAG, "episodeList is null");

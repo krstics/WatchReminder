@@ -61,7 +61,7 @@ public class FragmentOne extends Fragment{
         searchTextEdit = (EditText)mView.findViewById(R.id.searchShowName);
         showsDB = new ShowsDB(getActivity());
         mShowAdapter = new ShowListAdapter(getActivity(), this);
-        searchLoad = new SearchLoad(getActivity(), mShowAdapter, this);
+        searchLoad = new SearchLoad(getActivity(), mShowAdapter);
 
         mRecyclerView = (RecyclerView)mView.findViewById(R.id.recyclerView);
         mRecyclerView.addItemDecoration(new FragmentsItemDecorator(getResources().getDimensionPixelSize(R.dimen.item_spacing)));
