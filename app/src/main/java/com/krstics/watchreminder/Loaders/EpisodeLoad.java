@@ -1,6 +1,5 @@
 package com.krstics.watchreminder.Loaders;
 
-import android.content.Context;
 import android.util.Log;
 
 import com.krstics.watchreminder.DB.ShowsDB;

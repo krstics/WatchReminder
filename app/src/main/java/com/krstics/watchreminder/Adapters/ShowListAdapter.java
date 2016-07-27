@@ -25,11 +25,13 @@ public class ShowListAdapter extends RecyclerView.Adapter<ShowListAdapter.Holder
     private List<ShowListData> showListData;
     private Context context;
     private FragmentOne fragmentOne;
+    private EpisodeLoad episodeLoad;
 
     public ShowListAdapter(Context context, FragmentOne fragmentOne){
         showListData = new ArrayList<>();
         this.context = context;
         this.fragmentOne = fragmentOne;
+        episodeLoad = new EpisodeLoad(fragmentOne.getShowsDB());
     }
     @Override
     public ShowListAdapter.Holder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -91,7 +93,7 @@ public class ShowListAdapter extends RecyclerView.Adapter<ShowListAdapter.Holder
                     if(fragmentOne.getShowsDB().insertShows(showListData.get(i)) == 1)
                         Toast.makeText(context, "Show " + showListData.get(i).getSeriesName() + " already added!", Toast.LENGTH_SHORT).show();
                     else {
-                        new Utils.DownloadEpisodes(fragmentOne.getShowsDB()).execute(showListData.get(i).getSeriesid());
+                        episodeLoad.loadAllSeriesRecords(showListData.get(i).getSeriesid());
                         Toast.makeText(context, "Show " + showListData.get(i).getSeriesName() + " added successfully!", Toast.LENGTH_SHORT).show();
                     }
                 }

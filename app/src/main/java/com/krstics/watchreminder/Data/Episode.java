@@ -21,7 +21,7 @@ public class Episode {
     @Element(name = "RatingCount", required = false)
     private String RatingCount;
 
-    @Element(name = "id", required = false)
+    @Element(name = "id", required = true)
     private String id;
 
     @Element(name = "thumb_width", required = false)

@@ -113,6 +113,7 @@ public class ShowsDB extends SQLiteOpenHelper{
         for(int i = 0; i < size; i++){
             values.clear();
 
+            Log.e(TAG, episodeList.get(i).getId());
             values.put(Constants.AddedEpisodesTABLE.episodeId, episodeList.get(i).getId());
             values.put(Constants.AddedEpisodesTABLE.seriesId, episodeList.get(i).getSeriesid());
             values.put(Constants.AddedEpisodesTABLE.episodeName, episodeList.get(i).getEpisodeName());
