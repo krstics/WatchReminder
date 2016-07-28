@@ -6,6 +6,9 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -16,6 +19,8 @@ import com.krstics.watchreminder.Helpers.Constants;
 import com.krstics.watchreminder.Helpers.Utils;
 import com.krstics.watchreminder.Listeners.ShowFetchListener;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,9 +83,6 @@ public class ShowsDB extends SQLiteOpenHelper{
         catch (SQLException ex){
             Log.e(TAG, ex.getMessage());
         }
-
-        db.close();
-
         return 0;
     }
 
@@ -103,36 +105,37 @@ public class ShowsDB extends SQLiteOpenHelper{
         }
     }
 
-    public void insertEpisodes(List<Episode> episodeList){
-        SQLiteDatabase db = getWritableDatabase();
+    public void insertEpisodes(final List<Episode> episodeList){
 
-        ContentValues values = new ContentValues();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SQLiteDatabase db = getWritableDatabase();
+                ContentValues values = new ContentValues();
+                int size = episodeList.size();
 
-        int size = episodeList.size();
+                for (int i = 0; i < size; i++) {
+                    values.clear();
 
-        for(int i = 0; i < size; i++){
-            values.clear();
+                    Log.e(TAG, episodeList.get(i).getId());
+                    values.put(Constants.AddedEpisodesTABLE.episodeId, episodeList.get(i).getId());
+                    values.put(Constants.AddedEpisodesTABLE.seriesId, episodeList.get(i).getSeriesid());
+                    values.put(Constants.AddedEpisodesTABLE.episodeName, episodeList.get(i).getEpisodeName());
+                    values.put(Constants.AddedEpisodesTABLE.episodeNumber, episodeList.get(i).getEpisodeNumber());
+                    values.put(Constants.AddedEpisodesTABLE.seasonNumber, episodeList.get(i).getSeasonNumber());
+                    values.put(Constants.AddedEpisodesTABLE.airsDate, episodeList.get(i).getFirstAired());
+                    values.put(Constants.AddedEpisodesTABLE.episodeImdbId, episodeList.get(i).getIMDB_ID());
+                    values.put(Constants.AddedEpisodesTABLE.overview, episodeList.get(i).getOverview());
+                    values.put(Constants.AddedEpisodesTABLE.episodeBanner, Utils.convertBitmapToByteArray(Utils.getBitmapImage(episodeList.get(i).getFilename())));
 
-            Log.e(TAG, episodeList.get(i).getId());
-            values.put(Constants.AddedEpisodesTABLE.episodeId, episodeList.get(i).getId());
-            values.put(Constants.AddedEpisodesTABLE.seriesId, episodeList.get(i).getSeriesid());
-            values.put(Constants.AddedEpisodesTABLE.episodeName, episodeList.get(i).getEpisodeName());
-            values.put(Constants.AddedEpisodesTABLE.episodeNumber, episodeList.get(i).getEpisodeNumber());
-            values.put(Constants.AddedEpisodesTABLE.seasonNumber, episodeList.get(i).getSeasonNumber());
-            values.put(Constants.AddedEpisodesTABLE.airsDate, episodeList.get(i).getFirstAired());
-            values.put(Constants.AddedEpisodesTABLE.episodeImdbId, episodeList.get(i).getIMDB_ID());
-            values.put(Constants.AddedEpisodesTABLE.overview, episodeList.get(i).getOverview());
-            values.put(Constants.AddedEpisodesTABLE.episodeBanner, Utils.convertBitmapToByteArray(Utils.getBitmapImage(episodeList.get(i).getFilename())));
-
-            try{
-                db.insert(Constants.AddedEpisodesTABLE.EPISODES_TB_NAME, null, values);
+                    try {
+                        db.insert(Constants.AddedEpisodesTABLE.EPISODES_TB_NAME, null, values);
+                    } catch (SQLException ex) {
+                        Log.e(TAG, ex.getMessage());
+                    }
+                }
             }
-            catch (SQLException ex){
-                Log.e(TAG, ex.getMessage());
-            }
-        }
-
-        db.close();
+        }).start();
     }
 
     public void removeShow(final String seriesId){
@@ -140,12 +143,11 @@ public class ShowsDB extends SQLiteOpenHelper{
 
         try{
             db.delete(Constants.AddedShowsDB.ADDED_SHOWS_TB_NAME, Constants.AddedShowsDB.id + "=" + "'" + seriesId + "'", null);
+            db.delete(Constants.AddedEpisodesTABLE.EPISODES_TB_NAME, Constants.AddedEpisodesTABLE.seriesId + "=" + "'" + seriesId + "'", null);
         }
         catch (SQLException ex){
             Log.e(TAG, ex.getMessage());
         }
-
-        db.close();
     }
 
     public void removeAllShows(){
@@ -157,8 +159,6 @@ public class ShowsDB extends SQLiteOpenHelper{
         catch (SQLException ex){
             Log.e(TAG, ex.getMessage());
         }
-
-        db.close();
     }
 
     public void fetchShows(ShowFetchListener listener){
@@ -208,6 +208,8 @@ public class ShowsDB extends SQLiteOpenHelper{
                     mListener.onDeliverAllShows(showList);
                 }
             });
+
+            cursor.close();
         }
 
         public void publishShow(final ShowListData show){
