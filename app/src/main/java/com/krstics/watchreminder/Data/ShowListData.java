@@ -99,6 +99,7 @@ public class ShowListData {
     }
 
     public void addDataFromSeries(Series data){
+
         this.setSeriesName(data.getSeriesName());
         this.setFirstAired(data.getFirstAired());
         this.setOverview(data.getOverview());

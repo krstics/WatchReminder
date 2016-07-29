@@ -26,6 +26,7 @@ public class ShowListAdapter extends RecyclerView.Adapter<ShowListAdapter.Holder
     private Context context;
     private FragmentOne fragmentOne;
     private EpisodeLoad episodeLoad;
+    private boolean readyToLoad = false;
 
     public ShowListAdapter(Context context, FragmentOne fragmentOne){
         showListData = new ArrayList<>();
