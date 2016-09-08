@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    card_view:cardCornerRadius="5dp"
+    card_view:cardUseCompatPadding="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/fragmentOneItemBackgroundColor">
+
+
+        <ImageView
+            android:id="@+id/showImageTWO"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/navigationBarColor"
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/showPoster"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/posterNotAvailableTWO"
+            android:text="@string/poster_not_available"
+            android:gravity="center"
+            android:textColor="@color/textColorPrimary"/>
+
+        <RelativeLayout
+            android:id="@+id/infoLayoutTWO"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/showImageTWO"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/showTitleThree"
+                android:text="@string/ShowTitle"
+                android:textColor="@color/colorAccent"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="15dp"/>
+
+            <TextView
+                android:id="@+id/showNameTWO"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/showName"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:maxLines="1"
+                android:maxLength="50"
+                android:textColor="@color/navigationBarColor"
+                android:layout_toEndOf="@+id/showTitleThree"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/airedTWO"
+                android:text="@string/EpisodeTitle"
+                android:textColor="@color/colorAccent"
+                android:layout_below="@+id/showTitleThree"
+                android:layout_marginEnd="5dp"
+                android:layout_marginTop="5dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/episodeNameThree"
+                android:textColor="@color/navigationBarColor"
+                android:layout_toEndOf="@+id/airedTWO"
+                android:layout_below="@+id/showNameTWO"
+                android:text="@string/episodeName"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_marginTop="5dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/episodeNumberThreeText"
+                android:text="@string/EpisodeNumber"
+                android:textColor="@color/colorAccent"
+                android:layout_below="@+id/airsTimeThree"
+                android:layout_toStartOf="@+id/episodeNumberThree"
+                android:layout_marginEnd="5dp"
+                android:layout_marginTop="5dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/episodeNumberThree"
+                android:textColor="@color/navigationBarColor"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/airsTimeThree"
+                android:text="@string/EpisodeNumberText"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_marginTop="5dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/airsTimeThree"
+                android:text="@string/AirsTime"
+                android:textColor="@color/colorAccent"
+                android:layout_below="@+id/episodeNameThree"
+                android:layout_marginEnd="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="25dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/airsTimeTextThree"
+                android:textColor="@color/navigationBarColor"
+                android:layout_toEndOf="@+id/airsTimeThree"
+                android:layout_below="@+id/episodeNameThree"
+                android:text="@string/AirsTimeText"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_marginTop="5dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/seasonNumberThree"
+                android:text="@string/SeasonNumber"
+                android:textColor="@color/colorAccent"
+                android:layout_below="@+id/airsTimeThree"
+                android:layout_marginEnd="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="16dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/airsTimeTextTWO"
+                android:textColor="@color/navigationBarColor"
+                android:layout_toEndOf="@+id/seasonNumberThree"
+                android:layout_below="@+id/airsTimeThree"
+                android:text="@string/AirsTimeText"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_marginTop="5dp"/>
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/overviewTWO"
+                android:text="@string/Overview"
+                android:textColor="@color/colorAccent"
+                android:layout_below="@+id/seasonNumberThree"
+                android:layout_marginEnd="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="25dp"/>
+
+            <WebView
+                android:id="@+id/overviewTextTWO"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/overviewTWO"
+                android:layout_below="@+id/seasonNumberThree"
+                android:layout_marginTop="6dp"
+                android:background="@color/fragmentOneItemBackgroundColor"/>
+
+          <!--  <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/navigationBarColor"
+                android:layout_toEndOf="@+id/overviewTWO"
+                android:layout_below="@+id/airsTimeTextTWO"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_marginTop="5dp"
+                android:gravity="start|end|center"/>-->
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

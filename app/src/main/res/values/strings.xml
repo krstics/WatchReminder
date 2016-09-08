@@ -5,6 +5,7 @@
     <string name="three">Three</string>
     <string name="showPoster">Show Poster</string>
     <string name="showName">Show name</string>
+    <string name="episodeName">Episode name</string>
     <string name="releaseYear">rYear</string>
     <string name="spacer">-</string>
     <string name="removeIcon">remove icon</string>
@@ -12,6 +13,8 @@
     <string name="enterShowName">Enter show name</string>
     <string name="loadResults">Load</string>
     <string name="Title">Title:</string>
+    <string name="ShowTitle">Show Title:</string>
+    <string name="EpisodeTitle">Episode Title:</string>
     <string name="FirstAired">First Aired:</string>
     <string name="FirstAiredDate">First Aired</string>
     <string name="Status">Status:</string>
@@ -26,4 +29,8 @@
     <string name="Overview">Overview:</string>
     <string name="OverviewText">Overview</string>
     <string name="RemoveAllFragmentTwo">REMOVE ALL SHOWS</string>
+    <string name="EpisodeNumber">Episode no:</string>
+    <string name="EpisodeNumberText">no</string>
+    <string name="SeasonNumber">Season no:</string>
+    <string name="SeasonNumberText">no</string>
 </resources>
