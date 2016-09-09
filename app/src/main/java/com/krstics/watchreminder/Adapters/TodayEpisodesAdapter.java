@@ -1,13 +1,17 @@
 package com.krstics.watchreminder.Adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.krstics.watchreminder.DB.ShowsDB;
-import com.krstics.watchreminder.Data.Episode;
+import com.krstics.watchreminder.Data.EpisodeListData;
 import com.krstics.watchreminder.R;
 
 import java.util.ArrayList;
@@ -16,7 +20,7 @@ import java.util.List;
 public class TodayEpisodesAdapter extends RecyclerView.Adapter<TodayEpisodesAdapter.Holder> implements View.OnClickListener{
 
     private String TAG = TodayEpisodesAdapter.class.getSimpleName();
-    private List<Episode> episodeList;
+    private List<EpisodeListData> episodeListData;
     private Context context;
     private ShowsDB showsDB;
 
@@ -24,7 +28,7 @@ public class TodayEpisodesAdapter extends RecyclerView.Adapter<TodayEpisodesAdap
     {
         this.context = cont;
         showsDB = db;
-        episodeList = new ArrayList<>();
+        episodeListData = new ArrayList<>();
     }
 
     @Override
@@ -34,13 +38,33 @@ public class TodayEpisodesAdapter extends RecyclerView.Adapter<TodayEpisodesAdap
 
     @Override
     public void onBindViewHolder(Holder holder, int position) {
+        EpisodeListData episode = episodeListData.get(position);
 
+        if(episode.getShowBanner() == null){
+            holder.posterNotAvailable.setVisibility(View.VISIBLE);
+            holder.showImage.setImageBitmap(null);
+        }
+        else{
+            holder.posterNotAvailable.setVisibility(View.INVISIBLE);
+            holder.showImage.setImageBitmap(episode.getShowBanner());
+        }
+        holder.showName.setText(episode.getShowName());
+        holder.episodeName.setText(episode.getEpisodeName());
+        holder.seasonNo.setText(episode.getSeasonNumber());
+        holder.episodeNo.setText(episode.getEpisodeNumber());
+        holder.airsTime.setText(episode.getAirsTime());
+        holder.overview.setBackgroundColor(Color.TRANSPARENT);
+        holder.overview.loadData("<html><body>"
+                + "<p align=\"justify\">"
+                + episode.getOverview()
+                + "</p> "
+                + "</body></html>", "text/html", "utf-8");
 
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return episodeListData.size();
     }
 
     @Override
@@ -48,9 +72,28 @@ public class TodayEpisodesAdapter extends RecyclerView.Adapter<TodayEpisodesAdap
 
     }
 
-    public class Holder extends RecyclerView.ViewHolder{
-        public Holder(View itemView) {
+    class Holder extends RecyclerView.ViewHolder{
+
+        private ImageView showImage;
+        private TextView posterNotAvailable;
+        private TextView showName;
+        private TextView episodeName;
+        private TextView episodeNo;
+        private TextView airsTime;
+        private TextView seasonNo;
+        private WebView overview;
+
+        Holder(View itemView) {
             super(itemView);
+
+            showImage = (ImageView) itemView.findViewById(R.id.showImageThree);
+            posterNotAvailable = (TextView)itemView.findViewById(R.id.posterNotAvailableThree);
+            showName = (TextView) itemView.findViewById(R.id.showNameTHREE);
+            episodeName = (TextView) itemView.findViewById(R.id.episodeNameThreeText);
+            episodeNo = (TextView) itemView.findViewById(R.id.episodeNumberThreeText);
+            airsTime = (TextView) itemView.findViewById(R.id.airsTimeTextThree);
+            seasonNo = (TextView) itemView.findViewById(R.id.seasonNumberThreeText);
+            overview = (WebView) itemView.findViewById(R.id.overviewTextThree);
         }
     }
 }

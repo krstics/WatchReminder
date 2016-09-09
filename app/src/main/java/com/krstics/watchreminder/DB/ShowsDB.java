@@ -14,9 +14,11 @@ import android.os.Looper;
 import android.util.Log;
 
 import com.krstics.watchreminder.Data.Episode;
+import com.krstics.watchreminder.Data.EpisodeListData;
 import com.krstics.watchreminder.Data.ShowListData;
 import com.krstics.watchreminder.Helpers.Constants;
 import com.krstics.watchreminder.Helpers.Utils;
+import com.krstics.watchreminder.Listeners.EpisodeFetchListener;
 import com.krstics.watchreminder.Listeners.ShowFetchListener;
 
 import java.io.InputStream;
@@ -220,6 +222,44 @@ public class ShowsDB extends SQLiteOpenHelper{
                     mListener.onDeliverShow(show);
                 }
             });
+        }
+    }
+
+    public void fetchEpisodes(EpisodeFetchListener listener){
+        EpisodeFetcher fetcher = new EpisodeFetcher(listener, this.getWritableDatabase());
+        fetcher.start();
+    }
+
+    public class EpisodeFetcher extends Thread{
+        private final EpisodeFetchListener listener;
+        private final SQLiteDatabase db;
+
+        public EpisodeFetcher(EpisodeFetchListener listener, SQLiteDatabase db){
+            this.listener = listener;
+            this.db = db;
+        }
+
+        @Override
+        public void run(){
+            Cursor cursor = db.rawQuery(Constants.AddedEpisodesTABLE.GET_TODAY_PREMIERING_EPISODES, null);
+            final List<EpisodeListData> episodes = new ArrayList<>();
+
+            if(cursor.getCount() > 0){
+                if(cursor.moveToFirst()){
+                    do{
+                        EpisodeListData episode = new EpisodeListData();
+
+                        episode.setEpisodeId(cursor.getString(cursor.getColumnIndex(Constants.AddedEpisodesTABLE.episodeId)));
+                        episode.setShowId(cursor.getString(cursor.getColumnIndex(Constants.AddedEpisodesTABLE.seriesId)));
+                        episode.setAirsDate(cursor.getString(cursor.getColumnIndex(Constants.AddedEpisodesTABLE.airsDate)));
+                        episode.setAirsTime(cursor.getString(cursor.getColumnIndex(Constants.AddedEpisodesTABLE.airsTime)));
+                        episode.setEpisodeName(cursor.getString(cursor.getColumnIndex(Constants.AddedEpisodesTABLE.episodeName)));
+                        episode.setShowName(cursor.getString(cursor.getColumnIndex(Constants.AddedEpisodesTABLE.seriesname)));
+                        episode.setEpisodeNumber(cursor.getString(cursor.getColumnIndex(Constants.AddedEpisodesTABLE.episodeNumber)));
+                        episode.setSeasonNumber(cursor.getString(cursor.getColumnIndex(Constants.AddedEpisodesTABLE.seasonNumber)));
+                    }
+                }
+            }
         }
     }
 }

@@ -119,7 +119,7 @@ public class AddedShowsAdapter extends RecyclerView.Adapter<AddedShowsAdapter.Ho
         notifyDataSetChanged();
     }
 
-    public class Holder extends RecyclerView.ViewHolder{
+    class Holder extends RecyclerView.ViewHolder{
 
         private ImageView showImage;
         private TextView showName;
@@ -132,7 +132,7 @@ public class AddedShowsAdapter extends RecyclerView.Adapter<AddedShowsAdapter.Ho
         private WebView overview;
         private ImageButton removeImageButton;
 
-        public Holder(View itemView) {
+        Holder(View itemView) {
             super(itemView);
 
             showImage = (ImageView)itemView.findViewById(R.id.showImageTWO);
