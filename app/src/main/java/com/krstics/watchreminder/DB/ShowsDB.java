@@ -23,7 +23,11 @@ import com.krstics.watchreminder.Listeners.ShowFetchListener;
 
 import java.io.InputStream;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class ShowsDB extends SQLiteOpenHelper{
@@ -241,7 +245,11 @@ public class ShowsDB extends SQLiteOpenHelper{
 
         @Override
         public void run(){
-            Cursor cursor = db.rawQuery(Constants.AddedEpisodesTABLE.GET_TODAY_PREMIERING_EPISODES, null);
+            String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+
+            Log.e(TAG, Constants.AddedEpisodesTABLE.GET_TODAY_PREMIERING_EPISODES + date);
+
+            Cursor cursor = db.rawQuery(Constants.AddedEpisodesTABLE.GET_TODAY_PREMIERING_EPISODES + date, null);
             final List<EpisodeListData> episodes = new ArrayList<>();
 
             if(cursor.getCount() > 0){
@@ -252,14 +260,39 @@ public class ShowsDB extends SQLiteOpenHelper{
                         episode.setEpisodeId(cursor.getString(cursor.getColumnIndex(Constants.AddedEpisodesTABLE.episodeId)));
                         episode.setShowId(cursor.getString(cursor.getColumnIndex(Constants.AddedEpisodesTABLE.seriesId)));
                         episode.setAirsDate(cursor.getString(cursor.getColumnIndex(Constants.AddedEpisodesTABLE.airsDate)));
-                        episode.setAirsTime(cursor.getString(cursor.getColumnIndex(Constants.AddedEpisodesTABLE.airsTime)));
+                        episode.setAirsTime(cursor.getString(cursor.getColumnIndex(Constants.AddedShowsDB.airsTime)));
                         episode.setEpisodeName(cursor.getString(cursor.getColumnIndex(Constants.AddedEpisodesTABLE.episodeName)));
-                        episode.setShowName(cursor.getString(cursor.getColumnIndex(Constants.AddedEpisodesTABLE.seriesname)));
+                        episode.setShowName(cursor.getString(cursor.getColumnIndex(Constants.AddedShowsDB.showName)));
                         episode.setEpisodeNumber(cursor.getString(cursor.getColumnIndex(Constants.AddedEpisodesTABLE.episodeNumber)));
                         episode.setSeasonNumber(cursor.getString(cursor.getColumnIndex(Constants.AddedEpisodesTABLE.seasonNumber)));
+                        episode.setOverview(cursor.getString(cursor.getColumnIndex(Constants.AddedEpisodesTABLE.overview)));
+                        episode.setEpisodeBanner(Utils.convertByteArrayToBitmap(cursor.getBlob(cursor.getColumnIndex(Constants.AddedEpisodesTABLE.episodeBanner))));
+
+                        episodes.add(episode);
+                        publishEpisode(episode);
                     }
+                    while (cursor.moveToNext());
                 }
             }
+            Handler handler = new Handler(Looper.getMainLooper());
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    listener.onDeliverAllEpisodes(episodes);
+                }
+            });
+
+            cursor.close();
+        }
+
+        public void publishEpisode(final EpisodeListData episode){
+            Handler handler = new Handler(Looper.getMainLooper());
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    listener.onDeliverEpisode(episode);
+                }
+            });
         }
     }
 }

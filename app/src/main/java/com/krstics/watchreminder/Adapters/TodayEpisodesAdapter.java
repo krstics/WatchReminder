@@ -46,7 +46,7 @@ public class TodayEpisodesAdapter extends RecyclerView.Adapter<TodayEpisodesAdap
         }
         else{
             holder.posterNotAvailable.setVisibility(View.INVISIBLE);
-            holder.showImage.setImageBitmap(episode.getShowBanner());
+            holder.showImage.setImageBitmap(episode.getEpisodeBanner());
         }
         holder.showName.setText(episode.getShowName());
         holder.episodeName.setText(episode.getEpisodeName());
@@ -65,6 +65,12 @@ public class TodayEpisodesAdapter extends RecyclerView.Adapter<TodayEpisodesAdap
     @Override
     public int getItemCount() {
         return episodeListData.size();
+    }
+
+    public void deleteAllEpisodes()
+    {
+        episodeListData.clear();
+        notifyDataSetChanged();
     }
 
     @Override

@@ -30,9 +30,17 @@ public class FragmentThree extends Fragment implements EpisodeFetchListener {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        todayEpisodesAdapter.deleteAllEpisodes();
+        showsDB.fetchEpisodes(this);
+    }
+
     private void configViews()
     {
         showsDB = new ShowsDB(getActivity());
+        todayEpisodesAdapter = new TodayEpisodesAdapter(getActivity(), showsDB);
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewFragmentThree);
         recyclerView.addItemDecoration(new FragmentsItemDecorator(10));
