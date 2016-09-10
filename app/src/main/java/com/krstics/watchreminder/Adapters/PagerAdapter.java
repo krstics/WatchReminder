@@ -3,9 +3,11 @@ package com.krstics.watchreminder.Adapters;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.ViewGroup;
 
+import com.krstics.watchreminder.Fragments.FragmentFour;
 import com.krstics.watchreminder.Fragments.FragmentOne;
 import com.krstics.watchreminder.Fragments.FragmentThree;
 import com.krstics.watchreminder.Fragments.FragmentTwo;
@@ -46,6 +48,7 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
 
+        Log.e("Pager Adapter", Integer.toString(position));
         switch (position) {
             case 0:
                 return new FragmentOne();
@@ -53,6 +56,8 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
                 return new FragmentTwo();
             case 2:
                 return new FragmentThree();
+            case 3:
+                return new FragmentFour();
             default:
                 return null;
         }

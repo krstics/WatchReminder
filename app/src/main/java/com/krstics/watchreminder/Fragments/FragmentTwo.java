@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,9 +28,7 @@ public class FragmentTwo extends Fragment implements ShowFetchListener{
     private AddedShowsAdapter addedShowsAdapter;
     private Button deleteAllButton;
 
-    @Override
-    public void onResume() {
-        super.onResume();
+    public void refresh() {
         addedShowsAdapter.deleteAllShows();
         showsDB.fetchShows(this);
     }

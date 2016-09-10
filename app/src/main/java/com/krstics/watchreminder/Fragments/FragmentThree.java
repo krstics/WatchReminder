@@ -30,9 +30,7 @@ public class FragmentThree extends Fragment implements EpisodeFetchListener {
         return view;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
+    public void refresh() {
         todayEpisodesAdapter.deleteAllEpisodes();
         showsDB.fetchEpisodes(this);
     }
