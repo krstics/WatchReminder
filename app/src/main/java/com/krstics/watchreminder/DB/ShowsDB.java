@@ -112,6 +112,7 @@ public class ShowsDB extends SQLiteOpenHelper{
     }
 
     public void insertEpisodes(final List<Episode> episodeList){
+        Log.e(TAG, "In insert episodes");
 
         new Thread(new Runnable() {
             @Override
@@ -119,6 +120,7 @@ public class ShowsDB extends SQLiteOpenHelper{
                 SQLiteDatabase db = getWritableDatabase();
                 ContentValues values = new ContentValues();
                 int size = episodeList.size();
+                Log.e(TAG, Integer.toString(size));
 
                 for (int i = 0; i < size; i++) {
                     values.clear();
@@ -129,6 +131,7 @@ public class ShowsDB extends SQLiteOpenHelper{
                     values.put(Constants.AddedEpisodesTABLE.episodeName, episodeList.get(i).getEpisodeName());
                     values.put(Constants.AddedEpisodesTABLE.episodeNumber, episodeList.get(i).getEpisodeNumber());
                     values.put(Constants.AddedEpisodesTABLE.seasonNumber, episodeList.get(i).getSeasonNumber());
+                    Log.e(TAG, episodeList.get(i).getFirstAired());
                     values.put(Constants.AddedEpisodesTABLE.airsDate, episodeList.get(i).getFirstAired());
                     values.put(Constants.AddedEpisodesTABLE.episodeImdbId, episodeList.get(i).getIMDB_ID());
                     values.put(Constants.AddedEpisodesTABLE.overview, episodeList.get(i).getOverview());
