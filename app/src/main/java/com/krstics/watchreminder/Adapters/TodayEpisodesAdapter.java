@@ -78,6 +78,10 @@ public class TodayEpisodesAdapter extends RecyclerView.Adapter<TodayEpisodesAdap
 
     }
 
+    public void addEpisode(EpisodeListData episode) {
+        episodeListData.add(episode);
+    }
+
     class Holder extends RecyclerView.ViewHolder{
 
         private ImageView showImage;

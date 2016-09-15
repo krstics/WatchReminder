@@ -3,6 +3,7 @@ package com.krstics.watchreminder.RestManager;
 import com.krstics.watchreminder.Helpers.Constants;
 import com.krstics.watchreminder.Services.AllSeriesRecord;
 import com.krstics.watchreminder.Services.BaseSeriesRecord;
+import com.krstics.watchreminder.Services.EpisodeByAirDate;
 import com.krstics.watchreminder.Services.TVDBSearchService;
 
 import retrofit2.Retrofit;
@@ -12,6 +13,7 @@ public class RestManager {
     private TVDBSearchService searchService;
     private BaseSeriesRecord baseSeriesRecord;
     private AllSeriesRecord allSeriesRecord;
+    private EpisodeByAirDate episodeByAirDate;
 
     public TVDBSearchService getSearchService(){
         if(searchService == null){
@@ -47,5 +49,17 @@ public class RestManager {
             allSeriesRecord = retrofit.create(AllSeriesRecord.class);
         }
         return allSeriesRecord;
+    }
+
+    public EpisodeByAirDate getEpisodeByAirDaterest(){
+        if(episodeByAirDate == null){
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(Constants.TvDB.BASE_URL_TVDB)
+                    .addConverterFactory(SimpleXmlConverterFactory.create())
+                    .build();
+
+            episodeByAirDate = retrofit.create(EpisodeByAirDate.class);
+        }
+        return episodeByAirDate;
     }
 }

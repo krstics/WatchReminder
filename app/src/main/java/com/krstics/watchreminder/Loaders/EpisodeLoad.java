@@ -8,6 +8,9 @@ import com.krstics.watchreminder.Data.Episode;
 import com.krstics.watchreminder.Data.Series;
 import com.krstics.watchreminder.RestManager.RestManager;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -57,5 +60,42 @@ public class EpisodeLoad {
 
             }
         });
+    }
+
+    public void loadEpisodeByAirDate() {
+        List<String> showIDs;
+        showIDs = mDB.getShowsIDs();
+
+        Call<Data> episodeCall;
+
+        String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+
+        for(int i = 0; i < showIDs.size(); ++i){
+            episodeCall = restManager.getEpisodeByAirDaterest().getEpisodeByAirDate(showIDs.get(i), date);
+            episodeCall.enqueue(new Callback<Data>() {
+                @Override
+                public void onResponse(Call<Data> call, Response<Data> response) {
+                    if(response.isSuccessful()){
+                        Data result = response.body();
+                        List<Episode> episodes = result.getEpisode();
+
+                        if(episodes != null){
+                            mDB.insertEpisodes(episodes);
+                        }
+                        else {
+                            Log.e(TAG, "episodes is null");
+                        }
+                    }
+                    else{
+                        Log.e(TAG, Integer.toString(response.code()));
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Data> call, Throwable t) {
+
+                }
+            });
+        }
     }
 }

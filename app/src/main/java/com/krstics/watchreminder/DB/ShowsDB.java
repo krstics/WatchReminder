@@ -175,6 +175,25 @@ public class ShowsDB extends SQLiteOpenHelper{
         fetcher.start();
     }
 
+    public List<String> getShowsIDs() {
+        List<String> showIDs = new ArrayList<>();
+        SQLiteDatabase mDb = getReadableDatabase();
+
+        Cursor cursor= mDb.rawQuery(Constants.AddedShowsDB.GET_ALL_SHOWS_QUERY, null);
+        final List<ShowListData> showList = new ArrayList<>();
+
+        if(cursor.getCount() > 0){
+            if(cursor.moveToFirst()){
+                do {
+                    showIDs.add(cursor.getString(cursor.getColumnIndex(Constants.AddedShowsDB.id)));
+                }
+                while (cursor.moveToNext());
+            }
+        }
+
+        return showIDs;
+    }
+
     public class ShowFetcher extends Thread{
         private final ShowFetchListener mListener;
         private final SQLiteDatabase mDb;
