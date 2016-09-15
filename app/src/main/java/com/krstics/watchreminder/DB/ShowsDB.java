@@ -271,7 +271,7 @@ public class ShowsDB extends SQLiteOpenHelper{
 
             Log.e(TAG, Constants.AddedEpisodesTABLE.GET_TODAY_PREMIERING_EPISODES + date);
 
-            Cursor cursor = db.rawQuery(Constants.AddedEpisodesTABLE.GET_TODAY_PREMIERING_EPISODES + date, null);
+            Cursor cursor = db.rawQuery(Constants.AddedEpisodesTABLE.GET_TODAY_PREMIERING_EPISODES + "'" + date + "'", null);
             final List<EpisodeListData> episodes = new ArrayList<>();
 
             if(cursor.getCount() > 0){

@@ -64,7 +64,7 @@ public class Utils {
         return BitmapFactory.decodeByteArray(array, 0, array.length);
     }
 
-    public static class DownloadEpisodes extends AsyncTask<String, Void, Void> {
+/*    public static class DownloadEpisodes extends AsyncTask<String, Void, Void> {
         private ShowsDB mDb;
 
         public DownloadEpisodes(ShowsDB db) {
@@ -79,5 +79,5 @@ public class Utils {
 
             return null;
         }
-    }
+    }*/
 }

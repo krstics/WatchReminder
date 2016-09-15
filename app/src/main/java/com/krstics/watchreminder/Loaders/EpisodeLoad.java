@@ -1,11 +1,13 @@
 package com.krstics.watchreminder.Loaders;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.krstics.watchreminder.DB.ShowsDB;
 import com.krstics.watchreminder.Data.Data;
 import com.krstics.watchreminder.Data.Episode;
 import com.krstics.watchreminder.Data.Series;
+import com.krstics.watchreminder.Helpers.Constants;
 import com.krstics.watchreminder.RestManager.RestManager;
 
 import java.text.SimpleDateFormat;
@@ -70,8 +72,11 @@ public class EpisodeLoad {
 
         String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
+        Log.e(TAG, Integer.toString(showIDs.size()));
+
         for(int i = 0; i < showIDs.size(); ++i){
-            episodeCall = restManager.getEpisodeByAirDaterest().getEpisodeByAirDate(showIDs.get(i), date);
+            Log.e(TAG, showIDs.get(i));
+            episodeCall = restManager.getEpisodeByAirDaterest().getEpisodeByAirDate(Constants.TvDB.API_KEY, showIDs.get(i), date);
             episodeCall.enqueue(new Callback<Data>() {
                 @Override
                 public void onResponse(Call<Data> call, Response<Data> response) {

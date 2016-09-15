@@ -94,7 +94,7 @@ public class ShowListAdapter extends RecyclerView.Adapter<ShowListAdapter.Holder
                     if(fragmentOne.getShowsDB().insertShows(showListData.get(i)) == 1)
                         Toast.makeText(context, "Show " + showListData.get(i).getSeriesName() + " already added!", Toast.LENGTH_SHORT).show();
                     else {
-                        episodeLoad.loadAllSeriesRecords(showListData.get(i).getSeriesid());
+                        //episodeLoad.loadAllSeriesRecords(showListData.get(i).getSeriesid());
                         Toast.makeText(context, "Show " + showListData.get(i).getSeriesName() + " added successfully!", Toast.LENGTH_SHORT).show();
                     }
                 }

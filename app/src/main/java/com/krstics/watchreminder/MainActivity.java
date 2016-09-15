@@ -114,6 +114,9 @@ public class MainActivity extends AppCompatActivity {
                 if(fragment instanceof FragmentThree)
                     ((FragmentThree)fragment).refresh();
 
+                if(fragment instanceof FragmentFour)
+                    ((FragmentFour)fragment).refresh();
+
 
                 View focus = getCurrentFocus();
                 if(focus != null)

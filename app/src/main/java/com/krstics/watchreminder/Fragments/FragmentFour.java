@@ -8,9 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
-import com.krstics.watchreminder.Adapters.AddedShowsAdapter;
 import com.krstics.watchreminder.Adapters.TodayEpisodesAdapter;
 import com.krstics.watchreminder.DB.ShowsDB;
 import com.krstics.watchreminder.Data.EpisodeListData;
@@ -37,6 +35,7 @@ public class FragmentFour extends Fragment implements EpisodeFetchListener{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_four, container, false);
         configViews();
+        loadEpisode();
         return view;
     }
 

@@ -80,6 +80,7 @@ public class TodayEpisodesAdapter extends RecyclerView.Adapter<TodayEpisodesAdap
 
     public void addEpisode(EpisodeListData episode) {
         episodeListData.add(episode);
+        notifyDataSetChanged();
     }
 
     class Holder extends RecyclerView.ViewHolder{
