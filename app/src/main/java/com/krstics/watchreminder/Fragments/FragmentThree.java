@@ -13,8 +13,10 @@ import com.krstics.watchreminder.DB.ShowsDB;
 import com.krstics.watchreminder.Data.EpisodeListData;
 import com.krstics.watchreminder.Decorators.FragmentsItemDecorator;
 import com.krstics.watchreminder.Listeners.EpisodeFetchListener;
+import com.krstics.watchreminder.Loaders.EpisodeLoad;
 import com.krstics.watchreminder.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FragmentThree extends Fragment implements EpisodeFetchListener {
@@ -27,6 +29,7 @@ public class FragmentThree extends Fragment implements EpisodeFetchListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_three, container, false);
         configViews();
+        loadEpisode();
         return view;
     }
 
@@ -47,6 +50,24 @@ public class FragmentThree extends Fragment implements EpisodeFetchListener {
         recyclerView.setAdapter(todayEpisodesAdapter);
     }
 
+    public void loadEpisode(){
+        List<String> showIDs;
+        List<String> showIDsToLoad = new ArrayList<>();
+        showIDs = showsDB.getShowsIDs();
+
+        for(int i = 0; i < showIDs.size(); ++i) {
+            if (!showsDB.checkIfEpisodeExists(showIDs.get(i))) {
+                showIDsToLoad.add(showIDs.get(i));
+            }
+        }
+
+        if(showIDsToLoad.size() > 0) {
+            EpisodeLoad episodeLoad = new EpisodeLoad(showsDB);
+            episodeLoad.loadEpisodeByAirDate(showIDsToLoad);
+        }
+    }
+
+
     @Override
     public void onDeliverAllEpisodes(List<EpisodeListData> episodes) {
 
@@ -54,6 +75,6 @@ public class FragmentThree extends Fragment implements EpisodeFetchListener {
 
     @Override
     public void onDeliverEpisode(EpisodeListData episode) {
-
+        todayEpisodesAdapter.addEpisode(episode);
     }
 }

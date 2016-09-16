@@ -64,10 +64,7 @@ public class EpisodeLoad {
         });
     }
 
-    public void loadEpisodeByAirDate() {
-        List<String> showIDs;
-        showIDs = mDB.getShowsIDs();
-
+    public void loadEpisodeByAirDate(List<String> showIDs) {
         Call<Data> episodeCall;
 
         String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());

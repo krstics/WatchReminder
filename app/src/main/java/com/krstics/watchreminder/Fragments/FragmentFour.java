@@ -19,7 +19,7 @@ import com.krstics.watchreminder.R;
 
 import java.util.List;
 
-public class FragmentFour extends Fragment implements EpisodeFetchListener{
+public class FragmentFour extends Fragment {
 
     private View view;
     private TodayEpisodesAdapter todayEpisodesAdapter;
@@ -27,7 +27,6 @@ public class FragmentFour extends Fragment implements EpisodeFetchListener{
 
     public void refresh(){
         todayEpisodesAdapter.deleteAllEpisodes();
-        showsDB.fetchEpisodes(this);
     }
 
     @Nullable
@@ -35,7 +34,6 @@ public class FragmentFour extends Fragment implements EpisodeFetchListener{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_four, container, false);
         configViews();
-        loadEpisode();
         return view;
     }
 
@@ -50,18 +48,4 @@ public class FragmentFour extends Fragment implements EpisodeFetchListener{
         mRecyclerView.setAdapter(todayEpisodesAdapter);
     }
 
-    public void loadEpisode(){
-        EpisodeLoad episodeLoad = new EpisodeLoad(showsDB);
-        episodeLoad.loadEpisodeByAirDate();
-    }
-
-    @Override
-    public void onDeliverAllEpisodes(List<EpisodeListData> episodes) {
-
-    }
-
-    @Override
-    public void onDeliverEpisode(EpisodeListData episode) {
-        todayEpisodesAdapter.addEpisode(episode);
-    }
 }

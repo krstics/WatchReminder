@@ -114,10 +114,6 @@ public class MainActivity extends AppCompatActivity {
                 if(fragment instanceof FragmentThree)
                     ((FragmentThree)fragment).refresh();
 
-                if(fragment instanceof FragmentFour)
-                    ((FragmentFour)fragment).refresh();
-
-
                 View focus = getCurrentFocus();
                 if(focus != null)
                     hideSoftInput(focus);
@@ -141,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFrag(new FragmentOne(), "Search");
         adapter.addFrag(new FragmentTwo(), "Added Shows");
         adapter.addFrag(new FragmentThree(), "Today premier");
-        adapter.addFrag(new FragmentFour(), "Following premiers");
+      //  adapter.addFrag(new FragmentFour(), "Following premiers");
         viewPager.setAdapter(adapter);
     }
 

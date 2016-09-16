@@ -14,7 +14,9 @@ import com.krstics.watchreminder.DB.ShowsDB;
 import com.krstics.watchreminder.Data.EpisodeListData;
 import com.krstics.watchreminder.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class TodayEpisodesAdapter extends RecyclerView.Adapter<TodayEpisodesAdapter.Holder> implements View.OnClickListener{
@@ -40,13 +42,17 @@ public class TodayEpisodesAdapter extends RecyclerView.Adapter<TodayEpisodesAdap
     public void onBindViewHolder(Holder holder, int position) {
         EpisodeListData episode = episodeListData.get(position);
 
-        if(episode.getShowBanner() == null){
-            holder.posterNotAvailable.setVisibility(View.VISIBLE);
-            holder.showImage.setImageBitmap(null);
+        if(episode.getShowBanner() != null){
+            holder.posterNotAvailable.setVisibility(View.INVISIBLE);
+            holder.showImage.setImageBitmap(episode.getShowBanner());
         }
-        else{
+        else if(episode.getEpisodeBanner() != null){
             holder.posterNotAvailable.setVisibility(View.INVISIBLE);
             holder.showImage.setImageBitmap(episode.getEpisodeBanner());
+        }
+        else{
+            holder.posterNotAvailable.setVisibility(View.VISIBLE);
+            holder.showImage.setImageBitmap(null);
         }
         holder.showName.setText(episode.getShowName());
         holder.episodeName.setText(episode.getEpisodeName());
@@ -83,6 +89,18 @@ public class TodayEpisodesAdapter extends RecyclerView.Adapter<TodayEpisodesAdap
         notifyDataSetChanged();
     }
 
+    public boolean shouldLoad() {
+        if(episodeListData.isEmpty())
+            return true;
+
+        String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        if(episodeListData.get(0).getAirsDate() != date)
+            return true;
+
+        return false;
+
+    }
+
     class Holder extends RecyclerView.ViewHolder{
 
         private ImageView showImage;
@@ -101,7 +119,7 @@ public class TodayEpisodesAdapter extends RecyclerView.Adapter<TodayEpisodesAdap
             posterNotAvailable = (TextView)itemView.findViewById(R.id.posterNotAvailableThree);
             showName = (TextView) itemView.findViewById(R.id.showNameTHREE);
             episodeName = (TextView) itemView.findViewById(R.id.episodeNameThreeText);
-            episodeNo = (TextView) itemView.findViewById(R.id.episodeNumberThreeText);
+            episodeNo = (TextView) itemView.findViewById(R.id.episodeNumberThree);
             airsTime = (TextView) itemView.findViewById(R.id.airsTimeTextThree);
             seasonNo = (TextView) itemView.findViewById(R.id.seasonNumberThreeText);
             overview = (WebView) itemView.findViewById(R.id.overviewTextThree);

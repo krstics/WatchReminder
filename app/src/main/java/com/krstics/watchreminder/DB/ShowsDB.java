@@ -110,6 +110,16 @@ public class ShowsDB extends SQLiteOpenHelper{
             return 0;
         }
     }
+    public boolean checkIfEpisodeExists(String seriesId){
+        SQLiteDatabase db = getReadableDatabase();
+        String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        Cursor cursor= db.rawQuery("SELECT * FROM Episodes WHERE SeriesId=" + "'" + seriesId + "'" + "AND AirsDate=" + "'" + date + "'", null);
+
+        if(cursor.getCount() > 0)
+            return true;
+
+        return false;
+    }
 
     public void insertEpisodes(final List<Episode> episodeList){
         Log.e(TAG, "In insert episodes");
@@ -118,30 +128,36 @@ public class ShowsDB extends SQLiteOpenHelper{
             @Override
             public void run() {
                 SQLiteDatabase db = getWritableDatabase();
+
                 ContentValues values = new ContentValues();
                 int size = episodeList.size();
-                Log.e(TAG, Integer.toString(size));
 
                 for (int i = 0; i < size; i++) {
-                    values.clear();
 
-                    Log.e(TAG, episodeList.get(i).getId());
-                    values.put(Constants.AddedEpisodesTABLE.episodeId, episodeList.get(i).getId());
-                    values.put(Constants.AddedEpisodesTABLE.seriesId, episodeList.get(i).getSeriesid());
-                    values.put(Constants.AddedEpisodesTABLE.episodeName, episodeList.get(i).getEpisodeName());
-                    values.put(Constants.AddedEpisodesTABLE.episodeNumber, episodeList.get(i).getEpisodeNumber());
-                    values.put(Constants.AddedEpisodesTABLE.seasonNumber, episodeList.get(i).getSeasonNumber());
-                    Log.e(TAG, episodeList.get(i).getFirstAired());
-                    values.put(Constants.AddedEpisodesTABLE.airsDate, episodeList.get(i).getFirstAired());
-                    values.put(Constants.AddedEpisodesTABLE.episodeImdbId, episodeList.get(i).getIMDB_ID());
-                    values.put(Constants.AddedEpisodesTABLE.overview, episodeList.get(i).getOverview());
-                    values.put(Constants.AddedEpisodesTABLE.episodeBanner, Utils.convertBitmapToByteArray(Utils.getBitmapImage(episodeList.get(i).getFilename())));
+                    Cursor cursor= db.rawQuery("SELECT * FROM Episodes WHERE EpisodeId=" + "'" + episodeList.get(i).getId() + "'", null);
+                    if(cursor.getCount() == 0) {
 
-                    try {
-                        db.insert(Constants.AddedEpisodesTABLE.EPISODES_TB_NAME, null, values);
-                    } catch (SQLException ex) {
-                        Log.e(TAG, ex.getMessage());
+                        Log.e(TAG, "Insert episode");
+
+                        values.clear();
+
+                        values.put(Constants.AddedEpisodesTABLE.episodeId, episodeList.get(i).getId());
+                        values.put(Constants.AddedEpisodesTABLE.seriesId, episodeList.get(i).getSeriesid());
+                        values.put(Constants.AddedEpisodesTABLE.episodeName, episodeList.get(i).getEpisodeName());
+                        values.put(Constants.AddedEpisodesTABLE.episodeNumber, episodeList.get(i).getEpisodeNumber());
+                        values.put(Constants.AddedEpisodesTABLE.seasonNumber, episodeList.get(i).getSeasonNumber());
+                        values.put(Constants.AddedEpisodesTABLE.airsDate, episodeList.get(i).getFirstAired());
+                        values.put(Constants.AddedEpisodesTABLE.episodeImdbId, episodeList.get(i).getIMDB_ID());
+                        values.put(Constants.AddedEpisodesTABLE.overview, episodeList.get(i).getOverview());
+                        values.put(Constants.AddedEpisodesTABLE.episodeBanner, Utils.convertBitmapToByteArray(Utils.getBitmapImage(episodeList.get(i).getFilename())));
+
+                        try {
+                            db.insert(Constants.AddedEpisodesTABLE.EPISODES_TB_NAME, null, values);
+                        } catch (SQLException ex) {
+                            Log.e(TAG, ex.getMessage());
+                        }
                     }
+                    cursor.close();
                 }
             }
         }).start();
@@ -289,6 +305,7 @@ public class ShowsDB extends SQLiteOpenHelper{
                         episode.setSeasonNumber(cursor.getString(cursor.getColumnIndex(Constants.AddedEpisodesTABLE.seasonNumber)));
                         episode.setOverview(cursor.getString(cursor.getColumnIndex(Constants.AddedEpisodesTABLE.overview)));
                         episode.setEpisodeBanner(Utils.convertByteArrayToBitmap(cursor.getBlob(cursor.getColumnIndex(Constants.AddedEpisodesTABLE.episodeBanner))));
+                        episode.setShowBanner(Utils.convertByteArrayToBitmap(cursor.getBlob(cursor.getColumnIndex(Constants.AddedShowsDB.poster))));
 
                         episodes.add(episode);
                         publishEpisode(episode);
