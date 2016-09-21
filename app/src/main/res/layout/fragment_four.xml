@@ -17,6 +17,13 @@
                 android:layout_width="match_parent"
                 android:scrollbars="vertical" />
 
+            <Button
+                android:id="@+id/deleteAllButtonFFour"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/recyclerViewFragmentFour"
+                android:text="@string/RemoveAllFragmentFour"/>
+
         </RelativeLayout>
 
     </ScrollView>

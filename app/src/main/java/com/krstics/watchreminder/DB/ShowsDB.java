@@ -19,6 +19,7 @@ import com.krstics.watchreminder.Data.ShowListData;
 import com.krstics.watchreminder.Helpers.Constants;
 import com.krstics.watchreminder.Helpers.Utils;
 import com.krstics.watchreminder.Listeners.EpisodeFetchListener;
+import com.krstics.watchreminder.Listeners.NotWatchedEpisodesFetchListener;
 import com.krstics.watchreminder.Listeners.ShowFetchListener;
 
 import java.io.InputStream;
@@ -32,7 +33,7 @@ import java.util.List;
 
 public class ShowsDB extends SQLiteOpenHelper{
 
-    public static final String TAG = ShowsDB.class.getSimpleName();
+    private static final String TAG = ShowsDB.class.getSimpleName();
 
     public ShowsDB(Context context) {
         super(context, Constants.AddedShowsDB.DB_NAME, null, Constants.AddedShowsDB.DB_VERSION);
@@ -115,9 +116,12 @@ public class ShowsDB extends SQLiteOpenHelper{
         String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
         Cursor cursor= db.rawQuery("SELECT * FROM Episodes WHERE SeriesId=" + "'" + seriesId + "'" + "AND AirsDate=" + "'" + date + "'", null);
 
-        if(cursor.getCount() > 0)
+        if(cursor.getCount() > 0) {
+            cursor.close();
             return true;
+        }
 
+        cursor.close();
         return false;
     }
 
@@ -175,6 +179,17 @@ public class ShowsDB extends SQLiteOpenHelper{
         }
     }
 
+    public void removeEpisode(final String episodeId){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        try{
+            db.delete(Constants.AddedEpisodesTABLE.EPISODES_TB_NAME, Constants.AddedEpisodesTABLE.episodeId + "=" + "'" + episodeId + "'", null);
+        }
+        catch (SQLException ex){
+            Log.e(TAG, ex.getMessage());
+        }
+    }
+
     public void removeAllShows(){
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -207,14 +222,15 @@ public class ShowsDB extends SQLiteOpenHelper{
             }
         }
 
+        cursor.close();
         return showIDs;
     }
 
-    public class ShowFetcher extends Thread{
+    private class ShowFetcher extends Thread{
         private final ShowFetchListener mListener;
         private final SQLiteDatabase mDb;
 
-        public ShowFetcher(ShowFetchListener listener, SQLiteDatabase db){
+        ShowFetcher(ShowFetchListener listener, SQLiteDatabase db){
             mListener = listener;
             mDb = db;
         }
@@ -256,7 +272,7 @@ public class ShowsDB extends SQLiteOpenHelper{
             cursor.close();
         }
 
-        public void publishShow(final ShowListData show){
+        void publishShow(final ShowListData show){
             Handler handler = new Handler(Looper.getMainLooper());
             handler.post(new Runnable() {
                 @Override
@@ -272,11 +288,11 @@ public class ShowsDB extends SQLiteOpenHelper{
         fetcher.start();
     }
 
-    public class EpisodeFetcher extends Thread{
+    private class EpisodeFetcher extends Thread{
         private final EpisodeFetchListener listener;
         private final SQLiteDatabase db;
 
-        public EpisodeFetcher(EpisodeFetchListener listener, SQLiteDatabase db){
+        EpisodeFetcher(EpisodeFetchListener listener, SQLiteDatabase db){
             this.listener = listener;
             this.db = db;
         }
@@ -324,12 +340,77 @@ public class ShowsDB extends SQLiteOpenHelper{
             cursor.close();
         }
 
-        public void publishEpisode(final EpisodeListData episode){
+        void publishEpisode(final EpisodeListData episode){
             Handler handler = new Handler(Looper.getMainLooper());
             handler.post(new Runnable() {
                 @Override
                 public void run() {
                     listener.onDeliverEpisode(episode);
+                }
+            });
+        }
+    }
+
+    public void fetchNotWatchedEpisodes(NotWatchedEpisodesFetchListener listener){
+        NotWatchedEpisodesFetcher fetcher = new NotWatchedEpisodesFetcher(listener, this.getWritableDatabase());
+        fetcher.start();
+    }
+
+    private class NotWatchedEpisodesFetcher extends Thread{
+        private final NotWatchedEpisodesFetchListener listener;
+        private final SQLiteDatabase db;
+
+        NotWatchedEpisodesFetcher(NotWatchedEpisodesFetchListener listener, SQLiteDatabase db){
+            this.listener = listener;
+            this.db = db;
+        }
+
+        @Override
+        public void run(){
+
+            Cursor cursor = db.rawQuery(Constants.AddedEpisodesTABLE.GET_ALL_EPISODES, null);
+            final List<EpisodeListData> episodes = new ArrayList<>();
+
+            if(cursor.getCount() > 0){
+                if(cursor.moveToFirst()){
+                    do{
+                        EpisodeListData episode = new EpisodeListData();
+
+                        episode.setEpisodeId(cursor.getString(cursor.getColumnIndex(Constants.AddedEpisodesTABLE.episodeId)));
+                        episode.setShowId(cursor.getString(cursor.getColumnIndex(Constants.AddedEpisodesTABLE.seriesId)));
+                        episode.setAirsDate(cursor.getString(cursor.getColumnIndex(Constants.AddedEpisodesTABLE.airsDate)));
+                        episode.setAirsTime(cursor.getString(cursor.getColumnIndex(Constants.AddedShowsDB.airsTime)));
+                        episode.setEpisodeName(cursor.getString(cursor.getColumnIndex(Constants.AddedEpisodesTABLE.episodeName)));
+                        episode.setShowName(cursor.getString(cursor.getColumnIndex(Constants.AddedShowsDB.showName)));
+                        episode.setEpisodeNumber(cursor.getString(cursor.getColumnIndex(Constants.AddedEpisodesTABLE.episodeNumber)));
+                        episode.setSeasonNumber(cursor.getString(cursor.getColumnIndex(Constants.AddedEpisodesTABLE.seasonNumber)));
+                        episode.setOverview(cursor.getString(cursor.getColumnIndex(Constants.AddedEpisodesTABLE.overview)));
+                        episode.setEpisodeBanner(Utils.convertByteArrayToBitmap(cursor.getBlob(cursor.getColumnIndex(Constants.AddedEpisodesTABLE.episodeBanner))));
+                        episode.setShowBanner(Utils.convertByteArrayToBitmap(cursor.getBlob(cursor.getColumnIndex(Constants.AddedShowsDB.poster))));
+
+                        episodes.add(episode);
+                        publishNotWatchedEpisode(episode);
+                    }
+                    while (cursor.moveToNext());
+                }
+            }
+            Handler handler = new Handler(Looper.getMainLooper());
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    listener.onDeliverAllNotWatchedEpisodes(episodes);
+                }
+            });
+
+            cursor.close();
+        }
+
+        void publishNotWatchedEpisode(final EpisodeListData episode){
+            Handler handler = new Handler(Looper.getMainLooper());
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    listener.onDeliverNotWathcedEpisode(episode);
                 }
             });
         }

@@ -1,6 +1,5 @@
 package com.krstics.watchreminder.Adapters;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,26 +9,18 @@ import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.krstics.watchreminder.DB.ShowsDB;
 import com.krstics.watchreminder.Data.EpisodeListData;
 import com.krstics.watchreminder.R;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class TodayEpisodesAdapter extends RecyclerView.Adapter<TodayEpisodesAdapter.Holder> implements View.OnClickListener{
 
-    private String TAG = TodayEpisodesAdapter.class.getSimpleName();
     private List<EpisodeListData> episodeListData;
-    private Context context;
-    private ShowsDB showsDB;
 
-    public TodayEpisodesAdapter(Context cont, ShowsDB db)
+    public TodayEpisodesAdapter()
     {
-        this.context = cont;
-        showsDB = db;
         episodeListData = new ArrayList<>();
     }
 
@@ -87,18 +78,6 @@ public class TodayEpisodesAdapter extends RecyclerView.Adapter<TodayEpisodesAdap
     public void addEpisode(EpisodeListData episode) {
         episodeListData.add(episode);
         notifyDataSetChanged();
-    }
-
-    public boolean shouldLoad() {
-        if(episodeListData.isEmpty())
-            return true;
-
-        String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-        if(episodeListData.get(0).getAirsDate() != date)
-            return true;
-
-        return false;
-
     }
 
     class Holder extends RecyclerView.ViewHolder{

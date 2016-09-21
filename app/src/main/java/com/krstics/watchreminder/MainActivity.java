@@ -101,6 +101,12 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
 
+        Fragment fragment = adapter.getItem(viewPager.getCurrentItem());
+        ((FragmentTwo)fragment).refresh();
+
+        if(fragment instanceof FragmentTwo)
+            ((FragmentTwo)fragment).refresh();
+
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -137,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFrag(new FragmentOne(), "Search");
         adapter.addFrag(new FragmentTwo(), "Added Shows");
         adapter.addFrag(new FragmentThree(), "Today premier");
-      //  adapter.addFrag(new FragmentFour(), "Following premiers");
+        adapter.addFrag(new FragmentFour(), "Not Watched");
         viewPager.setAdapter(adapter);
     }
 
@@ -145,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
-        public ViewPagerAdapter(FragmentManager manager) {
+        ViewPagerAdapter(FragmentManager manager) {
             super(manager);
         }
 
@@ -159,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
             return mFragmentList.size();
         }
 
-        public void addFrag(Fragment fragment, String title) {
+        void addFrag(Fragment fragment, String title) {
             mFragmentList.add(fragment);
             mFragmentTitleList.add(title);
         }

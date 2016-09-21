@@ -58,6 +58,7 @@ public class Constants {
         //Queries
         public static final String DROP_EPISODES_TB_QUERY = "DROP TABLE IF EXISTS " + EPISODES_TB_NAME;
         public static final String GET_ALL_EPISODES_FOR_SHOW_QUERY = "SELECT * FROM " + EPISODES_TB_NAME + " WHERE " + seriesId + " = ";
+        public static final String GET_ALL_EPISODES = "SELECT * FROM " + EPISODES_TB_NAME;
         public static final String GET_TODAY_PREMIERING_EPISODES = "SELECT * FROM " + EPISODES_TB_NAME + " JOIN " + AddedShowsDB.ADDED_SHOWS_TB_NAME +
                 " ON " + EPISODES_TB_NAME + "." + seriesId + " = " + AddedShowsDB.ADDED_SHOWS_TB_NAME + "." + AddedShowsDB.id +
                 " WHERE " + airsDate + " = ";

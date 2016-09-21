@@ -57,7 +57,6 @@ public class AddedShowsAdapter extends RecyclerView.Adapter<AddedShowsAdapter.Ho
         holder.statusTextView.setText(show.getStatus());
         holder.airstTime.setText(show.getAirsTime());
         holder.airsDay.setText(show.getAirsDayOfWeek());
-        //holder.overview.setText(show.getOverview());
         holder.overview.setBackgroundColor(Color.TRANSPARENT);
         holder.overview.loadData("<html><body>"
                             + "<p align=\"justify\">"
@@ -128,7 +127,6 @@ public class AddedShowsAdapter extends RecyclerView.Adapter<AddedShowsAdapter.Ho
         private TextView statusTextView;
         private TextView airstTime;
         private TextView airsDay;
-        private TextView overview1;
         private WebView overview;
         private ImageButton removeImageButton;
 

@@ -29,6 +29,7 @@
     <string name="Overview">Overview:</string>
     <string name="OverviewText">Overview</string>
     <string name="RemoveAllFragmentTwo">REMOVE ALL SHOWS</string>
+    <string name="RemoveAllFragmentFour">REMOVE ALL EPISODES</string>
     <string name="EpisodeNumber">Episode no:</string>
     <string name="EpisodeNumberText">no</string>
     <string name="SeasonNumber">Season no:</string>
