@@ -101,12 +101,12 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
 
-        Fragment fragment = adapter.getItem(viewPager.getCurrentItem());
+        /*Fragment fragment = adapter.getItem(viewPager.getCurrentItem());
         ((FragmentTwo)fragment).refresh();
 
         if(fragment instanceof FragmentTwo)
             ((FragmentTwo)fragment).refresh();
-
+*/
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -119,6 +119,9 @@ public class MainActivity extends AppCompatActivity {
 
                 if(fragment instanceof FragmentThree)
                     ((FragmentThree)fragment).refresh();
+
+                if(fragment instanceof FragmentFour)
+                    ((FragmentFour)fragment).refresh();
 
                 View focus = getCurrentFocus();
                 if(focus != null)

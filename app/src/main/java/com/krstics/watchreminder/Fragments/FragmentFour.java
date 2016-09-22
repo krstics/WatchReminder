@@ -19,14 +19,13 @@ import com.krstics.watchreminder.R;
 
 import java.util.List;
 
-import static com.krstics.watchreminder.R.id.deleteAllButton;
-
 public class FragmentFour extends Fragment implements NotWatchedEpisodesFetchListener{
 
     private View view;
     private NotWatchedAdapter notWatchedAdapter;
     private Button deleteAllEpisodes;
     private ShowsDB showsDB;
+    Button deleteAllButton;
 
     public void refresh(){
         notWatchedAdapter.deleteAllEpisodes();

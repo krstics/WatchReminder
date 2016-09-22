@@ -124,14 +124,14 @@ public class NotWatchedAdapter extends RecyclerView.Adapter<NotWatchedAdapter.Ho
         Holder(View itemView) {
             super(itemView);
 
-            showImage = (ImageView) itemView.findViewById(R.id.showImageThree);
-            posterNotAvailable = (TextView)itemView.findViewById(R.id.posterNotAvailableThree);
-            showName = (TextView) itemView.findViewById(R.id.showNameTHREE);
-            episodeName = (TextView) itemView.findViewById(R.id.episodeNameThreeText);
-            episodeNo = (TextView) itemView.findViewById(R.id.episodeNumberThree);
-            airsTime = (TextView) itemView.findViewById(R.id.airsTimeTextThree);
-            seasonNo = (TextView) itemView.findViewById(R.id.seasonNumberThreeText);
-            removeImageButton = (ImageButton)itemView.findViewById(R.id.removeImageButton);
+            showImage = (ImageView) itemView.findViewById(R.id.showImageFour);
+            posterNotAvailable = (TextView)itemView.findViewById(R.id.posterNotAvailableFour);
+            showName = (TextView) itemView.findViewById(R.id.showNameFour);
+            episodeName = (TextView) itemView.findViewById(R.id.episodeNameFourText);
+            episodeNo = (TextView) itemView.findViewById(R.id.episodeNumberFour);
+            airsTime = (TextView) itemView.findViewById(R.id.airsTimeTextFour);
+            seasonNo = (TextView) itemView.findViewById(R.id.seasonNumberThreeFour);
+            removeImageButton = (ImageButton)itemView.findViewById(R.id.removeImageButtonFour);
         }
     }
 }
