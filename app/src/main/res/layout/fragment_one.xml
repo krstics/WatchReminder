@@ -49,8 +49,10 @@
                 android:id="@+id/recyclerView"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
+                android:scrollbars="vertical"
                 android:layout_below="@+id/inputsLayout"
-                android:scrollbars="vertical" />
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="8dp" />
 
             <Button
                 android:id="@+id/addSelectedButton"
@@ -66,7 +68,8 @@
                 android:layout_below="@id/addSelectedButton"
                 android:text="@string/RemoveAll"/>
 
-                </RelativeLayout>
+
+        </RelativeLayout>
 
     </ScrollView>
     

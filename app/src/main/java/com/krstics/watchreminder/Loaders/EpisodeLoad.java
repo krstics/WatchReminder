@@ -12,6 +12,7 @@ import com.krstics.watchreminder.RestManager.RestManager;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -33,28 +34,49 @@ public class EpisodeLoad {
         final Call<Data> allCall = restManager.getAllSeriesRecord().getSeriesAllRecords(id);
         allCall.enqueue(new Callback<Data>() {
             @Override
-            public void onResponse(Call<Data> call, Response<Data> response) {
-                if(response.isSuccessful()){
-                    Data result = response.body();
-                    List<Series> seriesList = result.getSeries();
+            public void onResponse(Call<Data> call, final Response<Data> response) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(response.isSuccessful()){
+                            Data result = response.body();
+                            List<Series> seriesList = result.getSeries();
 
-                    if(seriesList != null){
-                        List<Episode> episodeList = result.getEpisode();
+                            if(seriesList != null){
+                                List<Episode> episodeList = result.getEpisode();
 
-                        if(episodeList != null){
-                            mDB.insertEpisodes(episodeList);
+                                if(episodeList != null){
+
+                                    List<Episode> episodesToInsert = new ArrayList<>();
+                                    int year = Calendar.getInstance().get(Calendar.YEAR);
+
+                                    for(int i = 0; i < episodeList.size(); ++i){
+
+                                        int episodeYear = Integer.getInteger(episodeList.get(i).getFirstAired().substring(0,3));
+
+                                        Log.e(TAG, Integer.toString(episodeYear));
+
+                                        if(year == episodeYear)
+                                            episodesToInsert.add(episodeList.get(i));
+
+                                        if(!episodesToInsert.isEmpty())
+                                            mDB.insertEpisodes(episodesToInsert);
+                                    }
+                                }
+                                else {
+                                    Log.e(TAG, "episodeList is null");
+                                }
+                            }
+                            else {
+                                Log.e(TAG, "seriesList is null");
+                            }
                         }
-                        else {
-                            Log.e(TAG, "episodeList is null");
+                        else{
+                            Log.e(TAG, Integer.toString(response.code()));
                         }
                     }
-                    else {
-                        Log.e(TAG, "seriesList is null");
-                    }
-                }
-                else{
-                    Log.e(TAG, Integer.toString(response.code()));
-                }
+                }).start();
+
             }
 
             @Override
