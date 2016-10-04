@@ -57,12 +57,12 @@ public class AddedShowsAdapter extends RecyclerView.Adapter<AddedShowsAdapter.Ho
         holder.statusTextView.setText(show.getStatus());
         holder.airstTime.setText(show.getAirsTime());
         holder.airsDay.setText(show.getAirsDayOfWeek());
-        holder.overview.setBackgroundColor(Color.TRANSPARENT);
+        /*holder.overview.setBackgroundColor(Color.TRANSPARENT);
         holder.overview.loadData("<html><body>"
                             + "<p align=\"justify\">"
                             + show.getOverview()
                             + "</p> "
-                            + "</body></html>", "text/html", "utf-8");
+                            + "</body></html>", "text/html", "utf-8");*/
 
         holder.removeImageButton.setOnClickListener(AddedShowsAdapter.this);
         holder.removeImageButton.setTag(holder);
@@ -141,7 +141,7 @@ public class AddedShowsAdapter extends RecyclerView.Adapter<AddedShowsAdapter.Ho
             statusTextView = (TextView)itemView.findViewById(R.id.statusTWO);
             airstTime = (TextView)itemView.findViewById(R.id.airsTimeTextTWO);
             airsDay = (TextView)itemView.findViewById(R.id.airsDayOfWeekTextTWO);
-            overview = (WebView) itemView.findViewById(R.id.overviewTextTWO);
+            //overview = (WebView) itemView.findViewById(R.id.overviewTextTWO);
             removeImageButton = (ImageButton)itemView.findViewById(R.id.removeImageButton);
         }
     }

@@ -50,12 +50,12 @@ public class TodayEpisodesAdapter extends RecyclerView.Adapter<TodayEpisodesAdap
         holder.seasonNo.setText(episode.getSeasonNumber());
         holder.episodeNo.setText(episode.getEpisodeNumber());
         holder.airsTime.setText(episode.getAirsTime());
-        holder.overview.setBackgroundColor(Color.TRANSPARENT);
+        /*holder.overview.setBackgroundColor(Color.TRANSPARENT);
         holder.overview.loadData("<html><body>"
                 + "<p align=\"justify\">"
                 + episode.getOverview()
                 + "</p> "
-                + "</body></html>", "text/html", "utf-8");
+                + "</body></html>", "text/html", "utf-8");*/
 
     }
 
@@ -101,7 +101,7 @@ public class TodayEpisodesAdapter extends RecyclerView.Adapter<TodayEpisodesAdap
             episodeNo = (TextView) itemView.findViewById(R.id.episodeNumberThree);
             airsTime = (TextView) itemView.findViewById(R.id.airsTimeTextThree);
             seasonNo = (TextView) itemView.findViewById(R.id.seasonNumberThreeText);
-            overview = (WebView) itemView.findViewById(R.id.overviewTextThree);
+            //overview = (WebView) itemView.findViewById(R.id.overviewTextThree);
         }
     }
 }

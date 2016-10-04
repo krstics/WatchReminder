@@ -149,7 +149,7 @@
 
 
 
-            <TextView
+            <!--<TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/overviewThree"
@@ -169,7 +169,7 @@
                 android:layout_marginTop="6dp"
                 android:background="@color/fragmentOneItemBackgroundColor"/>
 
-          <!--  <TextView
+           <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/navigationBarColor"

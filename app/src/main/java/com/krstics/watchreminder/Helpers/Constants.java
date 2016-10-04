@@ -30,6 +30,7 @@ public class Constants {
         public static final String DROP_ADDED_SHOWS_QUERY = "DROP TABLE IF EXIST " + ADDED_SHOWS_TB_NAME;
         public static final String GET_ALL_SHOWS_QUERY = "SELECT * FROM " + ADDED_SHOWS_TB_NAME;
         public static final String REMOVE_ALL_FROM_TB_QUERY = "DELETE * FROM " + ADDED_SHOWS_TB_NAME;
+        public static final String GET_AIR_DAY_OF_WEEK = "SELECT * FROM " + ADDED_SHOWS_TB_NAME + " WHERE " + id + " = ";
         public static final String CREATE_TB_QUERY = "CREATE TABLE " + ADDED_SHOWS_TB_NAME + "" +
                 "(" + id + " TEXT primary key not null," +
                       firstAired + " TEXT not null," +

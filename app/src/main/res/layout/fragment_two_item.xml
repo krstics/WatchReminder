@@ -153,7 +153,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:layout_marginTop="5dp"/>
 
-            <TextView
+            <!--<TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/overviewTWO"
@@ -173,7 +173,7 @@
                 android:layout_marginTop="6dp"
                 android:background="@color/fragmentOneItemBackgroundColor"/>
 
-          <!--  <TextView
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/navigationBarColor"

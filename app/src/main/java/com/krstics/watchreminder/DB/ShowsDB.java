@@ -168,42 +168,52 @@ public class ShowsDB extends SQLiteOpenHelper{
     }
 
     public void removeShow(final String seriesId){
-        SQLiteDatabase db = this.getWritableDatabase();
+        final SQLiteDatabase db = this.getWritableDatabase();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
 
-        try{
-            db.delete(Constants.AddedShowsDB.ADDED_SHOWS_TB_NAME, Constants.AddedShowsDB.id + "=" + "'" + seriesId + "'", null);
-            db.delete(Constants.AddedEpisodesTABLE.EPISODES_TB_NAME, Constants.AddedEpisodesTABLE.seriesId + "=" + "'" + seriesId + "'", null);
-        }
-        catch (SQLException ex){
-            Log.e(TAG, ex.getMessage());
-        }
+                try{
+                    db.delete(Constants.AddedShowsDB.ADDED_SHOWS_TB_NAME, Constants.AddedShowsDB.id + "=" + "'" + seriesId + "'", null);
+                    db.delete(Constants.AddedEpisodesTABLE.EPISODES_TB_NAME, Constants.AddedEpisodesTABLE.seriesId + "=" + "'" + seriesId + "'", null);
+                }
+                catch (SQLException ex){
+                    Log.e(TAG, ex.getMessage());
+                }
+            }
+        }).start();
     }
 
     public void removeEpisode(final String episodeId){
-        SQLiteDatabase db = this.getWritableDatabase();
+        final SQLiteDatabase db = this.getWritableDatabase();
 
-        try{
-            db.delete(Constants.AddedEpisodesTABLE.EPISODES_TB_NAME, Constants.AddedEpisodesTABLE.episodeId + "=" + "'" + episodeId + "'", null);
-        }
-        catch (SQLException ex){
-            Log.e(TAG, ex.getMessage());
-        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    db.delete(Constants.AddedEpisodesTABLE.EPISODES_TB_NAME, Constants.AddedEpisodesTABLE.episodeId + "=" + "'" + episodeId + "'", null);
+                }
+                catch (SQLException ex){
+                    Log.e(TAG, ex.getMessage());
+                }
+            }
+        }).start();
     }
 
     public void removeAllShows(){
-        SQLiteDatabase db = this.getWritableDatabase();
+        final SQLiteDatabase db = this.getWritableDatabase();
 
-        try {
-            db.delete(Constants.AddedShowsDB.ADDED_SHOWS_TB_NAME, null, null);
-        }
-        catch (SQLException ex){
-            Log.e(TAG, ex.getMessage());
-        }
-    }
-
-    public void fetchShows(ShowFetchListener listener){
-        ShowFetcher fetcher = new ShowFetcher(listener, this.getWritableDatabase());
-        fetcher.start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    db.delete(Constants.AddedShowsDB.ADDED_SHOWS_TB_NAME, null, null);
+                }
+                catch (SQLException ex){
+                    Log.e(TAG, ex.getMessage());
+                }
+            }
+        }).start();
     }
 
     public List<String> getShowsIDs() {
@@ -224,6 +234,42 @@ public class ShowsDB extends SQLiteOpenHelper{
 
         cursor.close();
         return showIDs;
+    }
+
+    public String getAirDayOfWeek(String seriesId) {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(Constants.AddedShowsDB.GET_AIR_DAY_OF_WEEK + "'" + seriesId + "'", null);
+
+        String airDay = "";
+
+        if(cursor.getCount() > 0){
+            if(cursor.moveToFirst()){
+                airDay = cursor.getString(cursor.getColumnIndex(Constants.AddedShowsDB.airsDayOfWeek));
+            }
+        }
+
+        cursor.close();
+
+        return airDay;
+    }
+
+    public boolean checkIfEpisodeExistsForNext4Weeks(String seriesId) {
+        SQLiteDatabase db = getReadableDatabase();
+        String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        Cursor cursor= db.rawQuery("SELECT * FROM Episodes WHERE SeriesId=" + "'" + seriesId + "'" + "AND AirsDate > " + "'" + date + "'", null);
+
+        if(cursor.getCount() >= 4) {
+            cursor.close();
+            return true;
+        }
+
+        cursor.close();
+        return false;
+    }
+
+    public void fetchShows(ShowFetchListener listener){
+        ShowFetcher fetcher = new ShowFetcher(listener, this.getWritableDatabase());
+        fetcher.start();
     }
 
     private class ShowFetcher extends Thread{
@@ -330,7 +376,8 @@ public class ShowsDB extends SQLiteOpenHelper{
                 }
             }
             Handler handler = new Handler(Looper.getMainLooper());
-            handler.post(new Runnable() {
+            handler.post(
+                    new Runnable() {
                 @Override
                 public void run() {
                     listener.onDeliverAllEpisodes(episodes);

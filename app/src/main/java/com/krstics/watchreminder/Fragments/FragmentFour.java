@@ -27,9 +27,17 @@ public class FragmentFour extends Fragment implements NotWatchedEpisodesFetchLis
     private ShowsDB showsDB;
     Button deleteAllButton;
 
-    public void refresh(){
+    @Override
+    public void onResume() {
+        super.onResume();
         notWatchedAdapter.deleteAllEpisodes();
         showsDB.fetchNotWatchedEpisodes(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        notWatchedAdapter.deleteAllEpisodes();
     }
 
     @Nullable

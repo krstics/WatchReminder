@@ -29,13 +29,20 @@ public class FragmentThree extends Fragment implements EpisodeFetchListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_three, container, false);
         configViews();
-        loadEpisode();
         return view;
     }
 
-    public void refresh() {
+    @Override
+    public void onResume() {
+        super.onResume();
         todayEpisodesAdapter.deleteAllEpisodes();
         showsDB.fetchEpisodes(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        todayEpisodesAdapter.deleteAllEpisodes();
     }
 
     private void configViews()
@@ -49,24 +56,6 @@ public class FragmentThree extends Fragment implements EpisodeFetchListener {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(todayEpisodesAdapter);
     }
-
-    public void loadEpisode(){
-        List<String> showIDs;
-        List<String> showIDsToLoad = new ArrayList<>();
-        showIDs = showsDB.getShowsIDs();
-
-        for(int i = 0; i < showIDs.size(); ++i) {
-            if (!showsDB.checkIfEpisodeExists(showIDs.get(i))) {
-                showIDsToLoad.add(showIDs.get(i));
-            }
-        }
-
-        if(showIDsToLoad.size() > 0) {
-            EpisodeLoad episodeLoad = new EpisodeLoad(showsDB);
-            episodeLoad.loadEpisodeByAirDate(showIDsToLoad);
-        }
-    }
-
 
     @Override
     public void onDeliverAllEpisodes(List<EpisodeListData> episodes) {
