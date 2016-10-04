@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
         EpisodeLoad episodeLoad = new EpisodeLoad();
         episodeLoad.loadEpisodeByAirDate(getApplicationContext());
+        episodeLoad.loadEpisodeByAirDateForNext4Weeks(getApplicationContext());
     }
 
     private void setupViewPager(ViewPager viewPager) {

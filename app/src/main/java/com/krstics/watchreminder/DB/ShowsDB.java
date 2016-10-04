@@ -414,8 +414,8 @@ public class ShowsDB extends SQLiteOpenHelper{
 
         @Override
         public void run(){
-
-            Cursor cursor = db.rawQuery(Constants.AddedEpisodesTABLE.GET_ALL_EPISODES, null);
+            String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+            Cursor cursor = db.rawQuery(Constants.AddedEpisodesTABLE.GET_ALL_NOT_WATCHED_EPISODES + "'" + date + "'", null);
             final List<EpisodeListData> episodes = new ArrayList<>();
 
             if(cursor.getCount() > 0){

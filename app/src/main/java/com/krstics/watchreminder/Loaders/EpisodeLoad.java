@@ -222,6 +222,8 @@ public class EpisodeLoad {
             } catch (ParseException e) {
                 Log.e(TAG, e.toString());
             }
+            c.add(Calendar.DAY_OF_YEAR, 1);
+            start = new SimpleDateFormat("yyyy-MM-dd").format(c.getTime());
             c.add(Calendar.DAY_OF_YEAR, 31);
             String end = new SimpleDateFormat("yyyy-MM-dd").format(c.getTime());
             DateTime startDate = DateTimeFormat.forPattern("yyyy-MM-dd").parseDateTime(start);
