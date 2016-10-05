@@ -167,17 +167,17 @@ public class EpisodeLoad {
                         showIDsToLoad.add(showIDs.get(i));
                     }
                 }
+                Call<Data> episodeCall;
 
-                if(showIDsToLoad.size() > 0) {
-                    List<String> dates = getDates(showIDsToLoad, context);
+                for (int j = 0; j < showIDsToLoad.size(); ++j) {
+                    List<String> dates = getDates(showIDsToLoad.get(j), context);
+                    dates = checkIfExistsInDB(showIDsToLoad.get(j), dates, context);
 
-                    for (int i = 0; i < 4; ++i) {
+                    if(!dates.isEmpty()) {
 
-                        Call<Data> episodeCall;
-
-                        for (int j = 0; j < showIDsToLoad.size(); ++j) {
-                            Log.e(TAG, showIDsToLoad.get(j));
-                            episodeCall = restManager.getEpisodeByAirDaterest().getEpisodeByAirDate(Constants.TvDB.API_KEY, showIDsToLoad.get(j), dates.get(i));
+                        for (int i = 0; i < dates.size(); ++i) {
+                            Log.e(TAG, showIDsToLoad.get(j) + " " + dates.get(i).substring(0, 10));
+                            episodeCall = restManager.getEpisodeByAirDaterest().getEpisodeByAirDate(Constants.TvDB.API_KEY, showIDsToLoad.get(j), dates.get(i).substring(0, 10));
                             episodeCall.enqueue(new Callback<Data>() {
                                 @Override
                                 public void onResponse(Call<Data> call, Response<Data> response) {
@@ -197,7 +197,7 @@ public class EpisodeLoad {
 
                                 @Override
                                 public void onFailure(Call<Data> call, Throwable t) {
-
+                                    Log.e(TAG, t.getMessage());
                                 }
                             });
                         }
@@ -207,13 +207,23 @@ public class EpisodeLoad {
         }).start();
     }
 
-    private List<String> getDates(List<String> showIDsToLoad, Context context){
+    private List<String> checkIfExistsInDB(String seriesId, List<String> dates, Context context) {
+        List<String> datesToReturn = new ArrayList<>();
+        ShowsDB showsDB = new ShowsDB(context);
+        for(int i = 0; i < dates.size(); ++i){
+            if(!showsDB.checkIfEpisodeExists(seriesId, dates.get(i)))
+                datesToReturn.add(dates.get(i));
+        }
+
+        return datesToReturn;
+    }
+
+    private List<String> getDates(String showIDsToLoad, Context context){
 
         List<String> dates = new ArrayList<>();
 
-        for (int i = 0; i < showIDsToLoad.size(); ++i) {
             ShowsDB showsDB = new ShowsDB(context);
-            String dayOfWeek = showsDB.getAirDayOfWeek(showIDsToLoad.get(i));
+            String dayOfWeek = showsDB.getAirDayOfWeek(showIDsToLoad);
 
             String start = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
             Calendar c = Calendar.getInstance();
@@ -259,7 +269,6 @@ public class EpisodeLoad {
                 }
                 startDate = startDate.plusDays(1);
             }
-        }
         return dates;
     }
 }

@@ -34,4 +34,6 @@
     <string name="EpisodeNumberText">no</string>
     <string name="SeasonNumber">Season no:</string>
     <string name="SeasonNumberText">no</string>
+    <string name="AirsDate">Airs Date</string>
+    <string name="AirsDateText">Airs date</string>
 </resources>

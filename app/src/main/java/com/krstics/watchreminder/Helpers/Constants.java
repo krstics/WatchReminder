@@ -62,6 +62,9 @@ public class Constants {
         public static final String GET_ALL_NOT_WATCHED_EPISODES = "SELECT * FROM " + EPISODES_TB_NAME + " JOIN " + AddedShowsDB.ADDED_SHOWS_TB_NAME +
                 " ON " + EPISODES_TB_NAME + "." + seriesId + " = " + AddedShowsDB.ADDED_SHOWS_TB_NAME + "." + AddedShowsDB.id +
                 " WHERE " + airsDate + " <= ";
+        public static final String GET_NEXT_4_WEEKS_PREMIERS = "SELECT * FROM " + EPISODES_TB_NAME + " JOIN " + AddedShowsDB.ADDED_SHOWS_TB_NAME +
+                " ON " + EPISODES_TB_NAME + "." + seriesId + " = " + AddedShowsDB.ADDED_SHOWS_TB_NAME + "." + AddedShowsDB.id +
+                " WHERE " + airsDate + " > ";
         public static final String GET_TODAY_PREMIERING_EPISODES = "SELECT * FROM " + EPISODES_TB_NAME + " JOIN " + AddedShowsDB.ADDED_SHOWS_TB_NAME +
                 " ON " + EPISODES_TB_NAME + "." + seriesId + " = " + AddedShowsDB.ADDED_SHOWS_TB_NAME + "." + AddedShowsDB.id +
                 " WHERE " + airsDate + " = ";

@@ -64,6 +64,9 @@ public class Series {
     @Element(name = "fanart", required = false)
     private String fanart;
 
+    @Element(name = "finale_aired", required = false)
+    private String FinaleAired;
+
     @Element(name = "Status", required = false)
     private String Status;
 
@@ -264,6 +267,14 @@ public class Series {
 
     public void setFanart(String fanart) {
         this.fanart = fanart;
+    }
+
+    public String getFinaleAired() {
+        return FinaleAired;
+    }
+
+    public void setFinaleAired(String finaleAired) {
+        FinaleAired = finaleAired;
     }
 
     public String getStatus() {

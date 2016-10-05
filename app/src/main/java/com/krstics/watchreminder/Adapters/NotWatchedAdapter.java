@@ -16,6 +16,7 @@ import com.krstics.watchreminder.Fragments.FragmentFour;
 import com.krstics.watchreminder.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class NotWatchedAdapter extends RecyclerView.Adapter<NotWatchedAdapter.Holder> implements View.OnClickListener{
@@ -94,6 +95,7 @@ public class NotWatchedAdapter extends RecyclerView.Adapter<NotWatchedAdapter.Ho
         episodeListDatas.add(episode);
         if(episodeListDatas.size() > 0)
             fragmentFour.setVisibilityDeleteAllButton(View.VISIBLE);
+        Collections.sort(episodeListDatas);
         notifyDataSetChanged();
     }
 
@@ -101,12 +103,14 @@ public class NotWatchedAdapter extends RecyclerView.Adapter<NotWatchedAdapter.Ho
         episodeListDatas.remove(position);
         if(episodeListDatas.size() == 0)
             fragmentFour.setVisibilityDeleteAllButton(View.INVISIBLE);
+        Collections.sort(episodeListDatas);
         notifyDataSetChanged();
     }
 
     public void deleteAllEpisodes() {
         episodeListDatas.clear();
         fragmentFour.setVisibilityDeleteAllButton(View.INVISIBLE);
+        Collections.sort(episodeListDatas);
         notifyDataSetChanged();
     }
 

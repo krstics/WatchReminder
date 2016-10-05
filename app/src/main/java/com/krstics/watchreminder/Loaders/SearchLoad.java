@@ -47,7 +47,9 @@ public class SearchLoad {
                         if(seriesListSize > 0){
                             showListAdapter.deleteAllShows();
                             for (int i = 0; i < seriesListSize; i++) {
+
                                 final Call<Data> baseSeriesRecordCall = restManager.getBaseSeriesRecord().getSeriesBaseRecords(seriesList.get(i).getId());
+
                                 baseSeriesRecordCall.enqueue(new Callback<Data>() {
                                     @Override
                                     public void onResponse(Call<Data> call, Response<Data> response) {
@@ -71,7 +73,7 @@ public class SearchLoad {
 
                                     @Override
                                     public void onFailure(Call<Data> call, Throwable t) {
-
+                                        Log.e(TAG, "FAILURE" + t.getMessage());
                                     }
                                 });
                             }

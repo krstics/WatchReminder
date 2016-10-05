@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.krstics.watchreminder.Adapters.PagerAdapter;
+import com.krstics.watchreminder.Fragments.FragmentFive;
 import com.krstics.watchreminder.Fragments.FragmentFour;
 import com.krstics.watchreminder.Fragments.FragmentOne;
 import com.krstics.watchreminder.Fragments.FragmentThree;
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+
                 View focus = getCurrentFocus();
                 if(focus != null)
                     hideSoftInput(focus);
@@ -59,6 +61,24 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
+                int position = tab.getPosition();
+                viewPager.setCurrentItem(position);
+                Fragment fragment = adapter.getItem(viewPager.getCurrentItem());
+
+                if(fragment instanceof FragmentTwo)
+                        ((FragmentTwo)fragment).refresh();
+
+                if(fragment instanceof FragmentThree)
+                    if(!fragment.isAdded())
+                        ((FragmentThree)fragment).refresh();
+
+                if(fragment instanceof FragmentFour)
+                    if(!fragment.isAdded())
+                        ((FragmentFour)fragment).refresh();
+
+                if(fragment instanceof FragmentFive)
+                    if(!fragment.isAdded())
+                        ((FragmentFive)fragment).refresh();
 
             }
         });
@@ -74,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFrag(new FragmentTwo(), "Added Shows");
         adapter.addFrag(new FragmentThree(), "Today premier");
         adapter.addFrag(new FragmentFour(), "Not Watched");
+        adapter.addFrag(new FragmentFive(), "Next 4 weeks premiers");
         viewPager.setAdapter(adapter);
     }
 

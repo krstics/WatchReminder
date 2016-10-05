@@ -10,72 +10,65 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.krstics.watchreminder.Adapters.NotWatchedAdapter;
+import com.krstics.watchreminder.Adapters.Next4WeeksPremiersAdapter;
 import com.krstics.watchreminder.DB.ShowsDB;
 import com.krstics.watchreminder.Data.EpisodeListData;
 import com.krstics.watchreminder.Decorators.FragmentsItemDecorator;
-import com.krstics.watchreminder.Listeners.NotWatchedEpisodesFetchListener;
+import com.krstics.watchreminder.Listeners.Next4WeeksPremiersFetchListener;
 import com.krstics.watchreminder.R;
 
 import java.util.List;
 
-public class FragmentFour extends Fragment implements NotWatchedEpisodesFetchListener{
+public class FragmentFive extends Fragment implements Next4WeeksPremiersFetchListener {
 
     private View view;
-    private NotWatchedAdapter notWatchedAdapter;
+    private Next4WeeksPremiersAdapter next4WeeksPremiers;
     private ShowsDB showsDB;
-    Button deleteAllButton;
 
     @Override
     public void onResume() {
         super.onResume();
-        notWatchedAdapter.deleteAllEpisodes();
-        showsDB.fetchNotWatchedEpisodes(this);
+        next4WeeksPremiers.deleteAllEpisodes();
+        showsDB.fetchNext4WeeksPremiers(this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        notWatchedAdapter.deleteAllEpisodes();
+        next4WeeksPremiers.deleteAllEpisodes();
     }
 
     public void refresh(){
-        notWatchedAdapter.deleteAllEpisodes();
-        showsDB.fetchNotWatchedEpisodes(this);
+        next4WeeksPremiers.deleteAllEpisodes();
+        showsDB.fetchNext4WeeksPremiers(this);
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_four, container, false);
+        view = inflater.inflate(R.layout.fragment_five, container, false);
         configViews();
         return view;
     }
 
     private void configViews() {
         showsDB = new ShowsDB(getActivity());
-        notWatchedAdapter = new NotWatchedAdapter(showsDB, this);
-        deleteAllButton = (Button)view.findViewById(R.id.deleteAllButtonFFour);
-        deleteAllButton.setVisibility(View.INVISIBLE);
+        next4WeeksPremiers = new Next4WeeksPremiersAdapter(showsDB);
 
-        RecyclerView mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewFragmentFour);
+        RecyclerView mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewFragmentFive);
         mRecyclerView.addItemDecoration(new FragmentsItemDecorator(getResources().getDimensionPixelSize(R.dimen.item_spacing)));
         mRecyclerView.setRecycledViewPool(new RecyclerView.RecycledViewPool());
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, false));
-        mRecyclerView.setAdapter(notWatchedAdapter);
-    }
-
-    public void setVisibilityDeleteAllButton(int visibility){
-        deleteAllButton.setVisibility(visibility);
+        mRecyclerView.setAdapter(next4WeeksPremiers);
     }
 
     @Override
-    public void onDeliverAllNotWatchedEpisodes(List<EpisodeListData> episodes) {
+    public void onDeliverAllEpisodes(List<EpisodeListData> episodes) {
 
     }
 
     @Override
-    public void onDeliverNotWathcedEpisode(EpisodeListData episode) {
-        notWatchedAdapter.addEpisode(episode);
+    public void onDeliverEpisode(EpisodeListData episode) {
+        next4WeeksPremiers.addEpisode(episode);
     }
 }

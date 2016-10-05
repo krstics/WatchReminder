@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 
 import com.krstics.watchreminder.Helpers.Utils;
 
-public class EpisodeListData {
+public class EpisodeListData implements Comparable<EpisodeListData>{
     private String episodeId;
     private String episodeName;
     private String episodeNumber;
@@ -160,5 +160,20 @@ public class EpisodeListData {
         setShowName(data.getSeriesName());
         setShowId(data.getId());
         setShowImdbId(data.getIMDB_ID());
+    }
+
+    @Override
+    public int compareTo(EpisodeListData episodeListData) {
+        String x1 = getShowName();
+        String x2 = episodeListData.getShowName();
+        int sComp = x1.compareTo(x2);
+
+        if (sComp != 0) {
+            return sComp;
+        } else {
+            String y1 = getAirsDate();
+            String y2 = episodeListData.getAirsDate();
+            return y1.compareTo(y2);
+        }
     }
 }

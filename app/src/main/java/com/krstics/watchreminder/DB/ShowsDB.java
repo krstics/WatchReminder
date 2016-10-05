@@ -6,9 +6,6 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -19,15 +16,12 @@ import com.krstics.watchreminder.Data.ShowListData;
 import com.krstics.watchreminder.Helpers.Constants;
 import com.krstics.watchreminder.Helpers.Utils;
 import com.krstics.watchreminder.Listeners.EpisodeFetchListener;
+import com.krstics.watchreminder.Listeners.Next4WeeksPremiersFetchListener;
 import com.krstics.watchreminder.Listeners.NotWatchedEpisodesFetchListener;
 import com.krstics.watchreminder.Listeners.ShowFetchListener;
 
-import java.io.InputStream;
-import java.net.URL;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -125,6 +119,19 @@ public class ShowsDB extends SQLiteOpenHelper{
         return false;
     }
 
+    public boolean checkIfEpisodeExists(String seriesId, String date){
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor= db.rawQuery("SELECT * FROM Episodes WHERE SeriesId=" + "'" + seriesId + "'" + "AND AirsDate=" + "'" + date + "'", null);
+
+        if(cursor.getCount() > 0) {
+            cursor.close();
+            return true;
+        }
+
+        cursor.close();
+        return false;
+    }
+
     public void insertEpisodes(final List<Episode> episodeList){
         Log.e(TAG, "In insert episodes");
 
@@ -138,31 +145,34 @@ public class ShowsDB extends SQLiteOpenHelper{
 
                 for (int i = 0; i < size; i++) {
 
-                    Cursor cursor= db.rawQuery("SELECT * FROM Episodes WHERE EpisodeId=" + "'" + episodeList.get(i).getId() + "'", null);
-                    if(cursor.getCount() == 0) {
+                    if (episodeList.get(i).getId() != null) {
+                        Cursor cursor = db.rawQuery("SELECT * FROM Episodes WHERE EpisodeId=" + "'" + episodeList.get(i).getId() + "'", null);
+                        if (cursor.getCount() == 0) {
 
-                        Log.e(TAG, "Insert episode");
+                            Log.e(TAG, "Insert episode");
 
-                        values.clear();
+                            values.clear();
 
-                        values.put(Constants.AddedEpisodesTABLE.episodeId, episodeList.get(i).getId());
-                        values.put(Constants.AddedEpisodesTABLE.seriesId, episodeList.get(i).getSeriesid());
-                        values.put(Constants.AddedEpisodesTABLE.episodeName, episodeList.get(i).getEpisodeName());
-                        values.put(Constants.AddedEpisodesTABLE.episodeNumber, episodeList.get(i).getEpisodeNumber());
-                        values.put(Constants.AddedEpisodesTABLE.seasonNumber, episodeList.get(i).getSeasonNumber());
-                        values.put(Constants.AddedEpisodesTABLE.airsDate, episodeList.get(i).getFirstAired());
-                        values.put(Constants.AddedEpisodesTABLE.episodeImdbId, episodeList.get(i).getIMDB_ID());
-                        values.put(Constants.AddedEpisodesTABLE.overview, episodeList.get(i).getOverview());
-                        values.put(Constants.AddedEpisodesTABLE.episodeBanner, Utils.convertBitmapToByteArray(Utils.getBitmapImage(episodeList.get(i).getFilename())));
+                            values.put(Constants.AddedEpisodesTABLE.episodeId, episodeList.get(i).getId());
+                            values.put(Constants.AddedEpisodesTABLE.seriesId, episodeList.get(i).getSeriesid());
+                            values.put(Constants.AddedEpisodesTABLE.episodeName, episodeList.get(i).getEpisodeName());
+                            values.put(Constants.AddedEpisodesTABLE.episodeNumber, episodeList.get(i).getEpisodeNumber());
+                            values.put(Constants.AddedEpisodesTABLE.seasonNumber, episodeList.get(i).getSeasonNumber());
+                            values.put(Constants.AddedEpisodesTABLE.airsDate, episodeList.get(i).getFirstAired());
+                            values.put(Constants.AddedEpisodesTABLE.episodeImdbId, episodeList.get(i).getIMDB_ID());
+                            values.put(Constants.AddedEpisodesTABLE.overview, episodeList.get(i).getOverview());
+                            values.put(Constants.AddedEpisodesTABLE.episodeBanner, Utils.convertBitmapToByteArray(Utils.getBitmapImage(episodeList.get(i).getFilename())));
 
-                        try {
-                            db.insert(Constants.AddedEpisodesTABLE.EPISODES_TB_NAME, null, values);
-                        } catch (SQLException ex) {
-                            Log.e(TAG, ex.getMessage());
+                            try {
+                                db.insert(Constants.AddedEpisodesTABLE.EPISODES_TB_NAME, null, values);
+                            } catch (SQLException ex) {
+                                Log.e(TAG, ex.getMessage());
+                            }
                         }
+                        cursor.close();
                     }
-                    cursor.close();
                 }
+
             }
         }).start();
     }
@@ -458,6 +468,74 @@ public class ShowsDB extends SQLiteOpenHelper{
                 @Override
                 public void run() {
                     listener.onDeliverNotWathcedEpisode(episode);
+                }
+            });
+        }
+    }
+
+
+
+
+    public void fetchNext4WeeksPremiers(Next4WeeksPremiersFetchListener listener){
+        Next4WeeksPremiersFetcher fetcher = new Next4WeeksPremiersFetcher(listener, this.getWritableDatabase());
+        fetcher.start();
+    }
+
+    private class Next4WeeksPremiersFetcher extends Thread{
+        private final Next4WeeksPremiersFetchListener listener;
+        private final SQLiteDatabase db;
+
+        Next4WeeksPremiersFetcher(Next4WeeksPremiersFetchListener listener, SQLiteDatabase db){
+            this.listener = listener;
+            this.db = db;
+        }
+
+        @Override
+        public void run(){
+            String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+            Cursor cursor = db.rawQuery(Constants.AddedEpisodesTABLE.GET_NEXT_4_WEEKS_PREMIERS + "'" + date + "'", null);
+            final List<EpisodeListData> episodes = new ArrayList<>();
+
+            if(cursor.getCount() > 0){
+                if(cursor.moveToFirst()){
+                    do{
+                        EpisodeListData episode = new EpisodeListData();
+
+                        episode.setEpisodeId(cursor.getString(cursor.getColumnIndex(Constants.AddedEpisodesTABLE.episodeId)));
+                        episode.setShowId(cursor.getString(cursor.getColumnIndex(Constants.AddedEpisodesTABLE.seriesId)));
+                        episode.setAirsDate(cursor.getString(cursor.getColumnIndex(Constants.AddedEpisodesTABLE.airsDate)));
+                        episode.setAirsTime(cursor.getString(cursor.getColumnIndex(Constants.AddedShowsDB.airsTime)));
+                        episode.setEpisodeName(cursor.getString(cursor.getColumnIndex(Constants.AddedEpisodesTABLE.episodeName)));
+                        episode.setShowName(cursor.getString(cursor.getColumnIndex(Constants.AddedShowsDB.showName)));
+                        episode.setEpisodeNumber(cursor.getString(cursor.getColumnIndex(Constants.AddedEpisodesTABLE.episodeNumber)));
+                        episode.setSeasonNumber(cursor.getString(cursor.getColumnIndex(Constants.AddedEpisodesTABLE.seasonNumber)));
+                        episode.setOverview(cursor.getString(cursor.getColumnIndex(Constants.AddedEpisodesTABLE.overview)));
+                        episode.setEpisodeBanner(Utils.convertByteArrayToBitmap(cursor.getBlob(cursor.getColumnIndex(Constants.AddedEpisodesTABLE.episodeBanner))));
+                        episode.setShowBanner(Utils.convertByteArrayToBitmap(cursor.getBlob(cursor.getColumnIndex(Constants.AddedShowsDB.poster))));
+
+                        episodes.add(episode);
+                        publishNotWatchedEpisode(episode);
+                    }
+                    while (cursor.moveToNext());
+                }
+            }
+            Handler handler = new Handler(Looper.getMainLooper());
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    listener.onDeliverAllEpisodes(episodes);
+                }
+            });
+
+            cursor.close();
+        }
+
+        void publishNotWatchedEpisode(final EpisodeListData episode){
+            Handler handler = new Handler(Looper.getMainLooper());
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    listener.onDeliverEpisode(episode);
                 }
             });
         }

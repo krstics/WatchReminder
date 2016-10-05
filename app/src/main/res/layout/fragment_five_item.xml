@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    card_view:cardCornerRadius="5dp"
+    card_view:cardUseCompatPadding="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/fragmentOneItemBackgroundColor">
+
+        <ImageView
+            android:id="@+id/showImageFive"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/navigationBarColor"
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/showPoster"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/posterNotAvailableFive"
+            android:text="@string/poster_not_available"
+            android:gravity="center"
+            android:textColor="@color/textColorPrimary"/>
+
+        <RelativeLayout
+            android:id="@+id/infoLayoutFive"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/showImageFive"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/showTitleFive"
+                android:text="@string/ShowTitle"
+                android:textColor="@color/colorAccent"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="15dp"/>
+
+            <TextView
+                android:id="@+id/showNameFive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/showName"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:maxLines="1"
+                android:maxLength="50"
+                android:textColor="@color/navigationBarColor"
+                android:layout_toEndOf="@+id/showTitleFive"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/episodeNameFive"
+                android:text="@string/EpisodeTitle"
+                android:textColor="@color/colorAccent"
+                android:layout_below="@+id/showTitleFive"
+                android:layout_marginEnd="5dp"
+                android:layout_marginTop="5dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/episodeNameFiveText"
+                android:textColor="@color/navigationBarColor"
+                android:layout_toEndOf="@+id/episodeNameFive"
+                android:layout_below="@+id/showNameFive"
+                android:text="@string/episodeName"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_marginTop="5dp"
+                android:maxLines="1"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/episodeNumberFiveText"
+                android:text="@string/EpisodeNumber"
+                android:textColor="@color/colorAccent"
+                android:layout_below="@+id/airsTimeFive"
+                android:layout_toStartOf="@+id/episodeNumberFive"
+                android:layout_marginEnd="5dp"
+                android:layout_marginTop="5dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/episodeNumberFive"
+                android:textColor="@color/navigationBarColor"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/airsTimeFive"
+                android:text="@string/EpisodeNumberText"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_marginTop="5dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/airsDateFive"
+                android:text="@string/AirsDate"
+                android:textColor="@color/colorAccent"
+                android:layout_below="@+id/episodeNameFive"
+                android:layout_marginEnd="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="25dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/airsDateTextFive"
+                android:textColor="@color/navigationBarColor"
+                android:layout_toEndOf="@+id/airsDateFive"
+                android:layout_below="@+id/episodeNameFive"
+                android:text="@string/AirsDateText"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_marginTop="5dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/airsTimeFive"
+                android:text="@string/AirsTime"
+                android:textColor="@color/colorAccent"
+                android:layout_below="@+id/airsDateFive"
+                android:layout_marginEnd="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="25dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/airsTimeTextFive"
+                android:textColor="@color/navigationBarColor"
+                android:layout_toEndOf="@+id/airsTimeFive"
+                android:layout_below="@+id/airsDateFive"
+                android:text="@string/AirsTimeText"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_marginTop="5dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/seasonNumberFive"
+                android:text="@string/SeasonNumber"
+                android:textColor="@color/colorAccent"
+                android:layout_below="@+id/airsTimeFive"
+                android:layout_marginEnd="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="16dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/seasonNumberTextFive"
+                android:textColor="@color/navigationBarColor"
+                android:layout_toEndOf="@+id/seasonNumberFive"
+                android:layout_below="@+id/airsTimeFive"
+                android:text="@string/SeasonNumberText"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_marginTop="5dp"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

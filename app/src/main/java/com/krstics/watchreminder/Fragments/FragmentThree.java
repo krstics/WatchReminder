@@ -45,6 +45,11 @@ public class FragmentThree extends Fragment implements EpisodeFetchListener {
         todayEpisodesAdapter.deleteAllEpisodes();
     }
 
+    public void refresh(){
+        todayEpisodesAdapter.deleteAllEpisodes();
+        showsDB.fetchEpisodes(this);
+    }
+
     private void configViews()
     {
         showsDB = new ShowsDB(getActivity());

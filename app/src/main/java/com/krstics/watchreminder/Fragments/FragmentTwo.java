@@ -33,12 +33,20 @@ public class FragmentTwo extends Fragment implements ShowFetchListener{
         super.onResume();
         addedShowsAdapter.deleteAllShows();
         showsDB.fetchShows(this);
+        Log.e("Fragment Two", "In resume");
     }
 
     @Override
     public void onPause() {
         super.onPause();
         addedShowsAdapter.deleteAllShows();
+        Log.e("Fragment Two", "In pause");
+    }
+
+    public void refresh(){
+        addedShowsAdapter.deleteAllShows();
+        showsDB.fetchShows(this);
+        Log.e("Fragment Two", "In refresh");
     }
 
     @Override
@@ -81,7 +89,7 @@ public class FragmentTwo extends Fragment implements ShowFetchListener{
         showsDB = new ShowsDB(getActivity());
         addedShowsAdapter = new AddedShowsAdapter(getActivity(), showsDB, this);
         deleteAllButton = (Button)view.findViewById(R.id.deleteAllButtonFTwo);
-        deleteAllButton.setVisibility(View.INVISIBLE);
+        deleteAllButton.setVisibility(View.VISIBLE);
 
         RecyclerView mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewFragmentTwo);
         mRecyclerView.addItemDecoration(new FragmentsItemDecorator(getResources().getDimensionPixelSize(R.dimen.item_spacing)));

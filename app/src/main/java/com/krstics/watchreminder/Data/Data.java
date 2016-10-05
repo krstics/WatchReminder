@@ -1,5 +1,6 @@
 package com.krstics.watchreminder.Data;
 
+import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
@@ -13,6 +14,9 @@ public class Data {
 
     @ElementList(inline = true, required = false)
     private List<Episode> Episode;
+
+    @Element(name = "Error", required = false)
+    private String Error;
 
     public List<Series> getSeries ()
     {
