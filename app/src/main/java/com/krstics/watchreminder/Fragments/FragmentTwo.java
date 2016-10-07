@@ -1,7 +1,10 @@
 package com.krstics.watchreminder.Fragments;
 
 import android.content.DialogInterface;
+import android.database.ContentObserver;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -28,25 +31,11 @@ public class FragmentTwo extends Fragment implements ShowFetchListener{
     private AddedShowsAdapter addedShowsAdapter;
     private Button deleteAllButton;
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        addedShowsAdapter.deleteAllShows();
-        showsDB.fetchShows(this);
-        Log.e("Fragment Two", "In resume");
-    }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        addedShowsAdapter.deleteAllShows();
-        Log.e("Fragment Two", "In pause");
-    }
 
     public void refresh(){
         addedShowsAdapter.deleteAllShows();
         showsDB.fetchShows(this);
-        Log.e("Fragment Two", "In refresh");
     }
 
     @Override

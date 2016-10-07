@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         viewPager = (ViewPager) findViewById(R.id.pager);
         setupViewPager(viewPager);
-        viewPager.setCurrentItem(1);
+        viewPager.setCurrentItem(0);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
@@ -52,6 +53,22 @@ public class MainActivity extends AppCompatActivity {
                 if(focus != null)
                     hideSoftInput(focus);
 
+                int position = tab.getPosition();
+                viewPager.setCurrentItem(position);
+                Fragment fragment = adapter.getItem(viewPager.getCurrentItem());
+
+                if(fragment instanceof FragmentTwo)
+                    ((FragmentTwo)fragment).refresh();
+
+                if(fragment instanceof FragmentThree)
+                    ((FragmentThree)fragment).refresh();
+
+                if(fragment instanceof FragmentFour)
+                    ((FragmentFour)fragment).refresh();
+
+                if(fragment instanceof FragmentFive)
+                    ((FragmentFive)fragment).refresh();
+
             }
 
             @Override
@@ -61,25 +78,26 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
+
+                View focus = getCurrentFocus();
+                if(focus != null)
+                    hideSoftInput(focus);
+
                 int position = tab.getPosition();
                 viewPager.setCurrentItem(position);
                 Fragment fragment = adapter.getItem(viewPager.getCurrentItem());
 
                 if(fragment instanceof FragmentTwo)
-                        ((FragmentTwo)fragment).refresh();
+                    ((FragmentTwo)fragment).refresh();
 
                 if(fragment instanceof FragmentThree)
-                    if(!fragment.isAdded())
-                        ((FragmentThree)fragment).refresh();
+                    ((FragmentThree)fragment).refresh();
 
                 if(fragment instanceof FragmentFour)
-                    if(!fragment.isAdded())
-                        ((FragmentFour)fragment).refresh();
+                    ((FragmentFour)fragment).refresh();
 
                 if(fragment instanceof FragmentFive)
-                    if(!fragment.isAdded())
-                        ((FragmentFive)fragment).refresh();
-
+                    ((FragmentFive)fragment).refresh();
             }
         });
 

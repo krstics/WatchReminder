@@ -211,8 +211,10 @@ public class EpisodeLoad {
         List<String> datesToReturn = new ArrayList<>();
         ShowsDB showsDB = new ShowsDB(context);
         for(int i = 0; i < dates.size(); ++i){
-            if(!showsDB.checkIfEpisodeExists(seriesId, dates.get(i)))
+            if(!showsDB.checkIfEpisodeExists(seriesId, dates.get(i))) {
+                Log.e(TAG, seriesId + " To load for " + dates.get(i));
                 datesToReturn.add(dates.get(i));
+            }
         }
 
         return datesToReturn;

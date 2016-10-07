@@ -1,10 +1,15 @@
 package com.krstics.watchreminder.Fragments;
 
+import android.database.ContentObserver;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,21 +30,9 @@ public class FragmentFour extends Fragment implements NotWatchedEpisodesFetchLis
     private NotWatchedAdapter notWatchedAdapter;
     private ShowsDB showsDB;
     Button deleteAllButton;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        notWatchedAdapter.deleteAllEpisodes();
-        showsDB.fetchNotWatchedEpisodes(this);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        notWatchedAdapter.deleteAllEpisodes();
-    }
-
-    public void refresh(){
+    public void refresh() {
         notWatchedAdapter.deleteAllEpisodes();
         showsDB.fetchNotWatchedEpisodes(this);
     }
@@ -57,6 +50,21 @@ public class FragmentFour extends Fragment implements NotWatchedEpisodesFetchLis
         notWatchedAdapter = new NotWatchedAdapter(showsDB, this);
         deleteAllButton = (Button)view.findViewById(R.id.deleteAllButtonFFour);
         deleteAllButton.setVisibility(View.INVISIBLE);
+
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.fragmentFiveSwipeContainer);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
+        swipeRefreshLayout.setColorSchemeResources(
+                android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
 
         RecyclerView mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewFragmentFour);
         mRecyclerView.addItemDecoration(new FragmentsItemDecorator(getResources().getDimensionPixelSize(R.dimen.item_spacing)));

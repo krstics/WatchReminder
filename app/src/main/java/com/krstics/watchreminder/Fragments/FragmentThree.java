@@ -2,8 +2,10 @@ package com.krstics.watchreminder.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,25 +26,13 @@ public class FragmentThree extends Fragment implements EpisodeFetchListener {
     private View view;
     private ShowsDB showsDB;
     private TodayEpisodesAdapter todayEpisodesAdapter;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_three, container, false);
         configViews();
         return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        todayEpisodesAdapter.deleteAllEpisodes();
-        showsDB.fetchEpisodes(this);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        todayEpisodesAdapter.deleteAllEpisodes();
     }
 
     public void refresh(){
@@ -54,6 +44,21 @@ public class FragmentThree extends Fragment implements EpisodeFetchListener {
     {
         showsDB = new ShowsDB(getActivity());
         todayEpisodesAdapter = new TodayEpisodesAdapter();
+
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.fragmentFiveSwipeContainer);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
+        swipeRefreshLayout.setColorSchemeResources(
+                android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewFragmentThree);
         recyclerView.addItemDecoration(new FragmentsItemDecorator(10));

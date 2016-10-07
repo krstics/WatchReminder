@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -29,8 +30,8 @@ public class ShowsDB extends SQLiteOpenHelper{
 
     private static final String TAG = ShowsDB.class.getSimpleName();
 
-    public ShowsDB(Context context) {
-        super(context, Constants.AddedShowsDB.DB_NAME, null, Constants.AddedShowsDB.DB_VERSION);
+    public ShowsDB(Context c) {
+        super(c, Constants.AddedShowsDB.DB_NAME, null, Constants.AddedShowsDB.DB_VERSION);
     }
 
     @Override
@@ -121,7 +122,7 @@ public class ShowsDB extends SQLiteOpenHelper{
 
     public boolean checkIfEpisodeExists(String seriesId, String date){
         SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor= db.rawQuery("SELECT * FROM Episodes WHERE SeriesId=" + "'" + seriesId + "'" + "AND AirsDate=" + "'" + date + "'", null);
+        Cursor cursor= db.rawQuery("SELECT * FROM Episodes WHERE SeriesId=" + "'" + seriesId + "'" + "AND AirsDate=" + "'" + date.substring(0, 10) + "'", null);
 
         if(cursor.getCount() > 0) {
             cursor.close();

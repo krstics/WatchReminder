@@ -3,12 +3,12 @@ package com.krstics.watchreminder.Fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.krstics.watchreminder.Adapters.Next4WeeksPremiersAdapter;
 import com.krstics.watchreminder.DB.ShowsDB;
@@ -24,21 +24,9 @@ public class FragmentFive extends Fragment implements Next4WeeksPremiersFetchLis
     private View view;
     private Next4WeeksPremiersAdapter next4WeeksPremiers;
     private ShowsDB showsDB;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        next4WeeksPremiers.deleteAllEpisodes();
-        showsDB.fetchNext4WeeksPremiers(this);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        next4WeeksPremiers.deleteAllEpisodes();
-    }
-
-    public void refresh(){
+    public void refresh() {
         next4WeeksPremiers.deleteAllEpisodes();
         showsDB.fetchNext4WeeksPremiers(this);
     }
@@ -54,6 +42,21 @@ public class FragmentFive extends Fragment implements Next4WeeksPremiersFetchLis
     private void configViews() {
         showsDB = new ShowsDB(getActivity());
         next4WeeksPremiers = new Next4WeeksPremiersAdapter(showsDB);
+
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.fragmentFiveSwipeContainer);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
+        swipeRefreshLayout.setColorSchemeResources(
+                android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
 
         RecyclerView mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewFragmentFive);
         mRecyclerView.addItemDecoration(new FragmentsItemDecorator(getResources().getDimensionPixelSize(R.dimen.item_spacing)));
