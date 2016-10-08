@@ -7,4 +7,5 @@
     <color name="windowBackground">#FFFFFF</color>
     <color name="navigationBarColor">#000000</color>
     <color name="fragmentOneItemBackgroundColor">#D9DBdB</color>
+    <color name="app_blue">#045CB1</color>
 </resources>

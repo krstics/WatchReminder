@@ -36,4 +36,5 @@
     <string name="SeasonNumberText">no</string>
     <string name="AirsDate">Airs Date</string>
     <string name="AirsDateText">Airs date</string>
+    <string name="plus_minus">plus/minu</string>
 </resources>

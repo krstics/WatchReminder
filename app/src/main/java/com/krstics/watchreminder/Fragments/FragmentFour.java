@@ -51,7 +51,7 @@ public class FragmentFour extends Fragment implements NotWatchedEpisodesFetchLis
         deleteAllButton = (Button)view.findViewById(R.id.deleteAllButtonFFour);
         deleteAllButton.setVisibility(View.INVISIBLE);
 
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.fragmentFiveSwipeContainer);
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.fragmentFourSwipeContainer);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

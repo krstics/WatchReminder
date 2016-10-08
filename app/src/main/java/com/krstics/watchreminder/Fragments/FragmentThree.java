@@ -45,7 +45,7 @@ public class FragmentThree extends Fragment implements EpisodeFetchListener {
         showsDB = new ShowsDB(getActivity());
         todayEpisodesAdapter = new TodayEpisodesAdapter();
 
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.fragmentFiveSwipeContainer);
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.fragmentThreeSwipeContainer);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

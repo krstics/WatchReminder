@@ -1,24 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="#dbdbda">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
 
     <TextView
-        android:id="@+id/fragmentFiveExpandeTitle"
+        android:id="@+id/header_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:textStyle="bold"
-        android:text="@string/ShowTitle"
-        android:layout_alignParentStart="true"/>
-
-    <ImageButton
-        android:id="@+id/parent_list_item_expand_arrow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:textColor="@color/app_blue"
+        android:textSize="18sp"
+        android:maxEms="200"/>
+    <ImageView
+        android:id="@+id/btn_expand_toggle"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/circle_plus"
         android:layout_alignParentEnd="true"
-        android:layout_margin="8dp"
-        android:src="@android:drawable/arrow_down_float" />
+        android:contentDescription="@string/plus_minus"/>
 
 </RelativeLayout>

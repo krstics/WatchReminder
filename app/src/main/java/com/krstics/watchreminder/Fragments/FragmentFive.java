@@ -17,6 +17,7 @@ import com.krstics.watchreminder.Decorators.FragmentsItemDecorator;
 import com.krstics.watchreminder.Listeners.Next4WeeksPremiersFetchListener;
 import com.krstics.watchreminder.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FragmentFive extends Fragment implements Next4WeeksPremiersFetchListener {
@@ -41,7 +42,7 @@ public class FragmentFive extends Fragment implements Next4WeeksPremiersFetchLis
 
     private void configViews() {
         showsDB = new ShowsDB(getActivity());
-        next4WeeksPremiers = new Next4WeeksPremiersAdapter(showsDB);
+        next4WeeksPremiers = new Next4WeeksPremiersAdapter();
 
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.fragmentFiveSwipeContainer);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -66,9 +67,7 @@ public class FragmentFive extends Fragment implements Next4WeeksPremiersFetchLis
     }
 
     @Override
-    public void onDeliverAllEpisodes(List<EpisodeListData> episodes) {
-
-    }
+    public void onDeliverAllEpisodes(List<EpisodeListData> episodes) {}
 
     @Override
     public void onDeliverEpisode(EpisodeListData episode) {
