@@ -82,4 +82,18 @@ public class Constants {
                 "FOREIGN KEY (" + seriesId + ") REFERENCES " + AddedShowsDB.ADDED_SHOWS_TB_NAME + "(" + AddedShowsDB.id + "))";
     }
 
+    public static final class UpdateTimeTable{
+        public static final String previousServerTime = "PreviousTime";
+
+        public static final String UPDATE_TIME_TABLE_NAME = "UpdateTime";
+
+        //Queries
+        public static final String DROP_QUERY = "DROP TABLE IF EXISTS " + UPDATE_TIME_TABLE_NAME;
+        public static final String GET_TIME = "SELECT * FROM " + UPDATE_TIME_TABLE_NAME;
+        public static final String UPDATE_TIME = "UPDATE " + UPDATE_TIME_TABLE_NAME + " SET " + previousServerTime + " = ";
+        public static final String CREATE_QUERY = "CREATE TABLE " + UPDATE_TIME_TABLE_NAME + " " +
+                "(" + previousServerTime + " TEXT )";
+
+    }
+
 }

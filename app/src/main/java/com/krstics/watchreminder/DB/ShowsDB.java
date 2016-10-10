@@ -39,6 +39,7 @@ public class ShowsDB extends SQLiteOpenHelper{
         try{
             db.execSQL(Constants.AddedShowsDB.CREATE_TB_QUERY);
             db.execSQL(Constants.AddedEpisodesTABLE.CREATE_EPISODES_TB_QUERY);
+            db.execSQL(Constants.UpdateTimeTable.CREATE_QUERY);
         }
         catch (SQLException ex){
             Log.e(TAG, ex.getMessage());
@@ -50,8 +51,23 @@ public class ShowsDB extends SQLiteOpenHelper{
         try {
             db.execSQL(Constants.AddedEpisodesTABLE.DROP_EPISODES_TB_QUERY);
             db.execSQL(Constants.AddedShowsDB.DROP_ADDED_SHOWS_QUERY);
+            db.execSQL(Constants.UpdateTimeTable.DROP_QUERY);
 
             this.onCreate(db);
+        }
+        catch (SQLException ex){
+            Log.e(TAG, ex.getMessage());
+        }
+    }
+
+    public void insertPreviousTime(String time) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(Constants.UpdateTimeTable.previousServerTime, time);
+
+        try{
+            db.insert(Constants.UpdateTimeTable.UPDATE_TIME_TABLE_NAME, null, values);
         }
         catch (SQLException ex){
             Log.e(TAG, ex.getMessage());

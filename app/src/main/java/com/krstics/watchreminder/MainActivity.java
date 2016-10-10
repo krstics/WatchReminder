@@ -1,6 +1,7 @@
 package com.krstics.watchreminder;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -20,6 +21,7 @@ import com.krstics.watchreminder.Fragments.FragmentOne;
 import com.krstics.watchreminder.Fragments.FragmentThree;
 import com.krstics.watchreminder.Fragments.FragmentTwo;
 import com.krstics.watchreminder.Loaders.EpisodeLoad;
+import com.krstics.watchreminder.Loaders.UpdateLoad;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     ViewPager viewPager;
     PagerAdapter adapter;
+    SharedPreferences prefs = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +103,20 @@ public class MainActivity extends AppCompatActivity {
                     ((FragmentFive)fragment).refresh();
             }
         });
+
+        prefs = getSharedPreferences("com.krstics.watchreminder", MODE_PRIVATE);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if(prefs.getBoolean("firstRun", true)){
+            UpdateLoad updateLoad = new UpdateLoad();
+            updateLoad.getPreviousTime(getApplicationContext());
+
+            prefs.edit().putBoolean("firstRun", false).apply();
+        }
 
         EpisodeLoad episodeLoad = new EpisodeLoad();
         episodeLoad.loadEpisodeByAirDate(getApplicationContext());
