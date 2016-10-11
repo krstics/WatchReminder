@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.krstics.watchreminder.Adapters.PagerAdapter;
+import com.krstics.watchreminder.DB.ShowsDB;
 import com.krstics.watchreminder.Fragments.FragmentFive;
 import com.krstics.watchreminder.Fragments.FragmentFour;
 import com.krstics.watchreminder.Fragments.FragmentOne;
@@ -23,7 +24,10 @@ import com.krstics.watchreminder.Fragments.FragmentTwo;
 import com.krstics.watchreminder.Loaders.EpisodeLoad;
 import com.krstics.watchreminder.Loaders.UpdateLoad;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -35,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -111,16 +116,49 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        getSupportActionBar().setHomeAsUpIndicator(null);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+
+
+        UpdateLoad updateLoad = new UpdateLoad();
         if(prefs.getBoolean("firstRun", true)){
-            UpdateLoad updateLoad = new UpdateLoad();
             updateLoad.getPreviousTime(getApplicationContext());
 
             prefs.edit().putBoolean("firstRun", false).apply();
         }
 
+        if(shouldUpdate()){
+            UpdateLoad ul = new UpdateLoad();
+            ul.updateDataInDB(getApplicationContext());
+        }
+
         EpisodeLoad episodeLoad = new EpisodeLoad();
+
         episodeLoad.loadEpisodeByAirDate(getApplicationContext());
+
         episodeLoad.loadEpisodeByAirDateForNext4Weeks(getApplicationContext());
+    }
+
+    private boolean shouldUpdate() {
+        ShowsDB db = new ShowsDB(getApplicationContext());
+        String previousTimeUnix = db.getPreviousUpdateTime();
+        Long difference = 0L;
+
+        if(!previousTimeUnix.isEmpty()) {
+            long dv = Long.valueOf(previousTimeUnix);
+            Log.e("MainAct", Long.toString(dv));
+
+            long unixTime = System.currentTimeMillis() / 1000L;
+            Log.e("MainAct", Long.toString(unixTime));
+
+            difference = unixTime - dv;
+
+            Log.e("MainAct", "diff " + difference);
+        }
+
+        return difference >= 43200; //12 hours in unix time
+
+
     }
 
     private void setupViewPager(ViewPager viewPager) {

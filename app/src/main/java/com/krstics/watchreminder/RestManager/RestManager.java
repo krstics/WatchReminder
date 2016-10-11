@@ -4,8 +4,10 @@ import com.krstics.watchreminder.Helpers.Constants;
 import com.krstics.watchreminder.Services.AllSeriesRecord;
 import com.krstics.watchreminder.Services.BaseSeriesRecord;
 import com.krstics.watchreminder.Services.EpisodeByAirDate;
+import com.krstics.watchreminder.Services.EpisodeByID;
 import com.krstics.watchreminder.Services.PreviousTimeService;
 import com.krstics.watchreminder.Services.TVDBSearchService;
+import com.krstics.watchreminder.Services.UpdatesService;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
@@ -16,6 +18,8 @@ public class RestManager {
     private AllSeriesRecord allSeriesRecord;
     private EpisodeByAirDate episodeByAirDate;
     private PreviousTimeService previousTimeService;
+    private UpdatesService updatesService;
+    private EpisodeByID episodeByID;
 
     public TVDBSearchService getSearchService(){
         if(searchService == null){
@@ -76,5 +80,31 @@ public class RestManager {
         }
 
         return previousTimeService;
+    }
+
+    public UpdatesService getUpdatesService(){
+        if(updatesService == null){
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(Constants.TvDB.BASE_URL_TVDB)
+                    .addConverterFactory(SimpleXmlConverterFactory.create())
+                    .build();
+
+            updatesService = retrofit.create(UpdatesService.class);
+        }
+
+        return updatesService;
+    }
+
+    public EpisodeByID getEpisodeByID(){
+        if(episodeByID == null){
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(Constants.TvDB.BASE_URL_TVDB)
+                    .addConverterFactory(SimpleXmlConverterFactory.create())
+                    .build();
+
+            episodeByID = retrofit.create(EpisodeByID.class);
+        }
+
+        return episodeByID;
     }
 }

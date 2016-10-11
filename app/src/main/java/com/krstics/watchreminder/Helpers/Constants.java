@@ -6,7 +6,8 @@ public class Constants {
         public static final String EPISODE_BY_AIR_DATE = "GetEpisodeByAirDate.php";
         public static final String BANNERS_URL = "http://thetvdb.com/banners/";
         public static final String API_KEY = "07C679B9A55DD6A4";
-        public static final String TYPE = "/series/";
+        public static final String TYPE_SERIES = "/series/";
+        public static final String TYPE_EPISODES = "/episodes/";
         public static final String ALL = "/all";
     }
 
@@ -68,6 +69,7 @@ public class Constants {
         public static final String GET_TODAY_PREMIERING_EPISODES = "SELECT * FROM " + EPISODES_TB_NAME + " JOIN " + AddedShowsDB.ADDED_SHOWS_TB_NAME +
                 " ON " + EPISODES_TB_NAME + "." + seriesId + " = " + AddedShowsDB.ADDED_SHOWS_TB_NAME + "." + AddedShowsDB.id +
                 " WHERE " + airsDate + " = ";
+        public static final String GET_ALL_EPISODES = "SELECT * FROM " + EPISODES_TB_NAME;
         public static final String REMOVE_ALL_FROM_TB_QUERY = "DELETE * FROM " + EPISODES_TB_NAME;
         public static final String CREATE_EPISODES_TB_QUERY = "CREATE TABLE " + EPISODES_TB_NAME + "" +
                 "(" + episodeId + " TEXT primary key not null," +

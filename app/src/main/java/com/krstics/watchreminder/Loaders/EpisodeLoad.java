@@ -123,32 +123,67 @@ public class EpisodeLoad {
                     Log.e(TAG, Integer.toString(showIDs.size()));
 
                     for (int i = 0; i < showIDs.size(); ++i) {
-                        Log.e(TAG, showIDs.get(i));
-                        episodeCall = restManager.getEpisodeByAirDaterest().getEpisodeByAirDate(Constants.TvDB.API_KEY, showIDs.get(i), date);
-                        episodeCall.enqueue(new Callback<Data>() {
-                            @Override
-                            public void onResponse(Call<Data> call, Response<Data> response) {
-                                if (response.isSuccessful()) {
-                                    Data result = response.body();
-                                    List<Episode> episodes = result.getEpisode();
+                        if (showsDB.shouldLoadByAirDate(showIDs.get(i), date)) {
+                            Log.e(TAG, "By Air Date: " + showIDs.get(i));
+                            episodeCall = restManager.getEpisodeByAirDaterest().getEpisodeByAirDate(Constants.TvDB.API_KEY, showIDs.get(i), date);
+                            episodeCall.enqueue(new Callback<Data>() {
+                                @Override
+                                public void onResponse(Call<Data> call, Response<Data> response) {
+                                    if (response.isSuccessful()) {
+                                        Data result = response.body();
+                                        List<Episode> episodes = result.getEpisode();
 
-                                    if (episodes != null) {
-                                        showsDB.insertEpisodes(episodes);
+                                        if (episodes != null) {
+                                            showsDB.insertEpisodes(episodes);
+                                        } else {
+                                            Log.e(TAG, "episodes is null");
+                                        }
                                     } else {
-                                        Log.e(TAG, "episodes is null");
+                                        Log.e(TAG, Integer.toString(response.code()));
                                     }
-                                } else {
-                                    Log.e(TAG, Integer.toString(response.code()));
                                 }
-                            }
 
-                            @Override
-                            public void onFailure(Call<Data> call, Throwable t) {
+                                @Override
+                                public void onFailure(Call<Data> call, Throwable t) {
 
-                            }
-                        });
+                                }
+                            });
+                        }
                     }
                 }
+            }
+        }).start();
+    }
+
+    public void loadEpisodeById(final String id, final Context context){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final Call<Data> baseSeriesRecordCall = restManager.getEpisodeByID().getEpisodeBaseRecords(id);
+
+                baseSeriesRecordCall.enqueue(new Callback<Data>() {
+                    @Override
+                    public void onResponse(Call<Data> call, Response<Data> response) {
+                        if(response.isSuccessful()){
+                            Data result = response.body();
+
+                            if(result.getEpisode() != null) {
+                                ShowsDB db = new ShowsDB(context);
+                                for(Episode episode : result.getEpisode()) {
+                                    db.updateEpisode(episode);
+                                }
+                            }
+                        }
+                        else {
+                            Log.e(TAG, response.errorBody().toString());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Data> call, Throwable t) {
+                        Log.e(TAG, t.getMessage());
+                    }
+                });
             }
         }).start();
     }

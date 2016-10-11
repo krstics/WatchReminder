@@ -7,7 +7,7 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 
-public interface AllSeriesRecord {
-    @GET(Constants.TvDB.API_KEY + Constants.TvDB.TYPE_SERIES + "{seriesId}" + "/" + Constants.TvDB.ALL)
-    Call<Data> getSeriesAllRecords(@Path("seriesId") String seriesID);
+public interface EpisodeByID {
+    @GET(Constants.TvDB.API_KEY + Constants.TvDB.TYPE_EPISODES + "{episodeId}")
+    Call<Data> getEpisodeBaseRecords(@Path("episodeId") String episodeID);
 }

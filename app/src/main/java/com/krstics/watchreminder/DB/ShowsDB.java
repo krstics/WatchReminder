@@ -10,9 +10,11 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.krstics.watchreminder.Data.Episode;
 import com.krstics.watchreminder.Data.EpisodeListData;
+import com.krstics.watchreminder.Data.Series;
 import com.krstics.watchreminder.Data.ShowListData;
 import com.krstics.watchreminder.Helpers.Constants;
 import com.krstics.watchreminder.Helpers.Utils;
@@ -29,9 +31,11 @@ import java.util.List;
 public class ShowsDB extends SQLiteOpenHelper{
 
     private static final String TAG = ShowsDB.class.getSimpleName();
+    Context context;
 
     public ShowsDB(Context c) {
         super(c, Constants.AddedShowsDB.DB_NAME, null, Constants.AddedShowsDB.DB_VERSION);
+        context = c;
     }
 
     @Override
@@ -64,6 +68,8 @@ public class ShowsDB extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
+        Log.e(TAG, "insert" + time);
+
         values.put(Constants.UpdateTimeTable.previousServerTime, time);
 
         try{
@@ -72,6 +78,43 @@ public class ShowsDB extends SQLiteOpenHelper{
         catch (SQLException ex){
             Log.e(TAG, ex.getMessage());
         }
+    }
+
+    public void updatePreviousTime(final String time){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SQLiteDatabase db = getWritableDatabase();
+
+                Log.e(TAG, "update" + time);
+
+                ContentValues values = new ContentValues();
+
+                values.put(Constants.UpdateTimeTable.previousServerTime, time);
+
+                try{
+                    db.update(Constants.UpdateTimeTable.UPDATE_TIME_TABLE_NAME, values, null, null);
+                }
+                catch (SQLException ex){
+                    Log.e(TAG, ex.getMessage());
+                }
+            }
+        }).start();
+    }
+
+    public String getPreviousUpdateTime() {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor= db.rawQuery("SELECT * FROM " + Constants.UpdateTimeTable.UPDATE_TIME_TABLE_NAME, null);
+        String time = "";
+
+        if(cursor.getCount() > 0) {
+            if (cursor.moveToFirst()) {
+                time = cursor.getString(cursor.getColumnIndex(Constants.UpdateTimeTable.previousServerTime));
+            }
+        }
+        cursor.close();
+
+        return time;
     }
 
     public int insertShows(ShowListData show){
@@ -102,6 +145,39 @@ public class ShowsDB extends SQLiteOpenHelper{
             Log.e(TAG, ex.getMessage());
         }
         return 0;
+    }
+
+    public void updateSeries(final Series series){
+        final SQLiteDatabase db = this.getWritableDatabase();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+
+                ContentValues values = new ContentValues();
+
+                Log.e(TAG, "updateSeries" + series.getId());
+
+                values.put(Constants.AddedShowsDB.id, series.getId());
+                values.put(Constants.AddedShowsDB.firstAired, series.getFirstAired());
+                values.put(Constants.AddedShowsDB.showName, series.getSeriesName());
+                values.put(Constants.AddedShowsDB.overview, series.getOverview());
+                values.put(Constants.AddedShowsDB.poster, Utils.convertBitmapToByteArray(Utils.getBitmapImage(series.getBanner())));
+                values.put(Constants.AddedShowsDB.status, series.getStatus());
+                values.put(Constants.AddedShowsDB.network, series.getNetwork());
+                values.put(Constants.AddedShowsDB.airsDayOfWeek, series.getAirs_DayOfWeek());
+                values.put(Constants.AddedShowsDB.airsTime, series.getAirs_Time());
+
+                try {
+                    db.update(Constants.AddedShowsDB.ADDED_SHOWS_TB_NAME, values, "id = " + series.getId(), null);
+                    Toast.makeText(context, "Show " + series.getSeriesName() + " updated successfully!", Toast.LENGTH_SHORT).show();
+                }
+                catch (SQLException ex){
+                    Log.e(TAG, ex.getMessage());
+                }
+            }
+        }).start();
     }
 
     private int checkIfExists(String seriesid) {
@@ -194,6 +270,37 @@ public class ShowsDB extends SQLiteOpenHelper{
         }).start();
     }
 
+    public void updateEpisode(final Episode episode){
+        final SQLiteDatabase db = this.getWritableDatabase();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ContentValues values = new ContentValues();
+
+                Log.e(TAG, "updateEpisode" + episode.getId());
+
+                values.put(Constants.AddedEpisodesTABLE.episodeId, episode.getId());
+                values.put(Constants.AddedEpisodesTABLE.seriesId, episode.getSeriesid());
+                values.put(Constants.AddedEpisodesTABLE.episodeName, episode.getEpisodeName());
+                values.put(Constants.AddedEpisodesTABLE.episodeNumber, episode.getEpisodeNumber());
+                values.put(Constants.AddedEpisodesTABLE.seasonNumber, episode.getSeasonNumber());
+                values.put(Constants.AddedEpisodesTABLE.airsDate, episode.getFirstAired());
+                values.put(Constants.AddedEpisodesTABLE.episodeImdbId, episode.getIMDB_ID());
+                values.put(Constants.AddedEpisodesTABLE.overview, episode.getOverview());
+                values.put(Constants.AddedEpisodesTABLE.episodeBanner, Utils.convertBitmapToByteArray(Utils.getBitmapImage(episode.getFilename())));
+
+                try{
+                    db.update(Constants.AddedEpisodesTABLE.EPISODES_TB_NAME, values, "EpisodeId = " + episode.getId(), null);
+                    Toast.makeText(context, "Episode " + episode.getEpisodeName() + " updated successfully!", Toast.LENGTH_SHORT).show();
+                }
+                catch (SQLException ex){
+                    Log.e(TAG, ex.getMessage());
+                }
+            }
+        }).start();
+    }
+
     public void removeShow(final String seriesId){
         final SQLiteDatabase db = this.getWritableDatabase();
         new Thread(new Runnable() {
@@ -248,7 +355,6 @@ public class ShowsDB extends SQLiteOpenHelper{
         SQLiteDatabase mDb = getReadableDatabase();
 
         Cursor cursor= mDb.rawQuery(Constants.AddedShowsDB.GET_ALL_SHOWS_QUERY, null);
-        final List<ShowListData> showList = new ArrayList<>();
 
         if(cursor.getCount() > 0){
             if(cursor.moveToFirst()){
@@ -261,6 +367,25 @@ public class ShowsDB extends SQLiteOpenHelper{
 
         cursor.close();
         return showIDs;
+    }
+
+    public List<String> getEpisodeIDs(){
+        List<String> episodeIDs = new ArrayList<>();
+        SQLiteDatabase mDb = getReadableDatabase();
+
+        Cursor cursor= mDb.rawQuery(Constants.AddedEpisodesTABLE.GET_ALL_EPISODES, null);
+
+        if(cursor.getCount() > 0){
+            if(cursor.moveToFirst()){
+                do {
+                    episodeIDs.add(cursor.getString(cursor.getColumnIndex(Constants.AddedShowsDB.id)));
+                }
+                while (cursor.moveToNext());
+            }
+        }
+
+        cursor.close();
+        return episodeIDs;
     }
 
     public String getAirDayOfWeek(String seriesId) {
@@ -278,6 +403,19 @@ public class ShowsDB extends SQLiteOpenHelper{
         cursor.close();
 
         return airDay;
+    }
+
+    public boolean shouldLoadByAirDate(String id, String date) {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor= db.rawQuery("SELECT * FROM Episodes WHERE SeriesId=" + "'" + id + "'" + "AND AirsDate = " + "'" + date + "'", null);
+
+        if(cursor.getCount() > 0) {
+            cursor.close();
+            return false;
+        }
+
+        cursor.close();
+        return true;
     }
 
     public boolean checkIfEpisodeExistsForNext4Weeks(String seriesId) {
